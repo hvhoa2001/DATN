@@ -6,7 +6,7 @@ import ModalCustom from "./ModalCustom/ModalCustom";
 import Footer from "./Footer/Footer";
 
 export default function Layout() {
-  const headerHeight = "66px";
+  const headerHeight = "60px";
   return (
     <Providers>
       <Box sx={{ position: "relative" }}>
