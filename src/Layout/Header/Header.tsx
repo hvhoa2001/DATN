@@ -348,11 +348,13 @@ export default function Header({ headerHeight }: { headerHeight: string }) {
                     <FavoriteBorderOutlinedIcon fontSize="large" />
                   </IconButton>
                 </Tooltip>
+                <Link href="/cart">
                 <Tooltip title="Bag Items">
                   <IconButton>
                     <ShoppingBagOutlinedIcon fontSize="large" />
                   </IconButton>
                 </Tooltip>
+                </Link>
                 <Tooltip title="Log in">
                   <IconButton>
                     <Person2OutlinedIcon fontSize="large" />
