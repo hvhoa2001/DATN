@@ -355,11 +355,13 @@ export default function Header({ headerHeight }: { headerHeight: string }) {
                   </IconButton>
                 </Tooltip>
                 </Link>
+                <Link href="/login">
                 <Tooltip title="Log in">
                   <IconButton>
                     <Person2OutlinedIcon fontSize="large" />
                   </IconButton>
                 </Tooltip>
+                </Link>
               </Stack>
             </Box>
             <Box sx={{ display: { md: "none", xs: "block" } }}>
@@ -377,11 +379,13 @@ export default function Header({ headerHeight }: { headerHeight: string }) {
                     <ShoppingBagOutlinedIcon fontSize="large" />
                   </IconButton>
                 </Tooltip>
+                <Link href="/login">
                 <Tooltip title="Log in">
                   <IconButton>
                     <Person2OutlinedIcon fontSize="large" />
                   </IconButton>
                 </Tooltip>
+                </Link>
                 <MobileNav />
               </Stack>
             </Box>
