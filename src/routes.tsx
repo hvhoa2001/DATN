@@ -13,8 +13,8 @@ export default function RouterUrl() {
       children: [
         { path: "", element: <FirstPage /> },
         { path: "cart", element: <Cart /> },
-        {path: "login", element: <Login />}
       ],
     },
+    { path: "login", element: <Login /> },
   ]);
 }

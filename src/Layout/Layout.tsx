@@ -1,9 +1,9 @@
-import Providers from "@datn/context/Providers";
 import { Box } from "@mui/material";
 import Header from "./Header/Header";
 import Content from "./content/Content";
 import ModalCustom from "./ModalCustom/ModalCustom";
 import Footer from "./Footer/Footer";
+import Providers from "@datn/context/Providers";
 
 export default function Layout() {
   const headerHeight = "60px";
