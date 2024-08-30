@@ -119,53 +119,64 @@ export default function () {
   };
   return (
     <Providers>
-      <Paper
-        sx={{
-          maxWidth: "480px",
-          bgcolor: "background.paper",
-          p: 4,
-        }}
-      >
-        <Typography variant="h4" sx={{ mb: 3 }}>
-          Enter your email to join us or sign in.
-        </Typography>
-        <form
-          onSubmit={handleNextStep}
-          style={{
+      <Box component={"section"}>
+        <Container
+          sx={{
             display: "flex",
-            alignItems: "flex-end",
-            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            height: "100svh",
           }}
         >
-          <TextField
-            error={helperText.email ? true : false}
-            fullWidth
-            label="Email Address *"
-            variant="outlined"
-            onChange={(e) => {
-              handleCheckEmail(e);
-              setEmail(e.target.value);
-            }}
-            type="text"
-            value={email}
-            helperText={helperText.email || " "}
-            sx={registerInputStyle}
-          />
-          <LoadingButton
-            loading={loading}
-            fullWidth
-            variant="contained"
-            color="primary"
-            type="submit"
+          <Paper
             sx={{
-              maxWidth: "120px",
-              borderRadius: "20px",
+              maxWidth: "480px",
+              bgcolor: "background.paper",
+              p: 4,
             }}
           >
-            Confirm
-          </LoadingButton>
-        </form>
-      </Paper>
+            <Typography variant="h4" sx={{ mb: 3 }}>
+              Enter your email to join us or sign in.
+            </Typography>
+            <form
+              onSubmit={handleNextStep}
+              style={{
+                display: "flex",
+                alignItems: "flex-end",
+                flexDirection: "column",
+              }}
+            >
+              <TextField
+                error={helperText.email ? true : false}
+                fullWidth
+                label="Email Address *"
+                variant="outlined"
+                onChange={(e) => {
+                  handleCheckEmail(e);
+                  setEmail(e.target.value);
+                }}
+                type="text"
+                value={email}
+                helperText={helperText.email || " "}
+                sx={registerInputStyle}
+              />
+              <LoadingButton
+                loading={loading}
+                fullWidth
+                variant="contained"
+                color="primary"
+                type="submit"
+                sx={{
+                  maxWidth: "120px",
+                  borderRadius: "20px",
+                }}
+              >
+                Confirm
+              </LoadingButton>
+            </form>
+          </Paper>
+        </Container>
+      </Box>
     </Providers>
   );
 }
