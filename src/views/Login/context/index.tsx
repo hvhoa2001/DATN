@@ -10,12 +10,15 @@ import {
 } from "react";
 
 export type HelperText = {
-  userName?: string;
+  firstName?: string;
+  lastName?: string;
   email?: string;
   password?: string;
   passwordConfirm?: string;
-  organizationName?: string;
-  organizationType?: string;
+  code?: string;
+  birthday?: string;
+  // organizationName?: string;
+  // organizationType?: string;
   userPurpose?: string;
 };
 

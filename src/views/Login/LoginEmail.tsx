@@ -3,13 +3,19 @@ import { Paper, SxProps, TextField, Theme, Typography } from "@mui/material";
 import { FormEvent, useState } from "react";
 import { useLoginContext } from "./context";
 
-const registerInputStyle: SxProps<Theme> | undefined = {
+export const registerInputStyle: SxProps<Theme> | undefined = {
   mb: 1,
 };
 
 export default function LoginEmail() {
-  const { handleSetHelperText, helperText, setHelperText, email, setEmail } =
-    useLoginContext();
+  const {
+    handleSetHelperText,
+    helperText,
+    setHelperText,
+    email,
+    setEmail,
+    setStep,
+  } = useLoginContext();
   const [loading, setLoading] = useState<boolean>(false);
   const handleCheckEmail = (e: any) => {
     if (
@@ -61,7 +67,7 @@ export default function LoginEmail() {
       //     isValid = false;
       //   }
       //   if (isValid) {
-      //     setStep((prev) => prev + 1);
+      setStep((prev) => prev + 1);
       //   }
       setLoading(false);
     } catch (error) {
