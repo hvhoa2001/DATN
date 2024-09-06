@@ -9,18 +9,20 @@ import { LoadingButton } from "@mui/lab";
 import { DatePicker } from "@mui/x-date-pickers";
 
 export default function Register() {
-  const { email, handleBack, helperText, setHelperText, handleSetHelperText } =
-    useLoginContext();
+  const {
+    email,
+    handleBack,
+    helperText,
+    setHelperText,
+    handleSetHelperText,
+    showPassword,
+    handleClickShowPassword,
+  } = useLoginContext();
   const [code, setCode] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-
-  const handleClickShowPassword = () => {
-    setShowPassword((e) => !e);
-  };
 
   const handleCheckData = (): boolean => {
     setHelperText({});

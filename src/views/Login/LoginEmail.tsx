@@ -1,7 +1,18 @@
 import { LoadingButton } from "@mui/lab";
-import { Paper, SxProps, TextField, Theme, Typography } from "@mui/material";
+import {
+  IconButton,
+  Paper,
+  SxProps,
+  TextField,
+  Theme,
+  Typography,
+} from "@mui/material";
 import { FormEvent, useState } from "react";
 import { useLoginContext } from "./context";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { Login } from "@datn/api/services";
+import { setStorageItem } from "@datn/utils/localStorage";
+import { useNavigate } from "react-router-dom";
 
 export const registerInputStyle: SxProps<Theme> | undefined = {
   mb: 1,
@@ -15,25 +26,30 @@ export default function LoginEmail() {
     email,
     setEmail,
     setStep,
+    handleClickShowPassword,
+    showPassword,
   } = useLoginContext();
   const [loading, setLoading] = useState<boolean>(false);
-  const handleCheckEmail = (e: any) => {
-    if (
-      !e.target.value
-        ?.toLowerCase()
-        .match(
-          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-        )
-    ) {
-      handleSetHelperText("email", "Invalid email address");
-      return false;
-    } else {
-      handleSetHelperText("email", "");
-      return true;
-    }
-  };
+  const [password, setPassword] = useState<string>("");
+  const navigate = useNavigate();
 
-  const handleCheckData1 = (): boolean => {
+  // const handleCheckEmail = (e: any) => {
+  //   if (
+  //     !e.target.value
+  //       ?.toLowerCase()
+  //       .match(
+  //         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  //       )
+  //   ) {
+  //     handleSetHelperText("email", "Invalid email address");
+  //     return false;
+  //   } else {
+  //     handleSetHelperText("email", "");
+  //     return true;
+  //   }
+  // };
+
+  const handleCheckData = (): boolean => {
     setHelperText({});
     let valid = true;
     if (!email) {
@@ -51,11 +67,19 @@ export default function LoginEmail() {
       handleSetHelperText("email", "Invalid email address");
       valid = false;
     }
+    if (!password) {
+      handleSetHelperText("password", "Password cannot be empty");
+      valid = false;
+    }
+    if (password && password.length < 8) {
+      handleSetHelperText("password", "Password need at least 8 character");
+      valid = false;
+    }
     return valid;
   };
-  const handleNextStep = async (e: FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!handleCheckData1()) {
+    if (!handleCheckData()) {
       return;
     }
     try {
@@ -67,9 +91,12 @@ export default function LoginEmail() {
       //     isValid = false;
       //   }
       //   if (isValid) {
-      setStep((prev) => prev + 1);
+      // setStep((prev) => prev + 1);
       //   }
+      const res = await Login({ email: email, password: password });
+      setStorageItem("jwt", res.jwt);
       setLoading(false);
+      navigate("/");
     } catch (error) {
       setLoading(false);
     }
@@ -86,7 +113,7 @@ export default function LoginEmail() {
         Enter your email to join us or sign in.
       </Typography>
       <form
-        onSubmit={handleNextStep}
+        onSubmit={handleLogin}
         style={{
           display: "flex",
           alignItems: "flex-end",
@@ -96,15 +123,37 @@ export default function LoginEmail() {
         <TextField
           error={helperText.email ? true : false}
           fullWidth
-          label="Email Address *"
+          required
+          label="Email Address"
           variant="outlined"
           onChange={(e) => {
-            handleCheckEmail(e);
+            // handleCheckEmail(e);
             setEmail(e.target.value);
           }}
           type="text"
           value={email}
           helperText={helperText.email || " "}
+          sx={registerInputStyle}
+        />
+        <TextField
+          value={password}
+          required
+          fullWidth
+          label="Password"
+          variant="outlined"
+          type={showPassword ? "text" : "password"}
+          onChange={(e) => setPassword(e.target.value)}
+          error={helperText.password ? true : false}
+          helperText={helperText.password || " "}
+          slotProps={{
+            input: {
+              endAdornment: (
+                <IconButton onClick={handleClickShowPassword}>
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              ),
+            },
+          }}
           sx={registerInputStyle}
         />
         <LoadingButton
@@ -118,7 +167,7 @@ export default function LoginEmail() {
             borderRadius: "20px",
           }}
         >
-          Confirm
+          Login
         </LoadingButton>
       </form>
     </Paper>
