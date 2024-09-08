@@ -26,6 +26,7 @@ import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import Person2OutlinedIcon from "@mui/icons-material/Person2Outlined";
 import Search from "@datn/common/Search";
+import AuthState from "@datn/common/AuthState";
 
 function MobileNav() {
   const [open, setOpen] = useState(false);
@@ -349,19 +350,13 @@ export default function Header({ headerHeight }: { headerHeight: string }) {
                   </IconButton>
                 </Tooltip>
                 <Link href="/cart">
-                <Tooltip title="Bag Items">
-                  <IconButton>
-                    <ShoppingBagOutlinedIcon fontSize="large" />
-                  </IconButton>
-                </Tooltip>
+                  <Tooltip title="Bag Items">
+                    <IconButton>
+                      <ShoppingBagOutlinedIcon fontSize="large" />
+                    </IconButton>
+                  </Tooltip>
                 </Link>
-                <Link href="/login">
-                <Tooltip title="Log in">
-                  <IconButton>
-                    <Person2OutlinedIcon fontSize="large" />
-                  </IconButton>
-                </Tooltip>
-                </Link>
+                <AuthState />
               </Stack>
             </Box>
             <Box sx={{ display: { md: "none", xs: "block" } }}>
@@ -379,13 +374,7 @@ export default function Header({ headerHeight }: { headerHeight: string }) {
                     <ShoppingBagOutlinedIcon fontSize="large" />
                   </IconButton>
                 </Tooltip>
-                <Link href="/login">
-                <Tooltip title="Log in">
-                  <IconButton>
-                    <Person2OutlinedIcon fontSize="large" />
-                  </IconButton>
-                </Tooltip>
-                </Link>
+                <AuthState />
                 <MobileNav />
               </Stack>
             </Box>

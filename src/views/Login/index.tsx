@@ -9,11 +9,11 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 export default function Login() {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <Providers>
-        <LoginContextProvider>
-          <LoginComponent />
-        </LoginContextProvider>
-      </Providers>
+      {/* <Providers> */}
+      <LoginContextProvider>
+        <LoginComponent />
+      </LoginContextProvider>
+      {/* </Providers> */}
     </LocalizationProvider>
   );
 }

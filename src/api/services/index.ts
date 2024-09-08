@@ -33,3 +33,13 @@ export async function fetchUserProfile(userId: string) {
     {}
   );
 }
+
+type VerifyTokenReturnType = {
+  valid: boolean;
+};
+export async function verifyToken(): Promise<VerifyTokenReturnType> {
+  return await getAPI<VerifyTokenReturnType>(
+    "http://localhost:3003/auth/verifyToken",
+    {}
+  );
+}

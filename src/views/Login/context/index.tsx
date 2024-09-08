@@ -1,3 +1,4 @@
+import { Login, verifyToken } from "@datn/api/services";
 import { StateStatus } from "@datn/common/component";
 import {
   createContext,
@@ -24,8 +25,6 @@ export type HelperText = {
 };
 
 export type LoginContextType = {
-  isLoggedIn: boolean | undefined;
-  status: StateStatus;
   step: number;
   setStep: Dispatch<SetStateAction<number>>;
   email: string;
@@ -35,7 +34,6 @@ export type LoginContextType = {
   helperText: HelperText;
   setHelperText: Dispatch<SetStateAction<HelperText>>;
   handleBack: () => void;
-  checkAuthState: () => Promise<void>;
   handleClickShowPassword: () => void;
   handleSetHelperText: (field: keyof HelperText, value: string) => void;
 };
@@ -49,8 +47,6 @@ export default function LoginContextProvider({ children }: PropsWithChildren) {
   const [step, setStep] = useState<number>(0);
   const [helperText, setHelperText] = useState<HelperText>({});
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean | undefined>(undefined);
-  const [status, setStatus] = useState<StateStatus>("IDLE");
 
   const handleClickShowPassword = useCallback(() => {
     setShowPassword((e) => !e);
@@ -70,18 +66,8 @@ export default function LoginContextProvider({ children }: PropsWithChildren) {
     [setHelperText]
   );
 
-  const checkAuthState = useCallback(async () => {
-    try {
-      //pass
-    } catch (e) {
-      throw e;
-    }
-  }, []);
-
   const contextValue: LoginContextType = useMemo(() => {
     return {
-      isLoggedIn,
-      status,
       step,
       setStep,
       email,
@@ -90,14 +76,11 @@ export default function LoginContextProvider({ children }: PropsWithChildren) {
       setShowPassword,
       helperText,
       setHelperText,
-      checkAuthState,
       handleBack,
       handleSetHelperText,
       handleClickShowPassword,
     };
   }, [
-    isLoggedIn,
-    status,
     step,
     setStep,
     showPassword,
@@ -106,7 +89,6 @@ export default function LoginContextProvider({ children }: PropsWithChildren) {
     setEmail,
     helperText,
     setHelperText,
-    checkAuthState,
     handleBack,
     handleSetHelperText,
     handleClickShowPassword,
