@@ -1,4 +1,4 @@
-import { fetchUserProfile } from "@datn/api/services";
+import { fetchUserName, fetchUserProfile } from "@datn/api/services";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const getUserProfile = createAsyncThunk(
@@ -8,3 +8,8 @@ export const getUserProfile = createAsyncThunk(
     return res;
   }
 );
+
+export const getUsername = createAsyncThunk("common/user-name", async () => {
+  const res = await fetchUserName();
+  return res;
+});

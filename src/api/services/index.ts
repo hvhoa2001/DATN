@@ -43,3 +43,12 @@ export async function verifyToken(): Promise<VerifyTokenReturnType> {
     {}
   );
 }
+
+export type RTUserName = {
+  userName: string;
+  userId: string;
+};
+
+export async function fetchUserName() {
+  return await getAPI<RTUserName>("http://localhost:3003/user/getUsername", {});
+}

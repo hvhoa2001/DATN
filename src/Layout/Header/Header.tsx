@@ -24,7 +24,6 @@ import { MenuIcon } from "@datn/common/icons";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
-import Person2OutlinedIcon from "@mui/icons-material/Person2Outlined";
 import Search from "@datn/common/Search";
 import AuthState from "@datn/common/AuthState";
 
@@ -316,7 +315,7 @@ export default function Header({ headerHeight }: { headerHeight: string }) {
               style={{ width: 58, height: "auto" }}
             />
           </Link>
-          <Box sx={{ flex: 7 }}>
+          <Box sx={{ flex: 6.5 }}>
             <Box sx={{ display: { xs: "none", md: "block" } }}>
               <Box
                 sx={{
@@ -333,7 +332,7 @@ export default function Header({ headerHeight }: { headerHeight: string }) {
               </Box>
             </Box>
           </Box>
-          <Box sx={{ flex: 3 }}>
+          <Box sx={{ flex: 3.5 }}>
             <Box sx={{ display: { xs: "none", md: "block" } }}>
               <Stack
                 component={"nav"}

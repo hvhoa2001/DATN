@@ -8,17 +8,19 @@ export default function Search() {
         <TextField
           id="input-with-icon-textfield"
           sx={{
-            maxWidth: "168px",
+            maxWidth: "158px",
           }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <IconButton>
-                  <SearchIcon fontSize="large" />
-                </IconButton>
-              </InputAdornment>
-            ),
-            sx: { px: 0, borderRadius: "24px" },
+          slotProps={{
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <IconButton>
+                    <SearchIcon fontSize="large" />
+                  </IconButton>
+                </InputAdornment>
+              ),
+              sx: { px: 0, borderRadius: "24px" },
+            },
           }}
           size="small"
           placeholder="Search"
