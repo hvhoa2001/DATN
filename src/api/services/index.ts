@@ -19,6 +19,35 @@ export async function Login({
   );
 }
 
+export type TRegister = {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+};
+
+export type RTRegister = {
+  success: boolean;
+};
+
+export async function RegisterAccount({
+  email,
+  password,
+  firstName,
+  lastName,
+}: TRegister): Promise<RTRegister> {
+  return await postAPI<RTRegister>(
+    "http://localhost:3003/auth/register",
+    {
+      email: email,
+      password: password,
+      firstName: firstName,
+      lastName: lastName,
+    },
+    {}
+  );
+}
+
 export type RTUserProfile = {
   userId: string;
   userName: string;
@@ -51,4 +80,16 @@ export type RTUserName = {
 
 export async function fetchUserName() {
   return await getAPI<RTUserName>("http://localhost:3003/user/getUsername", {});
+}
+
+export type RTCheckEmail = {
+  valid: boolean;
+  message: string;
+};
+
+export async function checkEmail({ email }: { email: string }) {
+  return await getAPI<RTCheckEmail>(
+    `http://localhost:3003/auth/checkEmail?email=${email}`,
+    {}
+  );
 }

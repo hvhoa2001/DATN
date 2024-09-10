@@ -1,5 +1,6 @@
 import { LoadingButton } from "@mui/lab";
 import {
+  Box,
   IconButton,
   Paper,
   SxProps,
@@ -32,6 +33,10 @@ export default function LoginEmail() {
   const [loading, setLoading] = useState<boolean>(false);
   const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
+
+  const handleRegister = () => {
+    setStep((prev) => prev + 1);
+  };
 
   // const handleCheckEmail = (e: any) => {
   //   if (
@@ -156,6 +161,19 @@ export default function LoginEmail() {
           }}
           sx={registerInputStyle}
         />
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            width: "100%",
+            mb: 1,
+          }}
+        >
+          <Typography>Not have an account?</Typography>
+          <Typography onClick={handleRegister} sx={{ cursor: "pointer" }}>
+            Register Now
+          </Typography>
+        </Box>
         <LoadingButton
           loading={loading}
           fullWidth
