@@ -9,6 +9,6 @@ export default function useUserId() {
     if (data) {
       dispatch(getUsername());
     }
-  }, [dispatch]);
+  }, [dispatch, data]);
   return data?.userId;
 }

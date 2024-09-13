@@ -7,3 +7,6 @@ export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 export const useCommonDataSelector = () =>
   useAppSelector((state) => state.common);
+
+export const useProductSelector = () =>
+  useAppSelector((state) => state.product);

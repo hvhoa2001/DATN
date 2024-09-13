@@ -1,6 +1,6 @@
 import { Container } from "@mui/material";
 import { Outlet } from "react-router-dom";
-
+import { Suspense } from "react";
 export default function Content({ headerHeight }: { headerHeight: string }) {
   return (
     <Container
@@ -10,7 +10,9 @@ export default function Content({ headerHeight }: { headerHeight: string }) {
       maxWidth={false}
       disableGutters
     >
-      <Outlet />
+      <Suspense>
+        <Outlet />
+      </Suspense>
     </Container>
   );
 }
