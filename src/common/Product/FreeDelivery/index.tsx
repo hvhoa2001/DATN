@@ -36,6 +36,9 @@ export default function FreeDelivery() {
           Orders are processed and delivered Monday-Friday (excluding public
           holidays)
         </Typography>
+        <Typography variant="body2">
+          Nike Members enjoy free returns.
+        </Typography>
       </AccordionDetails>
     </Accordion>
   );
