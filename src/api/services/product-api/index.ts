@@ -47,6 +47,8 @@ export type RTProductDetail = {
   highlight: string;
   image: Array<string>;
   category: string;
+  style: string;
+  madeIn: string;
   createdAt: string;
   updatedAt: string;
 };

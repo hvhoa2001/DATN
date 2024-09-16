@@ -14,7 +14,7 @@ export default function Reviews() {
         aria-controls="panel1-content"
         id="panel1-header"
       >
-        <Typography variant="h4">Free Delivery and Returns</Typography>
+        <Typography variant="h4">Review</Typography>
       </AccordionSummary>
       <AccordionDetails></AccordionDetails>
     </Accordion>

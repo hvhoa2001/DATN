@@ -1,9 +1,10 @@
 import useProductId from "@datn/hooks/useProductId";
 import { useAppDispatch } from "@datn/redux/hook";
 import { getProductDetail } from "@datn/redux/slices/product/fetchFunction";
-import { Box, Container } from "@mui/material";
+import { Box, Container, Grid2 } from "@mui/material";
 import { useEffect } from "react";
 import Info from "./Info";
+import ImageDetail from "./image";
 
 export default function ProductDetail() {
   const productId = useProductId();
@@ -13,7 +14,7 @@ export default function ProductDetail() {
     if (productId) {
       dispatch(getProductDetail(productId));
     }
-  }, [productId]);
+  }, [productId, dispatch]);
 
   return (
     <Box component={"section"}>
@@ -26,7 +27,14 @@ export default function ProductDetail() {
           py: 10,
         }}
       >
-        <Info />
+        <Grid2 container spacing={4}>
+          <Grid2 size={{ xs: 12, sm: 6 }}>
+            <ImageDetail />
+          </Grid2>
+          <Grid2 size={{ xs: 12, sm: 6 }}>
+            <Info />
+          </Grid2>
+        </Grid2>
       </Container>
     </Box>
   );
