@@ -6,7 +6,7 @@ import ProductItem from "./ProductItem";
 import { Link } from "react-router-dom";
 
 export default function ProductsPage() {
-  const { data } = useProductSelector().productDetails;
+  const { data } = useProductSelector().product;
   const dispatch = useAppDispatch();
 
   useEffect(() => {

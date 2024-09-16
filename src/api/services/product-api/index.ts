@@ -28,3 +28,32 @@ export async function featProducts() {
     {}
   );
 }
+
+export type RTProductDetail = {
+  productId: string;
+  name: string;
+  description: string;
+  variants: {
+    color: string;
+    image: Array<string>;
+    sizes: {
+      size: number;
+      price: number;
+      stockQuantity: number;
+    }[];
+  }[];
+  status: string;
+  price: number;
+  highlight: string;
+  image: Array<string>;
+  category: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export async function featProductDetail(productId: string) {
+  return await getAPI<RTProductDetail>(
+    `http://localhost:3003/product//product-detail?productId=${productId}`,
+    {}
+  );
+}
