@@ -27,11 +27,13 @@ export default function ProductDetail() {
           py: 10,
         }}
       >
-        <Grid2 container spacing={4}>
-          <Grid2 size={{ xs: 12, sm: 6 }}>
-            <ImageDetail />
+        <Grid2 container spacing={3} sx={{ justifyContent: "center" }}>
+          <Grid2 size={{ xs: 12, sm: 5 }}>
+            <Box sx={{ position: "sticky", top: "60px" }}>
+              <ImageDetail />
+            </Box>
           </Grid2>
-          <Grid2 size={{ xs: 12, sm: 6 }}>
+          <Grid2 size={{ xs: 12, sm: 4 }}>
             <Info />
           </Grid2>
         </Grid2>

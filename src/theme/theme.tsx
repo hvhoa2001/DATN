@@ -52,8 +52,8 @@ export function getThemeConfig(): ThemeOptions {
         main: "#70020B",
       },
       text: {
-        primary: "#D3D5D5",
-        secondary: "#FFFFFF",
+        primary: "#FFFFFF",
+        secondary: "#D3D5D5",
         tertiary: "#AE212C",
       },
       success: {

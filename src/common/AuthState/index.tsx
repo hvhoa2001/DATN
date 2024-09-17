@@ -58,9 +58,7 @@ export default function AuthState() {
     >
       {isLoggedIn && (
         <Box sx={{ cursor: "pointer" }}>
-          <Typography variant="body2" color="text.secondary">
-            {data?.userName}
-          </Typography>
+          <Typography variant="body2">{data?.userName}</Typography>
           <Popover
             id={id}
             open={open}
@@ -115,7 +113,7 @@ export default function AuthState() {
       )}
       {isLoggedIn === false && (
         <Link href="/login" sx={{ display: "flex", alignItems: "center" }}>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2" color="text.primary">
             Login
           </Typography>
         </Link>

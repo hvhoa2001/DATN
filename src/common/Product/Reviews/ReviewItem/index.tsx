@@ -17,7 +17,7 @@ export default function ReviewItem({
 }: Props) {
   return (
     <Box>
-      <Typography variant="body1" color="text.secondary" fontSize={600} mb={2}>
+      <Typography variant="body1" fontSize={600} mb={2}>
         {title}
       </Typography>
       <Box

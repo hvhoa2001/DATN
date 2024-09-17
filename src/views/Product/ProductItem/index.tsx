@@ -36,18 +36,13 @@ export default function ProductItem({
           {highlight}
         </Typography>
       )}
-      <Typography
-        variant="body1"
-        color="text.secondary"
-        fontWeight={500}
-        mb={1}
-      >
+      <Typography variant="body1" fontWeight={500} mb={1}>
         {name}
       </Typography>
-      <Typography variant="body1" color="text.primary" mb={2}>
+      <Typography variant="body1" color="text.secondary" mb={2}>
         {numberColor} {`${numberColor == 1 ? "Color" : "Colors"}`}
       </Typography>
-      <Typography variant="body1" color="text.secondary" fontWeight={500}>
+      <Typography variant="body1" fontWeight={500}>
         {price}
       </Typography>
     </Box>

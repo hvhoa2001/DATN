@@ -35,7 +35,7 @@ export default function FreeDelivery() {
           </li>
         </ul>
 
-        <Typography variant="body1">
+        <Typography variant="body1" mb={1}>
           Orders are processed and delivered Monday-Friday (excluding public
           holidays)
         </Typography>

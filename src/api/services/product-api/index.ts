@@ -35,6 +35,7 @@ export type RTProductDetail = {
   description: string;
   variants: {
     color: string;
+    preview: string;
     image: Array<string>;
     sizes: {
       size: number;
