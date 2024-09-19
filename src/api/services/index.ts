@@ -1,4 +1,4 @@
-import { getAPI, postAPI } from "../fetchFunction";
+import { deleteAPI, getAPI, postAPI } from "../fetchFunction";
 
 type LoginReturnType = {
   success: boolean;
@@ -136,6 +136,20 @@ export async function createFavorite({
       price: price,
       image: image,
     },
+    {}
+  );
+}
+
+export type RTDeleteFavorite = {
+  success: boolean;
+  message: string;
+};
+
+export async function deleteFavorite(
+  productId: string
+): Promise<RTDeleteFavorite> {
+  return await deleteAPI<RTDeleteFavorite>(
+    `http://localhost:3003/favorite/delete-favorite-item?productId=${productId}`,
     {}
   );
 }

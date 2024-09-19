@@ -12,8 +12,13 @@ export default function FavoriteItem({ name, image, price }: Props) {
       <img
         src={image}
         alt="img"
-        style={{ width: "100%", height: "356px", borderRadius: "4px" }}
-      />
+        style={{
+          width: "100%",
+          height: "356px",
+          borderRadius: "4px",
+          position: "relative",
+        }}
+      ></img>
       <Box
         sx={{
           display: "flex",

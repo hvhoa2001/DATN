@@ -79,3 +79,19 @@ export async function postAPI<ReturnType>(
     })
   ).data;
 }
+
+export async function deleteAPI<ReturnType>(
+  url: string,
+  config: AxiosRequestConfig
+): Promise<ReturnType> {
+  const jwt = localStorage.getItem("jwt");
+  return (
+    await axios.delete(url, {
+      headers: {
+        Authorization: `${jwt}`,
+        ...config.headers,
+      },
+      ...config,
+    })
+  ).data;
+}
