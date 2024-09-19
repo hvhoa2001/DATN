@@ -6,9 +6,7 @@ export default function useUserId() {
   const { data } = useCommonDataSelector().userName;
   const dispatch = useAppDispatch();
   useEffect(() => {
-    if (data) {
-      dispatch(getUsername());
-    }
-  }, [dispatch, data]);
+    dispatch(getUsername());
+  }, [dispatch]);
   return data?.userId;
 }

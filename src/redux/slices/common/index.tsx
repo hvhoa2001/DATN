@@ -1,11 +1,12 @@
-import { RTUserName, RTUserProfile } from "@datn/api/services";
+import { RTFavorites, RTUserName, RTUserProfile } from "@datn/api/services";
 import { DataWithStatus } from "../global";
 import { createSlice } from "@reduxjs/toolkit";
-import { getUsername, getUserProfile } from "./fetchFunction";
+import { getUsername, getUserProfile, getUserFavorite } from "./fetchFunction";
 
 export type TCommonData = {
   userProfile: DataWithStatus<RTUserProfile>;
   userName: DataWithStatus<RTUserName>;
+  favorite: DataWithStatus<RTFavorites>;
 };
 
 const initState: TCommonData = {
@@ -16,6 +17,10 @@ const initState: TCommonData = {
   userName: {
     status: "IDLE",
     data: {} as RTUserName,
+  },
+  favorite: {
+    status: "IDLE",
+    data: {} as RTFavorites,
   },
 };
 
@@ -44,6 +49,16 @@ export const commonSlice = createSlice({
       })
       .addCase(getUsername.rejected, (state) => {
         state.userName.status = "FAILED";
+      })
+      .addCase(getUserFavorite.pending, (state) => {
+        state.favorite.status = "PROCESSING";
+      })
+      .addCase(getUserFavorite.fulfilled, (state, action) => {
+        state.favorite.status = "SUCCESS";
+        state.favorite.data = action.payload;
+      })
+      .addCase(getUserFavorite.rejected, (state) => {
+        state.favorite.status = "FAILED";
       });
   },
 });

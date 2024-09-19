@@ -93,3 +93,49 @@ export async function checkEmail({ email }: { email: string }) {
     {}
   );
 }
+
+export type RTFavorites = {
+  productId: string;
+  name: string;
+  price: number;
+  image: string;
+}[];
+
+export async function featFavorites() {
+  return await getAPI<RTFavorites>(
+    "http://localhost:3003/favorite/getAllFavorite",
+    {}
+  );
+}
+
+export type TNewFavorite = {
+  productId: string;
+  name: string;
+  price: number;
+  image: string;
+};
+
+export type RTNewFavorite = {
+  favoriteId: string;
+  productId: string;
+  name: string;
+  price: number;
+};
+
+export async function createFavorite({
+  productId,
+  name,
+  price,
+  image,
+}: TNewFavorite): Promise<RTNewFavorite> {
+  return await postAPI<RTNewFavorite>(
+    "http://localhost:3003/favorite/new-favorite",
+    {
+      productId: productId,
+      name: name,
+      price: price,
+      image: image,
+    },
+    {}
+  );
+}

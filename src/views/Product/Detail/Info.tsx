@@ -3,9 +3,26 @@ import Reviews from "@datn/common/Product/Reviews";
 import { useProductSelector } from "@datn/redux/hook";
 import { Box, Button, Grid2, Typography } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import { createFavorite } from "@datn/api/services";
+import useProductId from "@datn/hooks/useProductId";
 
 export default function Info() {
+  const productId = useProductId();
+
   const { data } = useProductSelector().productDetail;
+
+  const handleFavorite = async () => {
+    try {
+      await createFavorite({
+        productId: productId || "",
+        name: data?.name || "",
+        price: data?.price || 0,
+        image: data?.image[0] || "",
+      });
+    } catch (error) {
+      throw error;
+    }
+  };
 
   return (
     <Box sx={{ width: "100%", overflowX: "auto" }}>
@@ -86,6 +103,7 @@ export default function Info() {
           variant="outlined"
           sx={{ borderRadius: "20px", height: "56px" }}
           endIcon={<FavoriteBorderIcon />}
+          onClick={handleFavorite}
         >
           <Typography variant="body1" fontWeight={600}>
             Favorite

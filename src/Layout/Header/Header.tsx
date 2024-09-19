@@ -332,7 +332,7 @@ export default function Header({ headerHeight }: { headerHeight: string }) {
               </Box>
             </Box>
           </Box>
-          <Box sx={{ flex: 3.5 }}>
+          <Box sx={{ flex: 3.5, display: "flex", alignItems: "center" }}>
             <Box sx={{ display: { xs: "none", md: "block" } }}>
               <Stack
                 component={"nav"}
@@ -344,9 +344,11 @@ export default function Header({ headerHeight }: { headerHeight: string }) {
               >
                 <Search />
                 <Tooltip title="Favorites">
-                  <IconButton>
-                    <FavoriteBorderOutlinedIcon fontSize="large" />
-                  </IconButton>
+                  <Link href="/favorite" underline="none">
+                    <IconButton>
+                      <FavoriteBorderOutlinedIcon fontSize="large" />
+                    </IconButton>
+                  </Link>
                 </Tooltip>
                 <Link href="/cart">
                   <Tooltip title="Bag Items">
@@ -355,7 +357,6 @@ export default function Header({ headerHeight }: { headerHeight: string }) {
                     </IconButton>
                   </Tooltip>
                 </Link>
-                <AuthState />
               </Stack>
             </Box>
             <Box sx={{ display: { md: "none", xs: "block" } }}>
@@ -373,9 +374,11 @@ export default function Header({ headerHeight }: { headerHeight: string }) {
                     <ShoppingBagOutlinedIcon fontSize="large" />
                   </IconButton>
                 </Tooltip>
-                <AuthState />
                 <MobileNav />
               </Stack>
+            </Box>
+            <Box>
+              <AuthState />
             </Box>
           </Box>
         </Box>

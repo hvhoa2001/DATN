@@ -1,5 +1,6 @@
 import React from "react";
 import { useRoutes } from "react-router-dom";
+import FavoritesPage from "./views/Favorites";
 
 const Layout = React.lazy(() => import("./Layout/Layout"));
 const FirstPage = React.lazy(() => import("./views/home/FirstPage"));
@@ -18,6 +19,7 @@ export default function RouterUrl() {
         { path: "cart", element: <Cart /> },
         { path: "products", element: <ProductsPage /> },
         { path: "products/:productId", element: <ProductDetail /> },
+        { path: "/favorite", element: <FavoritesPage /> },
       ],
     },
     { path: "login", element: <Login /> },
