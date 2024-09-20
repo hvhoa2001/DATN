@@ -7,6 +7,7 @@ import {
   Box,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import CreateReview from "./CreateReview";
 
 type Props = {
   rating: number;
@@ -33,7 +34,15 @@ export default function Reviews({ rating, numberOfRating }: Props) {
           <Rating value={rating} readOnly precision={0.01} size="medium" />
         </Box>
       </AccordionSummary>
-      <AccordionDetails></AccordionDetails>
+      <AccordionDetails>
+        <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+          <Rating value={rating} readOnly precision={0.01} size="medium" />
+          <Typography variant="body1" color="text.secondary" sx={{ ml: 2 }}>
+            {rating} Stars
+          </Typography>
+        </Box>
+        <CreateReview />
+      </AccordionDetails>
     </Accordion>
   );
 }

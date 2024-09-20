@@ -1,6 +1,13 @@
 import { useAppDispatch, useCommonDataSelector } from "@datn/redux/hook";
 import { getUserFavorite } from "@datn/redux/slices/common/fetchFunction";
-import { Box, Button, Container, Grid2, IconButton } from "@mui/material";
+import {
+  Box,
+  Button,
+  Container,
+  Grid2,
+  IconButton,
+  Typography,
+} from "@mui/material";
 import { useEffect } from "react";
 import FavoriteItem from "./FavoriteItem";
 import { Link } from "react-router-dom";
@@ -34,7 +41,7 @@ export default function FavoritesPage() {
           height: "100svh",
         }}
       >
-        {status == "SUCCESS" && (
+        {status == "SUCCESS" && data && data.length > 0 && (
           <Grid2 container spacing={2} sx={{ width: "100%" }}>
             {data?.map((item, index) => {
               return (
@@ -89,7 +96,18 @@ export default function FavoritesPage() {
             })}
           </Grid2>
         )}
+        {status == "SUCCESS" && data && data?.length == 0 && <Nodata />}
       </Container>
+    </Box>
+  );
+}
+
+function Nodata() {
+  return (
+    <Box sx={{ width: "100%", display: "flex", justifyContent: "center" }}>
+      <Typography variant="body1">
+        Items added to your Favorites will be saved here.
+      </Typography>
     </Box>
   );
 }
