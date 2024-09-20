@@ -1,5 +1,6 @@
 import { deleteAPI, getAPI, postAPI } from "../fetchFunction";
 
+// Authentication ************************************************
 type LoginReturnType = {
   success: boolean;
   jwt: string;
@@ -94,6 +95,8 @@ export async function checkEmail({ email }: { email: string }) {
   );
 }
 
+//Favorites ****************************************************************
+
 export type RTFavorites = {
   productId: string;
   name: string;
@@ -150,6 +153,57 @@ export async function deleteFavorite(
 ): Promise<RTDeleteFavorite> {
   return await deleteAPI<RTDeleteFavorite>(
     `http://localhost:3003/favorite/delete-favorite-item?productId=${productId}`,
+    {}
+  );
+}
+
+// Reviews ****************************************************************
+export type RTReviewList = {
+  productId: string;
+  userId: string;
+  title: string;
+  author: string;
+  comment: string;
+  rating: number;
+  ratingAverage: number;
+  createdAt: number;
+  numberOfReviews: number;
+}[];
+
+export async function fetchReviewList(productId: string) {
+  return await getAPI<RTReviewList>(
+    `http://localhost:3003/reviews/get-review-list?productId=${productId}`,
+    {}
+  );
+}
+
+export type TNewReview = {
+  rating: number;
+  title: string;
+  comment: string;
+};
+
+export type RTNewReview = {
+  productId: string;
+  title: string;
+  comment: string;
+  rating: number;
+};
+
+export async function createReview({
+  productId,
+  title,
+  comment,
+  rating,
+}: RTNewReview): Promise<TNewReview> {
+  return await postAPI<RTNewReview>(
+    `http://localhost:3003/reviews/new-review`,
+    {
+      productId: productId,
+      rating: rating,
+      title: title,
+      comment: comment,
+    },
     {}
   );
 }

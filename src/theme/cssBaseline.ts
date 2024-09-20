@@ -82,7 +82,7 @@ export const cssBaseline: Components["MuiCssBaseline"] = {
       "--w3m-z-index": "9999 !important",
     },
     ".ledger-ck-modal": {
-      ">:first-child, #ModalWrapper": {
+      ">:first-of-type, #ModalWrapper": {
         zIndex: 9999,
       },
     },

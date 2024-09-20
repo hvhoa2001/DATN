@@ -1,15 +1,22 @@
 import FreeDelivery from "@datn/common/Product/FreeDelivery";
 import Reviews from "@datn/common/Product/Reviews";
-import { useProductSelector } from "@datn/redux/hook";
+import {
+  useAppDispatch,
+  useCommonDataSelector,
+  useProductSelector,
+} from "@datn/redux/hook";
 import { Box, Button, Grid2, Typography } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { createFavorite } from "@datn/api/services";
 import useProductId from "@datn/hooks/useProductId";
+import { useEffect } from "react";
+import { getReviewList } from "@datn/redux/slices/common/fetchFunction";
 
 export default function Info() {
   const productId = useProductId();
-
+  const dispatch = useAppDispatch();
   const { data } = useProductSelector().productDetail;
+  const { reviews } = useCommonDataSelector();
 
   const handleFavorite = async () => {
     try {
@@ -24,6 +31,12 @@ export default function Info() {
     }
   };
 
+  useEffect(() => {
+    if (productId) {
+      dispatch(getReviewList(productId));
+    }
+  }, [dispatch, productId]);
+
   return (
     <Box sx={{ width: "100%", overflowX: "auto" }}>
       <Typography variant="h4" fontWeight={600}>
@@ -33,9 +46,9 @@ export default function Info() {
         {data?.price}$
       </Typography>
       <Grid2 container sx={{ mb: 4 }}>
-        {data?.variants?.map((item) => {
+        {data?.variants?.map((item, index) => {
           return (
-            <Grid2 size={{ xs: 12 / 5 }}>
+            <Grid2 size={{ xs: 12 / 5 }} key={index}>
               <img
                 src={item.preview}
                 style={{ height: "70px", width: "70px", borderRadius: "4px" }}
@@ -126,7 +139,7 @@ export default function Info() {
       <Box sx={{ mb: 2 }}>
         <FreeDelivery />
       </Box>
-      <Reviews numberOfRating={100} rating={4.6} />
+      {/* <Reviews numberOfRating={reviews.data.} rating={4.6} /> */}
     </Box>
   );
 }

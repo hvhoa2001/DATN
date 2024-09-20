@@ -8,15 +8,15 @@ import {
 } from "@mui/material";
 import { useLoginContext } from "./context";
 import { registerInputStyle } from "./LoginEmail";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 // import CachedIcon from "@mui/icons-material/Cached";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { LoadingButton } from "@mui/lab";
 import { DatePicker } from "@mui/x-date-pickers";
-import { checkEmail, Login, RegisterAccount } from "@datn/api/services";
-import { useNavigate } from "react-router-dom";
-import { setStorageItem } from "@datn/utils/localStorage";
+import { checkEmail, RegisterAccount } from "@datn/api/services";
+// import { useNavigate } from "react-router-dom";
+// import { setStorageItem } from "@datn/utils/localStorage";
 
 export default function Register() {
   const {
@@ -32,7 +32,7 @@ export default function Register() {
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const handleCheckData = (): boolean => {
     setHelperText({});
@@ -134,7 +134,8 @@ export default function Register() {
         <TextField
           error={helperText.email ? true : false}
           fullWidth
-          label="Email *"
+          label="Email"
+          required
           variant="outlined"
           onChange={(e) => {
             handleCheckEmail(e);
@@ -157,7 +158,8 @@ export default function Register() {
             <TextField
               value={firstName}
               type="text"
-              label="First Name *"
+              label="First Name"
+              required
               variant="outlined"
               onChange={(e) => setFirstName(e.target.value)}
               error={helperText.firstName ? true : false}
@@ -169,7 +171,8 @@ export default function Register() {
             <TextField
               value={lastName}
               type="text"
-              label="Last Name *"
+              label="Last Name"
+              required
               variant="outlined"
               onChange={(e) => setLastName(e.target.value)}
               error={helperText.lastName ? true : false}
@@ -181,7 +184,8 @@ export default function Register() {
         <TextField
           value={password}
           fullWidth
-          label="Password *"
+          label="Password"
+          required
           variant="outlined"
           type={showPassword ? "text" : "password"}
           onChange={(e) => setPassword(e.target.value)}
@@ -200,7 +204,7 @@ export default function Register() {
         />
         <DatePicker
           disableFuture
-          label="Date of Birth*"
+          label="Date of Birth *"
           slotProps={{
             textField: {
               error: Boolean(helperText.birthday),

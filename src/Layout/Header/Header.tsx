@@ -40,12 +40,11 @@ function MobileNav() {
 
   return (
     <Box>
-      <IconButton>
+      <IconButton onClick={handleOpen}>
         <MenuIcon
           fontSize="large"
           color="secondary"
           sx={{ cursor: "pointer" }}
-          onClick={handleOpen}
         />
       </IconButton>
       <Drawer

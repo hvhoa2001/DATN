@@ -1,5 +1,6 @@
 import {
   featFavorites,
+  fetchReviewList,
   fetchUserName,
   fetchUserProfile,
 } from "@datn/api/services";
@@ -22,6 +23,14 @@ export const getUserFavorite = createAsyncThunk(
   "common/user-favorite",
   async () => {
     const res = await featFavorites();
+    return res;
+  }
+);
+
+export const getReviewList = createAsyncThunk(
+  "common/review-list",
+  async (productId: string) => {
+    const res = await fetchReviewList(productId);
     return res;
   }
 );
