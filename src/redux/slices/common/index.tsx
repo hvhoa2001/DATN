@@ -35,7 +35,7 @@ const initState: TCommonData = {
   },
   reviews: {
     status: "IDLE",
-    data: [],
+    data: {} as RTReviewList,
   },
 };
 

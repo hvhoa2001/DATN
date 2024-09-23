@@ -160,15 +160,17 @@ export async function deleteFavorite(
 // Reviews ****************************************************************
 export type RTReviewList = {
   productId: string;
-  userId: string;
-  title: string;
-  author: string;
-  comment: string;
-  rating: number;
-  ratingAverage: number;
-  createdAt: number;
   numberOfReviews: number;
-}[];
+  ratingAverage: number;
+  review: {
+    userId: string;
+    author: string;
+    title: string;
+    comment: string;
+    rating: number;
+    createdAt: number;
+  }[];
+};
 
 export async function fetchReviewList(productId: string) {
   return await getAPI<RTReviewList>(

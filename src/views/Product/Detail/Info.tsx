@@ -1,22 +1,14 @@
 import FreeDelivery from "@datn/common/Product/FreeDelivery";
 import Reviews from "@datn/common/Product/Reviews";
-import {
-  useAppDispatch,
-  useCommonDataSelector,
-  useProductSelector,
-} from "@datn/redux/hook";
+import { useProductSelector } from "@datn/redux/hook";
 import { Box, Button, Grid2, Typography } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { createFavorite } from "@datn/api/services";
 import useProductId from "@datn/hooks/useProductId";
-import { useEffect } from "react";
-import { getReviewList } from "@datn/redux/slices/common/fetchFunction";
 
 export default function Info() {
   const productId = useProductId();
-  const dispatch = useAppDispatch();
   const { data } = useProductSelector().productDetail;
-  const { reviews } = useCommonDataSelector();
 
   const handleFavorite = async () => {
     try {
@@ -30,12 +22,6 @@ export default function Info() {
       throw error;
     }
   };
-
-  useEffect(() => {
-    if (productId) {
-      dispatch(getReviewList(productId));
-    }
-  }, [dispatch, productId]);
 
   return (
     <Box sx={{ width: "100%", overflowX: "auto" }}>
@@ -139,7 +125,7 @@ export default function Info() {
       <Box sx={{ mb: 2 }}>
         <FreeDelivery />
       </Box>
-      {/* <Reviews numberOfRating={reviews.data.} rating={4.6} /> */}
+      <Reviews />
     </Box>
   );
 }

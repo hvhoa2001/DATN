@@ -3,7 +3,7 @@ import { Box, Rating, Typography } from "@mui/material";
 type Props = {
   title: string;
   userName: string;
-  createdAt: string;
+  createdAt: number;
   content: string;
   rating: number;
 };
