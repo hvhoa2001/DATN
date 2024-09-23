@@ -209,3 +209,46 @@ export async function createReview({
     {}
   );
 }
+
+// Cart ************************************************
+export type TCartItem = {
+  productId: string;
+  name: string;
+  price: number;
+  quantity: number;
+  color: string;
+  image: string;
+  size: number;
+};
+
+export type RTCartItem = {
+  productId: string;
+  name: string;
+  quantity: number;
+  size: number;
+  color: string;
+};
+
+export async function createCartItem({
+  productId,
+  name,
+  price,
+  quantity,
+  color,
+  image,
+  size,
+}: TCartItem) {
+  return await postAPI<RTCartItem>(
+    "http://localhost:3003/cart/new-cart-item",
+    {
+      productId: productId,
+      name: name,
+      price: price,
+      quantity: quantity,
+      color: color,
+      image: image,
+      size: size,
+    },
+    {}
+  );
+}

@@ -1,3 +1,4 @@
+import { formatTime } from "@datn/utils/format";
 import { Box, Rating, Typography } from "@mui/material";
 
 type Props = {
@@ -16,8 +17,8 @@ export default function ReviewItem({
   rating,
 }: Props) {
   return (
-    <Box>
-      <Typography variant="body1" fontSize={600} mb={2}>
+    <Box mt={4}>
+      <Typography variant="body1" fontWeight={600} mb={2}>
         {title}
       </Typography>
       <Box
@@ -30,7 +31,7 @@ export default function ReviewItem({
       >
         <Rating name="reviews" value={rating} readOnly />
         <Typography variant="body1">
-          {userName} - {createdAt}
+          {userName} - {formatTime(createdAt / 1000, { date: true })}
         </Typography>
       </Box>
       <Typography variant="body1">{content}</Typography>

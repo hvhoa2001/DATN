@@ -91,3 +91,22 @@ export function formatNumber<F = any>(
   }
   return prefix + numberWithDelimiter(n, delimiter) + suffix;
 }
+
+export function formatTime(
+  timeStampS: number | undefined,
+  {
+    date,
+    time,
+  }: {
+    date?: boolean;
+    time?: boolean;
+  }
+) {
+  return new Date(Number(timeStampS || 0) * 1000)
+    .toLocaleString(undefined, {
+      ...(date && { year: "numeric", month: "numeric", day: "numeric" }),
+      ...(time && { hour: "2-digit", minute: "2-digit", hour12: true }),
+    })
+    .replaceAll("am", "AM")
+    .replaceAll("pm", "PM");
+}
