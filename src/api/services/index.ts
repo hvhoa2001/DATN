@@ -252,3 +252,20 @@ export async function createCartItem({
     {}
   );
 }
+
+export type RTCartItems = {
+  productId: string;
+  name: string;
+  price: number;
+  color: string;
+  image: string;
+  size: number;
+  quantity: number;
+}[];
+
+export async function fetchCartItems() {
+  return await getAPI<RTCartItems>(
+    "http://localhost:3003/cart/get-cart-items",
+    {}
+  );
+}
