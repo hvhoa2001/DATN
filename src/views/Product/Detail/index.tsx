@@ -5,8 +5,17 @@ import { Box, Container, Grid2 } from "@mui/material";
 import { useEffect } from "react";
 import Info from "./Info";
 import ImageDetail from "./image";
+import ProductContextProvider from "../context";
 
 export default function ProductDetail() {
+  return (
+    <ProductContextProvider>
+      <ProductDetailComponent />
+    </ProductContextProvider>
+  );
+}
+
+function ProductDetailComponent() {
   const productId = useProductId();
   const dispatch = useAppDispatch();
 

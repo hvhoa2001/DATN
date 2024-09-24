@@ -1,13 +1,16 @@
 import { useProductSelector } from "@datn/redux/hook";
 import { Box, Grid2, Typography } from "@mui/material";
-import { useState } from "react";
+import { useProductContext } from "../context";
 
 export default function Select() {
   const { data } = useProductSelector().productDetail;
-  const [selectedVariantIndex, setSelectedVariantIndex] = useState<number>(0);
-  const [selectedSize, setSelectedSize] = useState<number | null>(null);
-
-  const selectedVariant = data?.variants?.[selectedVariantIndex];
+  const {
+    selectedSize,
+    selectedVariant,
+    selectedVariantIndex,
+    setSelectedSize,
+    setSelectedVariantIndex,
+  } = useProductContext();
 
   return (
     <Box>
@@ -57,7 +60,7 @@ export default function Select() {
       </Box>
 
       {selectedVariant ? (
-        <Grid2 container spacing={2} sx={{ my: 3 }}>
+        <Grid2 container spacing={1} sx={{ my: 3 }}>
           {selectedVariant.sizes?.map((sizeObj, sizeIndex) => (
             <Grid2 key={sizeIndex} size={{ xs: 12 / 5 }}>
               <Box
