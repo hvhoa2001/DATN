@@ -1,15 +1,17 @@
 import FreeDelivery from "@datn/common/Product/FreeDelivery";
 import Reviews from "@datn/common/Product/Reviews";
 import { useProductSelector } from "@datn/redux/hook";
-import { Box, Button, Grid2, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import { createFavorite } from "@datn/api/services";
+import { createCartItem, createFavorite } from "@datn/api/services";
 import useProductId from "@datn/hooks/useProductId";
 import Select from "./select";
+import { useProductContext } from "../context";
 
 export default function Info() {
   const productId = useProductId();
   const { data } = useProductSelector().productDetail;
+  const { selectedSize, selectedVariant } = useProductContext();
 
   const handleFavorite = async () => {
     try {
@@ -18,6 +20,22 @@ export default function Info() {
         name: data?.name || "",
         price: data?.price || 0,
         image: data?.image[0] || "",
+      });
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const handleAddCart = async () => {
+    try {
+      await createCartItem({
+        productId: productId || "",
+        name: data?.name || "",
+        price: data?.price || 0,
+        quantity: 1,
+        color: selectedVariant?.color || "",
+        image: data?.image[0] || "",
+        size: selectedSize || 0,
       });
     } catch (error) {
       throw error;
@@ -38,6 +56,7 @@ export default function Info() {
           fullWidth
           variant="contained"
           sx={{ borderRadius: "20px", height: "56px", mb: 2 }}
+          onClick={handleAddCart}
         >
           <Typography variant="body1" fontWeight={600}>
             Add to Bag

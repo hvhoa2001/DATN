@@ -4,7 +4,7 @@ import { Box, Container, Grid2 } from "@mui/material";
 import { useEffect } from "react";
 import ProductItem from "./ProductItem";
 import { Link } from "react-router-dom";
-import ProductContextProvider from "./context";
+import ProductContextProvider, { useProductContext } from "./context";
 
 export default function ProductsPage() {
   return (
@@ -35,6 +35,9 @@ function ProductList() {
       >
         <Grid2 container sx={{ width: "100%" }} spacing={2}>
           {data?.map((item) => {
+            const subImages = item.variants.flatMap(
+              (variant) => variant.preview
+            );
             return (
               <Grid2 size={{ xs: 12, sm: 6, md: 4 }} key={item.productId}>
                 <Link
@@ -42,11 +45,13 @@ function ProductList() {
                   style={{ textDecoration: "none" }}
                 >
                   <ProductItem
+                    id={item.productId}
                     name={item.name}
                     img={item.image[0]}
                     price={item.price}
                     highlight={item.highlight}
                     numberColor={item.variants.length}
+                    subImg={subImages}
                   />
                 </Link>
               </Grid2>

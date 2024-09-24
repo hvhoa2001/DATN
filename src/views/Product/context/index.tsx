@@ -35,11 +35,11 @@ export const ProductContext = createContext<ProductContextType>(
 export default function ProductContextProvider({
   children,
 }: PropsWithChildren) {
-  const { data } = useProductSelector().productDetail;
+  const { productDetail } = useProductSelector();
   const [selectedVariantIndex, setSelectedVariantIndex] = useState<number>(0);
   const [selectedSize, setSelectedSize] = useState<number | null>(null);
 
-  const selectedVariant = data?.variants?.[selectedVariantIndex];
+  const selectedVariant = productDetail.data?.variants?.[selectedVariantIndex];
 
   const contextValue: ProductContextType = useMemo(() => {
     return {
@@ -53,6 +53,7 @@ export default function ProductContextProvider({
     selectedSize,
     selectedVariantIndex,
     selectedVariant,
+
     setSelectedSize,
     setSelectedVariantIndex,
   ]);
