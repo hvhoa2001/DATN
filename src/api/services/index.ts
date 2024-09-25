@@ -102,6 +102,8 @@ export type RTFavorites = {
   name: string;
   price: number;
   image: string;
+  size: number;
+  color: string;
 }[];
 
 export async function featFavorites() {
@@ -116,6 +118,8 @@ export type TNewFavorite = {
   name: string;
   price: number;
   image: string;
+  color?: string;
+  size?: number;
 };
 
 export type RTNewFavorite = {
@@ -123,6 +127,8 @@ export type RTNewFavorite = {
   productId: string;
   name: string;
   price: number;
+  color?: string;
+  size?: number;
 };
 
 export async function createFavorite({
@@ -130,6 +136,8 @@ export async function createFavorite({
   name,
   price,
   image,
+  color,
+  size,
 }: TNewFavorite): Promise<RTNewFavorite> {
   return await postAPI<RTNewFavorite>(
     "http://localhost:3003/favorite/new-favorite",
@@ -138,6 +146,8 @@ export async function createFavorite({
       name: name,
       price: price,
       image: image,
+      color: color,
+      size: size,
     },
     {}
   );

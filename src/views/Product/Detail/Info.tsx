@@ -19,7 +19,9 @@ export default function Info() {
         productId: productId || "",
         name: data?.name || "",
         price: data?.price || 0,
-        image: data?.image[0] || "",
+        image: selectedVariant?.preview || "",
+        color: selectedVariant?.color || "",
+        size: selectedSize || undefined,
       });
     } catch (error) {
       throw error;
@@ -34,7 +36,7 @@ export default function Info() {
         price: data?.price || 0,
         quantity: 1,
         color: selectedVariant?.color || "",
-        image: data?.image[0] || "",
+        image: selectedVariant?.preview || "",
         size: selectedSize || 0,
       });
     } catch (error) {
