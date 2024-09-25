@@ -21,6 +21,7 @@ export type TCommonData = {
   favorite: DataWithStatus<RTFavorites>;
   reviews: DataWithStatus<RTReviewList>;
   cart: DataWithStatus<RTCartItems>;
+  exportMode: boolean;
 };
 
 const initState: TCommonData = {
@@ -44,6 +45,7 @@ const initState: TCommonData = {
     status: "IDLE",
     data: [],
   },
+  exportMode: false,
 };
 
 export const commonSlice = createSlice({

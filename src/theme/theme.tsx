@@ -113,6 +113,15 @@ export function getThemedComponent(theme: Theme): ThemeOptions {
         },
       },
 
+      MuiDivider: {
+        styleOverrides: {
+          root: {
+            height: 1,
+            backgroundColor: "#7E7E7E",
+          },
+        },
+      },
+
       // button
       MuiButton: {
         defaultProps: {

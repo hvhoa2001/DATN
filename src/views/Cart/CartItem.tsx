@@ -1,8 +1,12 @@
-import { Box, IconButton, Typography } from "@mui/material";
+import { Box, Divider, IconButton, Typography } from "@mui/material";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import { useAppDispatch } from "@datn/redux/hook";
+import { deleteCartItem } from "@datn/api/services";
+import { getCartItems } from "@datn/redux/slices/common/fetchFunction";
 
 type Props = {
+  productId: string;
   name: string;
   color: string;
   size: number;
@@ -18,60 +22,77 @@ export default function CartItem({
   price,
   quantity,
   image,
+  productId,
 }: Props) {
+  const dispatch = useAppDispatch();
+  const handleDelete = async (productId: string) => {
+    try {
+      await deleteCartItem(productId);
+      dispatch(getCartItems());
+    } catch (err) {
+      throw err;
+    }
+  };
   return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "space-between",
-      }}
-    >
-      <Box sx={{ display: "flex" }}>
-        <img
-          src={image}
-          alt={name}
-          style={{
-            height: "164px",
-            width: "164px",
-            marginRight: "12px",
-          }}
-        />
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-between",
-          }}
-        >
-          <Box>
-            <Typography variant="body1" fontWeight={600} mb={1}>
-              {name}
-            </Typography>
-            <Typography variant="body2" color="text.secondary" mb={1}>
-              {color}
-            </Typography>
+    <Box>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
+        <Box sx={{ display: "flex" }}>
+          <img
+            src={image}
+            alt={name}
+            style={{
+              height: "164px",
+              width: "164px",
+              marginRight: "12px",
+            }}
+          />
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+            }}
+          >
+            <Box>
+              <Typography variant="body1" fontWeight={600} mb={1}>
+                {name}
+              </Typography>
+              <Typography variant="body2" color="text.secondary" mb={1}>
+                {color}
+              </Typography>
+              <Box sx={{ display: "flex" }}>
+                <Typography variant="body2" color="text.secondary" mr={2}>
+                  Size: {size}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Quantity: {quantity}
+                </Typography>
+              </Box>
+            </Box>
             <Box sx={{ display: "flex" }}>
-              <Typography variant="body2" color="text.secondary" mr={2}>
-                Size: {size}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Quantity: {quantity}
-              </Typography>
+              <IconButton>
+                <FavoriteBorderIcon fontSize="large" />
+              </IconButton>
+              <IconButton
+                onClick={() => {
+                  handleDelete(productId);
+                }}
+              >
+                <DeleteOutlinedIcon fontSize="large" />
+              </IconButton>
             </Box>
           </Box>
-          <Box sx={{ display: "flex" }}>
-            <IconButton>
-              <FavoriteBorderIcon fontSize="large" />
-            </IconButton>
-            <IconButton>
-              <DeleteOutlinedIcon fontSize="large" />
-            </IconButton>
-          </Box>
         </Box>
+        <Typography variant="body1" fontWeight={600}>
+          {price}$
+        </Typography>
       </Box>
-      <Typography variant="body1" fontWeight={600}>
-        {price}$
-      </Typography>
+      <Divider sx={{ my: 8 }} />
     </Box>
   );
 }

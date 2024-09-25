@@ -269,3 +269,17 @@ export async function fetchCartItems() {
     {}
   );
 }
+
+export type RTDeleteCartItem = {
+  success: boolean;
+  message: string;
+};
+
+export async function deleteCartItem(
+  productId: string
+): Promise<RTDeleteCartItem> {
+  return await deleteAPI<RTDeleteCartItem>(
+    `http://localhost:3003/cart/delete-cart-item?productId=${productId}`,
+    {}
+  );
+}

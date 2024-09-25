@@ -96,7 +96,7 @@ export default function FavoritesPage() {
             })}
           </Grid2>
         )}
-        {status == "SUCCESS" && data && data?.length == 0 && <Nodata />}
+        {status == "SUCCESS" && data && data.length == 0 && <Nodata />}
       </Container>
     </Box>
   );
