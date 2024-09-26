@@ -4,17 +4,8 @@ import { Box, Container, Grid2 } from "@mui/material";
 import { useEffect } from "react";
 import ProductItem from "./ProductItem";
 import { Link } from "react-router-dom";
-import ProductContextProvider, { useProductContext } from "./context";
 
 export default function ProductsPage() {
-  return (
-    <ProductContextProvider>
-      <ProductList />
-    </ProductContextProvider>
-  );
-}
-
-function ProductList() {
   const { data } = useProductSelector().product;
   const dispatch = useAppDispatch();
 

@@ -1,3 +1,4 @@
+import { RTProductDetail } from "@datn/api/services/product-api";
 import { useProductSelector } from "@datn/redux/hook";
 import {
   createContext,
@@ -26,6 +27,7 @@ export type ProductContextType = {
   selectedSize: number | null;
   setSelectedSize: Dispatch<SetStateAction<number | null>>;
   selectedVariant: Variants | undefined;
+  commonData: RTProductDetail | undefined;
 };
 
 export const ProductContext = createContext<ProductContextType>(
@@ -38,7 +40,7 @@ export default function ProductContextProvider({
   const { data } = useProductSelector().productDetail;
   const [selectedVariantIndex, setSelectedVariantIndex] = useState<number>(0);
   const [selectedSize, setSelectedSize] = useState<number | null>(null);
-
+  const commonData = data;
   const selectedVariant = data?.variants?.[selectedVariantIndex];
 
   const contextValue: ProductContextType = useMemo(() => {
@@ -48,11 +50,13 @@ export default function ProductContextProvider({
       selectedSize,
       setSelectedSize,
       selectedVariant,
+      commonData,
     };
   }, [
     selectedSize,
     selectedVariantIndex,
     selectedVariant,
+    commonData,
     setSelectedSize,
     setSelectedVariantIndex,
   ]);

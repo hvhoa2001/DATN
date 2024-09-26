@@ -1,6 +1,5 @@
 import FreeDelivery from "@datn/common/Product/FreeDelivery";
 import Reviews from "@datn/common/Product/Reviews";
-import { useProductSelector } from "@datn/redux/hook";
 import { Box, Button, Typography } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { createCartItem, createFavorite } from "@datn/api/services";
@@ -10,15 +9,14 @@ import { useProductContext } from "../context";
 
 export default function Info() {
   const productId = useProductId();
-  const { data } = useProductSelector().productDetail;
-  const { selectedSize, selectedVariant } = useProductContext();
+  const { selectedSize, selectedVariant, commonData } = useProductContext();
 
   const handleFavorite = async () => {
     try {
       await createFavorite({
         productId: productId || "",
-        name: data?.name || "",
-        price: data?.price || 0,
+        name: commonData?.name || "",
+        price: commonData?.price || 0,
         image: selectedVariant?.preview || "",
         color: selectedVariant?.color || "",
         size: selectedSize || undefined,
@@ -32,8 +30,8 @@ export default function Info() {
     try {
       await createCartItem({
         productId: productId || "",
-        name: data?.name || "",
-        price: data?.price || 0,
+        name: commonData?.name || "",
+        price: commonData?.price || 0,
         quantity: 1,
         color: selectedVariant?.color || "",
         image: selectedVariant?.preview || "",
@@ -47,10 +45,10 @@ export default function Info() {
   return (
     <Box sx={{ width: "100%", overflowX: "auto" }}>
       <Typography variant="h4" fontWeight={600}>
-        {data?.name}
+        {commonData?.name}
       </Typography>
       <Typography variant="body1" fontWeight={600} py={4}>
-        {data?.price}$
+        {commonData?.price}$
       </Typography>
       <Select />
       <Box sx={{ mb: 4 }}>
@@ -76,16 +74,18 @@ export default function Info() {
           </Typography>
         </Button>
       </Box>
-      <Typography variant="body1">{data?.description}</Typography>
+      <Typography variant="body1">{commonData?.description}</Typography>
       <ul>
         <li style={{ paddingBottom: "8px" }}>
           <Typography>Color Shown:</Typography>
         </li>
         <li style={{ paddingBottom: "8px" }}>
-          <Typography>Style: {data?.style}</Typography>
+          <Typography>Style: {commonData?.style}</Typography>
         </li>
         <li style={{ paddingBottom: "8px" }}>
-          <Typography>Country/Region of Origin: {data?.madeIn}</Typography>
+          <Typography>
+            Country/Region of Origin: {commonData?.madeIn}
+          </Typography>
         </li>
       </ul>
       <Box sx={{ mb: 2 }}>
