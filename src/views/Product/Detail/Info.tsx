@@ -9,14 +9,14 @@ import { useProductContext } from "../context";
 
 export default function Info() {
   const productId = useProductId();
-  const { selectedSize, selectedVariant, commonData } = useProductContext();
+  const { selectedSize, selectedVariant, productData } = useProductContext();
 
   const handleFavorite = async () => {
     try {
       await createFavorite({
         productId: productId || "",
-        name: commonData?.name || "",
-        price: commonData?.price || 0,
+        name: productData?.name || "",
+        price: selectedVariant?.currentPrice || 0,
         image: selectedVariant?.preview || "",
         color: selectedVariant?.color || "",
         size: selectedSize || undefined,
@@ -30,8 +30,8 @@ export default function Info() {
     try {
       await createCartItem({
         productId: productId || "",
-        name: commonData?.name || "",
-        price: commonData?.price || 0,
+        name: productData?.name || "",
+        price: selectedVariant?.currentPrice || 0,
         quantity: 1,
         color: selectedVariant?.color || "",
         image: selectedVariant?.preview || "",
@@ -45,10 +45,10 @@ export default function Info() {
   return (
     <Box sx={{ width: "100%", overflowX: "auto" }}>
       <Typography variant="h4" fontWeight={600}>
-        {commonData?.name}
+        {productData?.name}
       </Typography>
       <Typography variant="body1" fontWeight={600} py={4}>
-        {commonData?.price}$
+        {selectedVariant?.currentPrice}$
       </Typography>
       <Select />
       <Box sx={{ mb: 4 }}>
@@ -74,17 +74,17 @@ export default function Info() {
           </Typography>
         </Button>
       </Box>
-      <Typography variant="body1">{commonData?.description}</Typography>
+      <Typography variant="body1">{productData?.description}</Typography>
       <ul>
         <li style={{ paddingBottom: "8px" }}>
-          <Typography>Color Shown:</Typography>
+          <Typography>Color Shown: {selectedVariant?.color}</Typography>
         </li>
         <li style={{ paddingBottom: "8px" }}>
-          <Typography>Style: {commonData?.style}</Typography>
+          <Typography>Style: {selectedVariant?.style}</Typography>
         </li>
         <li style={{ paddingBottom: "8px" }}>
           <Typography>
-            Country/Region of Origin: {commonData?.madeIn}
+            Country/Region of Origin: {selectedVariant?.madeIn}
           </Typography>
         </li>
       </ul>

@@ -1,11 +1,14 @@
 import useProductId from "@datn/hooks/useProductId";
 import { useAppDispatch } from "@datn/redux/hook";
-import { getProductDetail } from "@datn/redux/slices/product/fetchFunction";
+import {
+  getProductDetail,
+  getVariantDetail,
+} from "@datn/redux/slices/product/fetchFunction";
 import { Box, Container, Grid2 } from "@mui/material";
 import { useEffect } from "react";
 import Info from "./Info";
 import ImageDetail from "./image";
-import ProductContextProvider from "../context";
+import ProductContextProvider, { useProductContext } from "../context";
 
 export default function ProductDetail() {
   return (
@@ -18,12 +21,27 @@ export default function ProductDetail() {
 function ProductDetailComponent() {
   const productId = useProductId();
   const dispatch = useAppDispatch();
+  const { selectedVariantIndex, productData } = useProductContext();
 
   useEffect(() => {
     if (productId) {
       dispatch(getProductDetail(productId));
     }
   }, [productId, dispatch]);
+
+  useEffect(() => {
+    if (productData?.variants && selectedVariantIndex >= 0) {
+      const selectedVariant = productData.variants[selectedVariantIndex];
+      if (selectedVariant) {
+        dispatch(
+          getVariantDetail({
+            productId: productId || "",
+            variantId: selectedVariant._id || "",
+          })
+        );
+      }
+    }
+  }, [productData, selectedVariantIndex, dispatch, productId]);
 
   return (
     <Box component={"section"}>

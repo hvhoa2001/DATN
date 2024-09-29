@@ -8,13 +8,13 @@ export default function Select() {
     selectedVariantIndex,
     setSelectedSize,
     setSelectedVariantIndex,
-    commonData,
+    productData,
   } = useProductContext();
 
   return (
     <Box>
       <Grid2 container sx={{ mb: 4 }} spacing={2}>
-        {commonData?.variants?.map((variant, index) => (
+        {productData?.variants?.map((variant, index) => (
           <Grid2 key={index} size={{ xs: 12 / 5 }}>
             <img
               src={variant.preview}
