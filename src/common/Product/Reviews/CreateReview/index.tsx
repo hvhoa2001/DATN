@@ -2,6 +2,7 @@ import { createReview } from "@datn/api/services";
 import TypoRequired from "@datn/common/TypoRequired";
 import useProductId from "@datn/hooks/useProductId";
 import { useProductSelector } from "@datn/redux/hook";
+import { useProductContext } from "@datn/views/Product/context";
 import { LoadingButton } from "@mui/lab";
 import {
   Box,
@@ -15,7 +16,7 @@ import React, { useCallback, useState } from "react";
 
 export default function CreateReview() {
   const [open, setOpen] = useState<boolean>(false);
-  const { data } = useProductSelector().productDetail;
+  const { selectedVariant, productData } = useProductContext();
 
   const handleOpen = () => {
     setOpen(true);
@@ -56,7 +57,7 @@ export default function CreateReview() {
           </Box>
           <Box sx={{ display: "flex", mb: 3 }}>
             <img
-              src={data?.image?.[0] || ""}
+              src={selectedVariant?.preview || ""}
               style={{
                 width: "60px",
                 height: "60px",
@@ -64,7 +65,7 @@ export default function CreateReview() {
                 borderRadius: "4px",
               }}
             />
-            <Typography variant="body1">{data?.name}</Typography>
+            <Typography variant="body1">{productData?.name}</Typography>
           </Box>
           <FormReview handleClose={handleClose} />
         </Paper>

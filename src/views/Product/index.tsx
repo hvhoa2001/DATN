@@ -1,4 +1,4 @@
-import { useAppDispatch, useProductSelector } from "@datn/redux/hook";
+import { useAppDispatch } from "@datn/redux/hook";
 import { getProducts } from "@datn/redux/slices/product/fetchFunction";
 import { Box, Container, Grid2 } from "@mui/material";
 import { useEffect, useMemo } from "react";
@@ -28,6 +28,9 @@ function ProductComponent() {
       preview: item.variants[0]?.preview,
       currentPrice: item.variants[0]?.currentPrice || 0,
       highlight: item.variants[0]?.highlight,
+      price: item.variants[0]?.fullPrice || 0,
+      sale: item.variants[0].saleRate || 0,
+      gender: item.gender,
     }));
   }, [commonData]);
   return (
@@ -59,10 +62,13 @@ function ProductComponent() {
                     id={item.productId}
                     name={item.name}
                     img={detail?.preview}
-                    price={detail?.currentPrice || 0}
+                    currentPrice={detail?.currentPrice || 0}
                     highlight={detail?.highlight}
                     numberColor={item.variants.length}
                     subImg={subImages}
+                    price={detail?.price}
+                    saleRate={detail?.sale}
+                    gender={detail?.gender}
                   />
                 </Link>
               </Grid2>

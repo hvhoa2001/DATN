@@ -8,6 +8,7 @@ export type RTProducts = {
   category: string;
   createdAt: number;
   updatedAt: number;
+  gender: string;
   variants: Array<RTVariantDetail>;
 }[];
 
@@ -75,6 +76,7 @@ export type RTVariantDetail = {
   isOnSale: false;
   highlight: string;
   style: string;
+  isSoldOut: boolean;
 };
 
 export async function featVariantDetail({

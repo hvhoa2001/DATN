@@ -57,6 +57,7 @@ export default function Info() {
           variant="contained"
           sx={{ borderRadius: "20px", height: "56px", mb: 2 }}
           onClick={handleAddCart}
+          disabled={selectedVariant?.isSoldOut}
         >
           <Typography variant="body1" fontWeight={600}>
             Add to Bag

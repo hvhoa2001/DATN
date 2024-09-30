@@ -18,7 +18,7 @@ export default function FavoriteItem({ name, image, price }: Props) {
           borderRadius: "4px",
           position: "relative",
         }}
-      ></img>
+      />
       <Box
         sx={{
           display: "flex",
