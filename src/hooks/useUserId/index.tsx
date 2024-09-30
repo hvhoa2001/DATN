@@ -10,3 +10,8 @@ export default function useUserId() {
   }, [dispatch]);
   return data?.userId;
 }
+
+export function useUserEmail() {
+  const { data } = useCommonDataSelector().userName;
+  return data?.userEmail;
+}

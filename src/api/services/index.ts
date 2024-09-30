@@ -77,6 +77,7 @@ export async function verifyToken(): Promise<VerifyTokenReturnType> {
 export type RTUserName = {
   userName: string;
   userId: string;
+  userEmail: string;
 };
 
 export async function fetchUserName() {

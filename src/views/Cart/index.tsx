@@ -12,6 +12,7 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import CartItem from "./CartItem";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import { Link } from "react-router-dom";
 
 export default function Cart() {
   const [fee, setFee] = useState<number>(10);
@@ -130,13 +131,15 @@ export default function Cart() {
                 </Typography>
               </Box>
               <Divider />
-              <Button
-                variant="contained"
-                sx={{ borderRadius: "30px", mt: 6, height: "56px" }}
-                fullWidth
-              >
-                Member Checkout
-              </Button>
+              <Link to={"/member-checkout"}>
+                <Button
+                  variant="contained"
+                  sx={{ borderRadius: "30px", mt: 6, height: "56px" }}
+                  fullWidth
+                >
+                  Member Checkout
+                </Button>
+              </Link>
             </Grid2>
           </Grid2>
         )}
