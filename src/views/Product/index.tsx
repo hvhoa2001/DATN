@@ -21,7 +21,7 @@ export default function ProductsPage() {
 }
 
 function ProductComponent() {
-  const { commonData } = useProductContext();
+  const { commonData, selectedVariant } = useProductContext();
   const detailData = useMemo(() => {
     return commonData?.map((item) => ({
       productId: item.productId,

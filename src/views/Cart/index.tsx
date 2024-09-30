@@ -2,6 +2,7 @@ import { useAppDispatch, useCommonDataSelector } from "@datn/redux/hook";
 import { getCartItems } from "@datn/redux/slices/common/fetchFunction";
 import {
   Box,
+  Button,
   Container,
   Divider,
   Grid2,
@@ -47,8 +48,12 @@ export default function Cart() {
         }}
       >
         {status === "SUCCESS" && data && data.length > 0 && (
-          <Grid2 container spacing={3} sx={{ width: "100%" }}>
-            <Grid2 size={{ xs: 12, sm: 7 }}>
+          <Grid2
+            container
+            spacing={4}
+            sx={{ width: "100%", justifyContent: "center" }}
+          >
+            <Grid2 size={{ xs: 12, sm: 6 }}>
               <Typography variant="h3" mb={4}>
                 Bag
               </Typography>
@@ -68,7 +73,7 @@ export default function Cart() {
                 );
               })}
             </Grid2>
-            <Grid2 size={{ xs: 12, sm: 5 }}>
+            <Grid2 size={{ xs: 12, sm: 4 }}>
               <Typography variant="h3" mb={4}>
                 Summary
               </Typography>
@@ -125,6 +130,13 @@ export default function Cart() {
                 </Typography>
               </Box>
               <Divider />
+              <Button
+                variant="contained"
+                sx={{ borderRadius: "30px", mt: 6, height: "56px" }}
+                fullWidth
+              >
+                Member Checkout
+              </Button>
             </Grid2>
           </Grid2>
         )}
@@ -137,13 +149,13 @@ export default function Cart() {
 function Nodata() {
   return (
     <Grid2 container spacing={3} sx={{ width: "100%" }}>
-      <Grid2 size={{ xs: 12, sm: 7 }}>
+      <Grid2 size={{ xs: 12, sm: 6 }}>
         <Typography variant="h3" mb={4}>
           Bag
         </Typography>
         <Typography variant="body1">There are no items in your bag.</Typography>
       </Grid2>
-      <Grid2 size={{ xs: 12, sm: 5 }}>
+      <Grid2 size={{ xs: 12, sm: 4 }}>
         <Typography variant="h3" mb={4}>
           Summary
         </Typography>
@@ -198,6 +210,14 @@ function Nodata() {
           </Typography>
         </Box>
         <Divider />
+        <Button
+          variant="contained"
+          sx={{ borderRadius: "30px", mt: 6, height: "56px" }}
+          fullWidth
+          disabled
+        >
+          Member Checkout
+        </Button>
       </Grid2>
     </Grid2>
   );
