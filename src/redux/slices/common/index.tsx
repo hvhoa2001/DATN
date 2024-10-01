@@ -1,5 +1,6 @@
 import {
   RTCartItems,
+  RTCartPrice,
   RTFavorites,
   RTReviewList,
   RTUserName,
@@ -13,6 +14,7 @@ import {
   getUserFavorite,
   getReviewList,
   getCartItems,
+  getCartPrice,
 } from "./fetchFunction";
 
 export type TCommonData = {
@@ -22,6 +24,7 @@ export type TCommonData = {
   reviews: DataWithStatus<RTReviewList>;
   cart: DataWithStatus<RTCartItems>;
   exportMode: boolean;
+  price: DataWithStatus<RTCartPrice>;
 };
 
 const initState: TCommonData = {
@@ -44,6 +47,10 @@ const initState: TCommonData = {
   cart: {
     status: "IDLE",
     data: [],
+  },
+  price: {
+    status: "IDLE",
+    data: {} as RTCartPrice,
   },
   exportMode: false,
 };
@@ -103,6 +110,16 @@ export const commonSlice = createSlice({
       })
       .addCase(getCartItems.rejected, (state) => {
         state.cart.status = "FAILED";
+      })
+      .addCase(getCartPrice.pending, (state) => {
+        state.price.status = "PROCESSING";
+      })
+      .addCase(getCartPrice.fulfilled, (state, action) => {
+        state.price.status = "SUCCESS";
+        state.price.data = action.payload;
+      })
+      .addCase(getCartPrice.rejected, (state) => {
+        state.price.status = "FAILED";
       });
   },
 });

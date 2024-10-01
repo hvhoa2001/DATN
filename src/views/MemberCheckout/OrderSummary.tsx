@@ -1,25 +1,10 @@
 import { Box, Divider, Tooltip, Typography } from "@mui/material";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
-import { useMemo, useState } from "react";
 import { useCommonDataSelector } from "@datn/redux/hook";
 
 export default function OrderSummary() {
-  const [fee, setFee] = useState<number>(10);
-  const { data } = useCommonDataSelector().cart;
+  const { cart, price } = useCommonDataSelector();
 
-  const subTotal = useMemo(() => {
-    return data?.reduce((sum, item) => sum + item.quantity * item.price, 0);
-  }, [data]);
-
-  const total = useMemo(() => {
-    if (!subTotal) return 0;
-    if (subTotal < 200) {
-      setFee(10);
-    } else {
-      setFee(0);
-    }
-    return subTotal + fee;
-  }, [subTotal, fee]);
   return (
     <Box>
       <Typography variant="h3" mb={4}>
@@ -45,7 +30,7 @@ export default function OrderSummary() {
           </Tooltip>
         </Box>
         <Typography variant="body1" fontWeight={600}>
-          {subTotal}$
+          {price.data?.subTotal}$
         </Typography>
       </Box>
       <Box
@@ -58,7 +43,7 @@ export default function OrderSummary() {
       >
         <Typography variant="body1">Estimated Delivery & Handling</Typography>
         <Typography variant="body1" fontWeight={600}>
-          {`${fee == 0 ? "Free" : `${fee}$`}`}
+          {`${price.data?.fee == 0 ? "Free" : `${price.data?.fee}$`}`}
         </Typography>
       </Box>
       <Divider />
@@ -72,7 +57,7 @@ export default function OrderSummary() {
       >
         <Typography variant="body1">Total</Typography>
         <Typography variant="body1" fontWeight={600}>
-          {total}$
+          {price.data?.total}$
         </Typography>
       </Box>
       <Divider />
@@ -80,7 +65,7 @@ export default function OrderSummary() {
       <Typography variant="body1" mt={4}>
         Arrives Fri, Oct 4 - Thu, Oct 10
       </Typography>
-      {data?.map((item, index) => {
+      {cart.data?.map((item, index) => {
         return (
           <Box key={index} mt={2}>
             <OrderItem

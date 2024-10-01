@@ -281,6 +281,16 @@ export async function fetchCartItems() {
   );
 }
 
+export type RTCartPrice = {
+  subTotal: number;
+  fee: number;
+  total: number;
+};
+
+export async function fetchCartPrice() {
+  return await getAPI<RTCartPrice>("http://localhost:3003/cart/cart-price", {});
+}
+
 export type RTDeleteCartItem = {
   success: boolean;
   message: string;

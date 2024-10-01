@@ -1,6 +1,8 @@
 import { useUserEmail } from "@datn/hooks/useUserId";
+import { useCommonDataSelector } from "@datn/redux/hook";
 import { Box, Divider, TextField, Typography } from "@mui/material";
 import { useState } from "react";
+import SelectAddress from "./Address";
 
 export default function DeliveryForm() {
   const userEmail = useUserEmail();
@@ -10,6 +12,10 @@ export default function DeliveryForm() {
   const [lastName, setLastName] = useState<string>("");
   const [address, setAddress] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
+  const { data } = useCommonDataSelector().price;
+  const [country, setCountry] = useState<string>("Vietnam");
+  const [states, setStates] = useState<string>("Hà Nội");
+
   return (
     <Box>
       <Typography variant="h2" mb={8}>
@@ -44,6 +50,12 @@ export default function DeliveryForm() {
             sx={{ mb: 3 }}
             // helperText={helperText.lastName || " "}
           />
+          <SelectAddress
+            country={country}
+            states={states}
+            handleCountryChange={setCountry}
+            handleStateChange={setStates}
+          />
           <TextField
             value={address}
             type="text"
@@ -57,7 +69,7 @@ export default function DeliveryForm() {
             // helperText={helperText.lastName || " "}
           />
         </Box>
-        <Box>
+        <Box mb={3}>
           <Typography variant="h4" mb={3}>
             What's your contact information
           </Typography>
@@ -86,9 +98,27 @@ export default function DeliveryForm() {
             fullWidth
             onChange={(e) => setPhone(e.target.value)}
             // error={helperText.firstName ? true : false}
-            sx={{ mb: 3 }}
+            sx={{ mb: 10 }}
             // helperText={helperText.firstName || " "}
           />
+          <Divider />
+        </Box>
+        <Box>
+          <Typography variant="h2" mb={8}>
+            Shipping
+          </Typography>
+          <Typography variant="body1" color="text.secondary" mb={3}>{`${
+            data?.fee == 0 ? "Free Shipping" : "10$ Shipping"
+          }`}</Typography>
+          <Typography variant="body1" color="text.secondary" mb={1}>
+            Shipment One
+          </Typography>
+          <Typography variant="body1" color="text.secondary">
+            Arrives Fri, Oct 4 - Thu, Oct 10
+          </Typography>
+          <Typography variant="body1" color="text.secondary" mt={3}>
+            This is an international shipment requiring customs clearance
+          </Typography>
         </Box>
       </form>
     </Box>

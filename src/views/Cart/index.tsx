@@ -1,5 +1,8 @@
 import { useAppDispatch, useCommonDataSelector } from "@datn/redux/hook";
-import { getCartItems } from "@datn/redux/slices/common/fetchFunction";
+import {
+  getCartItems,
+  getCartPrice,
+} from "@datn/redux/slices/common/fetchFunction";
 import {
   Box,
   Button,
@@ -15,26 +18,14 @@ import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import { Link } from "react-router-dom";
 
 export default function Cart() {
-  const [fee, setFee] = useState<number>(10);
-  const { data, status } = useCommonDataSelector().cart;
+  const { cart, price } = useCommonDataSelector();
   const dispatch = useAppDispatch();
-
-  const subTotal = useMemo(() => {
-    return data?.reduce((sum, item) => sum + item.quantity * item.price, 0);
-  }, [data]);
-
-  const total = useMemo(() => {
-    if (!subTotal) return 0;
-    if (subTotal < 200) {
-      setFee(10);
-    } else {
-      setFee(0);
-    }
-    return subTotal + fee;
-  }, [subTotal, fee]);
 
   useEffect(() => {
     dispatch(getCartItems());
+  }, [dispatch]);
+  useEffect(() => {
+    dispatch(getCartPrice());
   }, [dispatch]);
 
   return (
@@ -48,7 +39,7 @@ export default function Cart() {
           py: 10,
         }}
       >
-        {status === "SUCCESS" && data && data.length > 0 && (
+        {cart.status === "SUCCESS" && cart.data && cart.data.length > 0 && (
           <Grid2
             container
             spacing={4}
@@ -58,7 +49,7 @@ export default function Cart() {
               <Typography variant="h3" mb={4}>
                 Bag
               </Typography>
-              {data?.map((item) => {
+              {cart.data?.map((item) => {
                 return (
                   <Box key={item.productId}>
                     <CartItem
@@ -98,7 +89,7 @@ export default function Cart() {
                   </Tooltip>
                 </Box>
                 <Typography variant="body1" fontWeight={600}>
-                  {subTotal}$
+                  {price.data?.subTotal}$
                 </Typography>
               </Box>
               <Box
@@ -113,7 +104,7 @@ export default function Cart() {
                   Estimated Delivery & Handling
                 </Typography>
                 <Typography variant="body1" fontWeight={600}>
-                  {`${fee == 0 ? "Free" : `${fee}$`}`}
+                  {`${price.data?.fee == 0 ? "Free" : `${price.data?.fee}$`}`}
                 </Typography>
               </Box>
               <Divider />
@@ -127,7 +118,7 @@ export default function Cart() {
               >
                 <Typography variant="body1">Total</Typography>
                 <Typography variant="body1" fontWeight={600}>
-                  {total}$
+                  {price.data?.total}$
                 </Typography>
               </Box>
               <Divider />
@@ -143,7 +134,9 @@ export default function Cart() {
             </Grid2>
           </Grid2>
         )}
-        {status === "SUCCESS" && data && data.length == 0 && <Nodata />}
+        {cart.status === "SUCCESS" && cart.data && cart.data.length == 0 && (
+          <Nodata />
+        )}
       </Container>
     </Box>
   );
