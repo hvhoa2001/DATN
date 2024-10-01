@@ -77,6 +77,7 @@ export async function verifyToken(): Promise<VerifyTokenReturnType> {
 export type RTUserName = {
   userName: string;
   userId: string;
+  userEmail: string;
 };
 
 export async function fetchUserName() {
@@ -102,6 +103,8 @@ export type RTFavorites = {
   name: string;
   price: number;
   image: string;
+  size: number;
+  color: string;
 }[];
 
 export async function featFavorites() {
@@ -116,6 +119,8 @@ export type TNewFavorite = {
   name: string;
   price: number;
   image: string;
+  color?: string;
+  size?: number;
 };
 
 export type RTNewFavorite = {
@@ -123,6 +128,8 @@ export type RTNewFavorite = {
   productId: string;
   name: string;
   price: number;
+  color?: string;
+  size?: number;
 };
 
 export async function createFavorite({
@@ -130,6 +137,8 @@ export async function createFavorite({
   name,
   price,
   image,
+  color,
+  size,
 }: TNewFavorite): Promise<RTNewFavorite> {
   return await postAPI<RTNewFavorite>(
     "http://localhost:3003/favorite/new-favorite",
@@ -138,6 +147,8 @@ export async function createFavorite({
       name: name,
       price: price,
       image: image,
+      color: color,
+      size: size,
     },
     {}
   );
@@ -249,6 +260,47 @@ export async function createCartItem({
       image: image,
       size: size,
     },
+    {}
+  );
+}
+
+export type RTCartItems = {
+  productId: string;
+  name: string;
+  price: number;
+  color: string;
+  image: string;
+  size: number;
+  quantity: number;
+}[];
+
+export async function fetchCartItems() {
+  return await getAPI<RTCartItems>(
+    "http://localhost:3003/cart/get-cart-items",
+    {}
+  );
+}
+
+export type RTCartPrice = {
+  subTotal: number;
+  fee: number;
+  total: number;
+};
+
+export async function fetchCartPrice() {
+  return await getAPI<RTCartPrice>("http://localhost:3003/cart/cart-price", {});
+}
+
+export type RTDeleteCartItem = {
+  success: boolean;
+  message: string;
+};
+
+export async function deleteCartItem(
+  productId: string
+): Promise<RTDeleteCartItem> {
+  return await deleteAPI<RTDeleteCartItem>(
+    `http://localhost:3003/cart/delete-cart-item?productId=${productId}`,
     {}
   );
 }

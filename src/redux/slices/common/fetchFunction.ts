@@ -1,5 +1,7 @@
 import {
   featFavorites,
+  fetchCartItems,
+  fetchCartPrice,
   fetchReviewList,
   fetchUserName,
   fetchUserProfile,
@@ -34,3 +36,13 @@ export const getReviewList = createAsyncThunk(
     return res;
   }
 );
+
+export const getCartItems = createAsyncThunk("common/cart-items", async () => {
+  const res = await fetchCartItems();
+  return res;
+});
+
+export const getCartPrice = createAsyncThunk("common/cart-price", async () => {
+  const res = await fetchCartPrice();
+  return res;
+});

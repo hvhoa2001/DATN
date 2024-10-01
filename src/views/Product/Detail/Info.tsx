@@ -1,6 +1,5 @@
 import FreeDelivery from "@datn/common/Product/FreeDelivery";
 import Reviews from "@datn/common/Product/Reviews";
-import { useProductSelector } from "@datn/redux/hook";
 import { Box, Button, Typography } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { createCartItem, createFavorite } from "@datn/api/services";
@@ -10,16 +9,17 @@ import { useProductContext } from "../context";
 
 export default function Info() {
   const productId = useProductId();
-  const { data } = useProductSelector().productDetail;
-  const { selectedSize, selectedVariant } = useProductContext();
+  const { selectedSize, selectedVariant, productData } = useProductContext();
 
   const handleFavorite = async () => {
     try {
       await createFavorite({
         productId: productId || "",
-        name: data?.name || "",
-        price: data?.price || 0,
-        image: data?.image[0] || "",
+        name: productData?.name || "",
+        price: selectedVariant?.currentPrice || 0,
+        image: selectedVariant?.preview || "",
+        color: selectedVariant?.color || "",
+        size: selectedSize || undefined,
       });
     } catch (error) {
       throw error;
@@ -30,11 +30,11 @@ export default function Info() {
     try {
       await createCartItem({
         productId: productId || "",
-        name: data?.name || "",
-        price: data?.price || 0,
+        name: productData?.name || "",
+        price: selectedVariant?.currentPrice || 0,
         quantity: 1,
         color: selectedVariant?.color || "",
-        image: data?.image[0] || "",
+        image: selectedVariant?.preview || "",
         size: selectedSize || 0,
       });
     } catch (error) {
@@ -45,10 +45,10 @@ export default function Info() {
   return (
     <Box sx={{ width: "100%", overflowX: "auto" }}>
       <Typography variant="h4" fontWeight={600}>
-        {data?.name}
+        {productData?.name}
       </Typography>
       <Typography variant="body1" fontWeight={600} py={4}>
-        {data?.price}$
+        {selectedVariant?.currentPrice}$
       </Typography>
       <Select />
       <Box sx={{ mb: 4 }}>
@@ -57,6 +57,7 @@ export default function Info() {
           variant="contained"
           sx={{ borderRadius: "20px", height: "56px", mb: 2 }}
           onClick={handleAddCart}
+          disabled={selectedVariant?.isSoldOut}
         >
           <Typography variant="body1" fontWeight={600}>
             Add to Bag
@@ -74,16 +75,18 @@ export default function Info() {
           </Typography>
         </Button>
       </Box>
-      <Typography variant="body1">{data?.description}</Typography>
+      <Typography variant="body1">{productData?.description}</Typography>
       <ul>
         <li style={{ paddingBottom: "8px" }}>
-          <Typography>Color Shown:</Typography>
+          <Typography>Color Shown: {selectedVariant?.color}</Typography>
         </li>
         <li style={{ paddingBottom: "8px" }}>
-          <Typography>Style: {data?.style}</Typography>
+          <Typography>Style: {selectedVariant?.style}</Typography>
         </li>
         <li style={{ paddingBottom: "8px" }}>
-          <Typography>Country/Region of Origin: {data?.madeIn}</Typography>
+          <Typography>
+            Country/Region of Origin: {selectedVariant?.madeIn}
+          </Typography>
         </li>
       </ul>
       <Box sx={{ mb: 2 }}>

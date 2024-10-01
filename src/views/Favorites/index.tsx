@@ -12,7 +12,7 @@ import { useEffect } from "react";
 import FavoriteItem from "./FavoriteItem";
 import { Link } from "react-router-dom";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { deleteFavorite } from "@datn/api/services";
+import { createCartItem, deleteFavorite } from "@datn/api/services";
 
 export default function FavoritesPage() {
   const { data, status } = useCommonDataSelector().favorite;
@@ -64,6 +64,21 @@ export default function FavoritesPage() {
                   <Button
                     variant="outlined"
                     sx={{ borderRadius: "20px", mt: 3 }}
+                    onClick={async () => {
+                      try {
+                        await createCartItem({
+                          productId: item.productId,
+                          name: item.name,
+                          price: item.price,
+                          quantity: 1,
+                          color: item.color,
+                          image: item.image,
+                          size: item.size,
+                        });
+                      } catch (error) {
+                        throw error;
+                      }
+                    }}
                   >
                     Add to Bag
                   </Button>
@@ -96,7 +111,7 @@ export default function FavoritesPage() {
             })}
           </Grid2>
         )}
-        {status == "SUCCESS" && data && data?.length == 0 && <Nodata />}
+        {status == "SUCCESS" && data && data.length == 0 && <Nodata />}
       </Container>
     </Box>
   );

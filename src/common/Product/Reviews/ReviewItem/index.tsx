@@ -1,3 +1,4 @@
+import SeeMoreContent from "@datn/common/SeeMoreContent";
 import { formatTime } from "@datn/utils/format";
 import { Box, Rating, Typography } from "@mui/material";
 
@@ -34,7 +35,7 @@ export default function ReviewItem({
           {userName} - {formatTime(createdAt / 1000, { date: true })}
         </Typography>
       </Box>
-      <Typography variant="body1">{content}</Typography>
+      <SeeMoreContent text={content} />
     </Box>
   );
 }

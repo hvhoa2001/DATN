@@ -66,7 +66,7 @@ export function getThemeConfig(): ThemeOptions {
     },
     typography: {
       h1: buildVariant(700, 44, 54, 0),
-      h2: buildVariant(700, 40, 50, 0),
+      h2: buildVariant(700, 32, 40, 0),
       h3: buildVariant(500, 24, 29, 0),
       h4: buildVariant(500, 20, 27, 0),
       subtitle1: buildVariant(500, 18, 20, 0),
@@ -110,6 +110,15 @@ export function getThemedComponent(theme: Theme): ThemeOptions {
       MuiLink: {
         defaultProps: {
           underline: "none",
+        },
+      },
+
+      MuiDivider: {
+        styleOverrides: {
+          root: {
+            height: 1,
+            backgroundColor: "#7E7E7E",
+          },
         },
       },
 
