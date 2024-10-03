@@ -18,6 +18,8 @@ export type ProductContextType = {
   selectedVariantIndex: number;
   setSelectedVariantIndex: Dispatch<SetStateAction<number>>;
   selectedSize: number | null;
+  sizeId: string | undefined;
+  setSizeId: Dispatch<SetStateAction<string>>;
   setSelectedSize: Dispatch<SetStateAction<number | null>>;
   selectedVariant: RTVariantDetail | undefined;
   productData: RTProductDetail | undefined;
@@ -34,12 +36,15 @@ export default function ProductContextProvider({
   const { product, variantDetail, productDetail } = useProductSelector();
   const [selectedVariantIndex, setSelectedVariantIndex] = useState<number>(0);
   const [selectedSize, setSelectedSize] = useState<number | null>(null);
+  const [sizeId, setSizeId] = useState<string>("");
   const selectedVariant = variantDetail.data;
   const productData = productDetail.data;
   const commonData = product.data;
 
   const contextValue: ProductContextType = useMemo(() => {
     return {
+      sizeId,
+      setSizeId,
       commonData,
       productData,
       selectedVariantIndex,
@@ -51,10 +56,12 @@ export default function ProductContextProvider({
   }, [
     commonData,
     productData,
+    sizeId,
     selectedSize,
     selectedVariantIndex,
     selectedVariant,
     setSelectedSize,
+    setSizeId,
     setSelectedVariantIndex,
   ]);
 

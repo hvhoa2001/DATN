@@ -12,21 +12,54 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import CartItem from "./CartItem";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import { Link } from "react-router-dom";
+import { checkQuantity } from "@datn/api/services";
 
 export default function Cart() {
   const { cart, price } = useCommonDataSelector();
+  const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({});
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(getCartItems());
-  }, [dispatch]);
-  useEffect(() => {
     dispatch(getCartPrice());
   }, [dispatch]);
+
+  const handleCheckQuantity = async (variantId: string, sizeId: string) => {
+    try {
+      const check = await checkQuantity({
+        variantId: variantId,
+        sizeId: sizeId,
+      });
+      return check.valid;
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+  };
+
+  useEffect(() => {
+    const checkAllItems = async () => {
+      if (cart.status === "SUCCESS" && cart.data) {
+        const checkResults: Record<string, boolean> = {};
+
+        for (const item of cart.data) {
+          const isValid = await handleCheckQuantity(
+            item.variantId,
+            item.sizeId
+          );
+          checkResults[`${item.variantId}-${item.sizeId}`] = isValid;
+        }
+
+        setCheckedItems(checkResults);
+      }
+    };
+
+    checkAllItems();
+  }, [cart]);
 
   return (
     <Box component={"section"}>
@@ -50,6 +83,9 @@ export default function Cart() {
                 Bag
               </Typography>
               {cart.data?.map((item) => {
+                const isChecked =
+                  checkedItems[`${item.variantId}-${item.sizeId}`] || false;
+
                 return (
                   <Box key={item.productId}>
                     <CartItem
@@ -60,6 +96,7 @@ export default function Cart() {
                       price={item.price}
                       quantity={item.quantity}
                       size={item.size}
+                      checkQuantity={isChecked}
                     />
                   </Box>
                 );

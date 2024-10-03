@@ -9,17 +9,20 @@ import { useProductContext } from "../context";
 
 export default function Info() {
   const productId = useProductId();
-  const { selectedSize, selectedVariant, productData } = useProductContext();
+  const { selectedSize, selectedVariant, productData, sizeId } =
+    useProductContext();
 
   const handleFavorite = async () => {
     try {
       await createFavorite({
         productId: productId || "",
+        variantId: selectedVariant?.variantId || "",
         name: productData?.name || "",
         price: selectedVariant?.currentPrice || 0,
         image: selectedVariant?.preview || "",
         color: selectedVariant?.color || "",
         size: selectedSize || undefined,
+        sizeId: sizeId,
       });
     } catch (error) {
       throw error;
@@ -36,6 +39,8 @@ export default function Info() {
         color: selectedVariant?.color || "",
         image: selectedVariant?.preview || "",
         size: selectedSize || 0,
+        sizeId: sizeId || "",
+        variantId: selectedVariant?.variantId || "",
       });
     } catch (error) {
       throw error;

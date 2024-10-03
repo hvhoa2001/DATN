@@ -7,6 +7,7 @@ export default function Select() {
     selectedVariant,
     selectedVariantIndex,
     setSelectedSize,
+    setSizeId,
     setSelectedVariantIndex,
     productData,
   } = useProductContext();
@@ -78,6 +79,7 @@ export default function Select() {
                 onClick={() => {
                   if (sizeObj.stockQuantity > 0) {
                     setSelectedSize(sizeObj.size);
+                    setSizeId(sizeObj._id);
                   }
                 }}
               >

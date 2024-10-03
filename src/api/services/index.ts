@@ -84,13 +84,13 @@ export async function fetchUserName() {
   return await getAPI<RTUserName>("http://localhost:3003/user/getUsername", {});
 }
 
-export type RTCheckEmail = {
+export type RTCheckData = {
   valid: boolean;
   message: string;
 };
 
 export async function checkEmail({ email }: { email: string }) {
-  return await getAPI<RTCheckEmail>(
+  return await getAPI<RTCheckData>(
     `http://localhost:3003/auth/checkEmail?email=${email}`,
     {}
   );
@@ -100,6 +100,8 @@ export async function checkEmail({ email }: { email: string }) {
 
 export type RTFavorites = {
   productId: string;
+  variantId: string;
+  sizeId: string;
   name: string;
   price: number;
   image: string;
@@ -116,6 +118,8 @@ export async function featFavorites() {
 
 export type TNewFavorite = {
   productId: string;
+  variantId: string;
+  sizeId?: string;
   name: string;
   price: number;
   image: string;
@@ -126,6 +130,7 @@ export type TNewFavorite = {
 export type RTNewFavorite = {
   favoriteId: string;
   productId: string;
+  variantId: string;
   name: string;
   price: number;
   color?: string;
@@ -133,6 +138,8 @@ export type RTNewFavorite = {
 };
 
 export async function createFavorite({
+  sizeId,
+  variantId,
   productId,
   name,
   price,
@@ -144,6 +151,8 @@ export async function createFavorite({
     "http://localhost:3003/favorite/new-favorite",
     {
       productId: productId,
+      variantId: variantId,
+      sizeId: sizeId,
       name: name,
       price: price,
       image: image,
@@ -224,6 +233,8 @@ export async function createReview({
 // Cart ************************************************
 export type TCartItem = {
   productId: string;
+  variantId: string;
+  sizeId: string;
   name: string;
   price: number;
   quantity: number;
@@ -241,6 +252,8 @@ export type RTCartItem = {
 };
 
 export async function createCartItem({
+  variantId,
+  sizeId,
   productId,
   name,
   price,
@@ -253,6 +266,8 @@ export async function createCartItem({
     "http://localhost:3003/cart/new-cart-item",
     {
       productId: productId,
+      variantId: variantId,
+      sizeId: sizeId,
       name: name,
       price: price,
       quantity: quantity,
@@ -266,6 +281,8 @@ export async function createCartItem({
 
 export type RTCartItems = {
   productId: string;
+  variantId: string;
+  sizeId: string;
   name: string;
   price: number;
   color: string;
@@ -301,6 +318,19 @@ export async function deleteCartItem(
 ): Promise<RTDeleteCartItem> {
   return await deleteAPI<RTDeleteCartItem>(
     `http://localhost:3003/cart/delete-cart-item?productId=${productId}`,
+    {}
+  );
+}
+
+export async function checkQuantity({
+  variantId,
+  sizeId,
+}: {
+  variantId: string;
+  sizeId: string;
+}) {
+  return await getAPI<RTCheckData>(
+    `http://localhost:3003/cart/check-quantity?variantId=${variantId}&sizeId=${sizeId}`,
     {}
   );
 }

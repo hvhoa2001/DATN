@@ -13,6 +13,7 @@ type Props = {
   price: number;
   quantity: number;
   image: string;
+  checkQuantity: boolean;
 };
 
 export default function CartItem({
@@ -23,6 +24,7 @@ export default function CartItem({
   quantity,
   image,
   productId,
+  checkQuantity,
 }: Props) {
   const dispatch = useAppDispatch();
   const handleDelete = async (productId: string) => {
@@ -39,6 +41,7 @@ export default function CartItem({
         sx={{
           display: "flex",
           justifyContent: "space-between",
+          opacity: checkQuantity ? 1 : 0.5,
         }}
       >
         <Box sx={{ display: "flex" }}>
