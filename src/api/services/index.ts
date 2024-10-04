@@ -298,6 +298,10 @@ export async function fetchCartItems() {
   );
 }
 
+export async function fetchCheckoutItems() {
+  return await getAPI<RTCartItems>("http://localhost:3003/cart/checkout", {});
+}
+
 export type RTCartPrice = {
   subTotal: number;
   fee: number;

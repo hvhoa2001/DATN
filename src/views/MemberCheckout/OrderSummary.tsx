@@ -1,9 +1,15 @@
 import { Box, Divider, Tooltip, Typography } from "@mui/material";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
-import { useCommonDataSelector } from "@datn/redux/hook";
+import { useAppDispatch, useCommonDataSelector } from "@datn/redux/hook";
+import { useEffect } from "react";
+import { getCheckout } from "@datn/redux/slices/common/fetchFunction";
 
 export default function OrderSummary() {
-  const { cart, price } = useCommonDataSelector();
+  const { checkout, price } = useCommonDataSelector();
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(getCheckout());
+  });
 
   return (
     <Box>
@@ -65,7 +71,7 @@ export default function OrderSummary() {
       <Typography variant="body1" mt={4}>
         Arrives Fri, Oct 4 - Thu, Oct 10
       </Typography>
-      {cart.data?.map((item, index) => {
+      {checkout.data?.map((item, index) => {
         return (
           <Box key={index} mt={2}>
             <OrderItem
