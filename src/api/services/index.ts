@@ -338,3 +338,41 @@ export async function checkQuantity({
     {}
   );
 }
+
+// Orders ****************************************************************
+type StatusOrder = "In process" | "Delivered" | "Completed" | "Cancelled";
+type PaymentMethod = "NFTs" | "Credit Card";
+export type TOrder = {
+  userName: string;
+  totalAmount: number;
+  shippingAddress: string;
+  paymentMethod: PaymentMethod;
+};
+
+export type RTOrder = {
+  orderId: string;
+  userName: string;
+  orderDate: number;
+  totalAmount: number;
+  status: StatusOrder;
+  shippingAddress: string;
+  paymentMethod: PaymentMethod;
+};
+
+export async function createOrder({
+  userName,
+  totalAmount,
+  shippingAddress,
+  paymentMethod,
+}: TOrder): Promise<RTOrder> {
+  return await postAPI<RTOrder>(
+    "http://localhost:3003/order/create-order",
+    {
+      userName: userName,
+      totalAmount: totalAmount,
+      shippingAddress: shippingAddress,
+      paymentMethod: paymentMethod,
+    },
+    {}
+  );
+}
