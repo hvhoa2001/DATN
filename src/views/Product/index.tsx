@@ -10,7 +10,7 @@ export default function ProductsPage() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(getProducts());
+    dispatch(getProducts({ name: "" }));
   }, [dispatch]);
 
   return (

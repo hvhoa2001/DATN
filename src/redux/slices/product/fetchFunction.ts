@@ -5,10 +5,13 @@ import {
 } from "@datn/api/services/product-api";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-export const getProducts = createAsyncThunk("products/products", async () => {
-  const res = await featProducts();
-  return res;
-});
+export const getProducts = createAsyncThunk(
+  "products/products",
+  async ({ name }: { name?: string }) => {
+    const res = await featProducts({ name });
+    return res;
+  }
+);
 
 export const getProductDetail = createAsyncThunk(
   "products/product-detail",
