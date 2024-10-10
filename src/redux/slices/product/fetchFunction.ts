@@ -7,8 +7,8 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const getProducts = createAsyncThunk(
   "products/products",
-  async ({ name }: { name?: string }) => {
-    const res = await featProducts({ name });
+  async ({ name, category }: { name?: string; category?: string }) => {
+    const res = await featProducts({ name, category });
     return res;
   }
 );

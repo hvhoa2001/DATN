@@ -12,9 +12,15 @@ export type RTProducts = {
   variants: Array<RTVariantDetail>;
 }[];
 
-export async function featProducts({ name }: { name?: string }) {
+export async function featProducts({
+  name,
+  category,
+}: {
+  name?: string;
+  category?: string;
+}) {
   return await getAPI<RTProducts>(
-    `http://localhost:3003/product/getAllProducts?name=${name}`,
+    `http://localhost:3003/product/getAllProducts?name=${name}&category=${category}`,
     {}
   );
 }

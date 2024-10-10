@@ -5,13 +5,17 @@ import { useEffect, useMemo } from "react";
 import ProductItem from "./ProductItem";
 import { Link } from "react-router-dom";
 import ProductContextProvider, { useProductContext } from "./context";
+import { useCategory } from "@datn/hooks/useCategory";
 
 export default function ProductsPage() {
   const dispatch = useAppDispatch();
+  const category = useCategory();
 
   useEffect(() => {
-    dispatch(getProducts({ name: "" }));
-  }, [dispatch]);
+    dispatch(
+      getProducts({ name: "", category: category?.replace(/-/g, " ") || "" })
+    );
+  }, [dispatch, category]);
 
   return (
     <ProductContextProvider>
@@ -55,7 +59,7 @@ function ProductComponent() {
             return (
               <Grid2 size={{ xs: 12, sm: 6, md: 4 }} key={item.productId}>
                 <Link
-                  to={`/products/${item.productId}`}
+                  to={`/products/d/${item.productId}`}
                   style={{ textDecoration: "none" }}
                 >
                   <ProductItem

@@ -38,7 +38,7 @@ export default function Search() {
   }, [data]);
 
   const debounceSubmit = useDebounce(() => {
-    dispatch(getProducts({ name: name }));
+    dispatch(getProducts({ name: name, category: "" }));
   }, 500);
 
   useEffect(() => {
@@ -69,7 +69,19 @@ export default function Search() {
           <SearchIcon fontSize="large" />
         </IconButton>
       </Box>
-      <Drawer open={open} onClose={toggleDrawer(false)} anchor="top">
+      <Drawer
+        open={open}
+        onClose={toggleDrawer(false)}
+        anchor="top"
+        className="hidden-scrollbar"
+        sx={{
+          "& .MuiDrawer-paper": {
+            overflow: "hidden",
+            px: 3,
+            pb: 2,
+          },
+        }}
+      >
         <Box
           sx={{
             width: "100vw",
@@ -78,7 +90,7 @@ export default function Search() {
             justifyContent: "center",
           }}
         >
-          <Box>
+          <Box mb={4}>
             <Box sx={{ display: { xs: "none", md: "block" } }}>
               <TextField
                 id="input-with-icon-textfield"
@@ -119,10 +131,11 @@ export default function Search() {
               (i) => i.productId === item.productId
             );
             return (
-              <Grid2 size={{ xs: 12, sm: 6, md: 4 }} key={item.productId}>
+              <Grid2 size={{ xs: 4, sm: 2 }} key={item.productId}>
                 <Link
-                  to={`/products/${item.productId}`}
+                  to={`/products/d/${item.productId}`}
                   style={{ textDecoration: "none" }}
+                  onClick={toggleDrawer(false)}
                 >
                   <ProductItem
                     id={item.productId}

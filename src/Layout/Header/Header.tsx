@@ -7,7 +7,7 @@ import {
   Container,
   Drawer,
   IconButton,
-  Link,
+  // Link,
   Paper,
   Stack,
   Theme,
@@ -26,6 +26,7 @@ import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import Search from "@datn/common/Search";
 import AuthState from "@datn/common/AuthState";
+import { Link } from "react-router-dom";
 
 function MobileNav() {
   const [open, setOpen] = useState(false);
@@ -200,7 +201,7 @@ function DropDownMenu({ nav }: { nav: NavConfigItem }) {
         >
           {nav.subPage?.map((item) => (
             <Box key={item.id} sx={{ my: 2 }}>
-              <StyledSub
+              {/* <StyledSub
                 color="text.primary"
                 href={item.href ? item.href : ""}
                 {...(item.isExternal
@@ -211,7 +212,15 @@ function DropDownMenu({ nav }: { nav: NavConfigItem }) {
                   : {})}
               >
                 {item.title}
-              </StyledSub>
+              </StyledSub> */}
+              <Link
+                to={`/products/c/${item.id.replace(/\s+/g, "-")}`}
+                style={{ textDecoration: "none" }}
+              >
+                <Typography variant="body1" color="text.primary">
+                  {item.title}
+                </Typography>
+              </Link>
             </Box>
           ))}
         </Paper>
@@ -227,6 +236,7 @@ export default function Header({ headerHeight }: { headerHeight: string }) {
     typeof window !== "undefined" ? window.scrollY : -1
   );
   const [isTop, setIsTop] = useState(false);
+  const theme = useTheme();
 
   useEffect(() => {
     const scrollHandler = () => {
@@ -295,8 +305,7 @@ export default function Header({ headerHeight }: { headerHeight: string }) {
             width: "100%",
           }}
         >
-          <Link
-            href={"/"}
+          <Box
             sx={(theme: Theme) => ({
               img: {
                 width: 124,
@@ -308,12 +317,14 @@ export default function Header({ headerHeight }: { headerHeight: string }) {
               flex: 2,
             })}
           >
-            <img
-              src={LogoImg}
-              alt="nike-logo"
-              style={{ width: 58, height: "auto" }}
-            />
-          </Link>
+            <Link to={"/"}>
+              <img
+                src={LogoImg}
+                alt="nike-logo"
+                style={{ width: 58, height: "auto" }}
+              />
+            </Link>
+          </Box>
           <Box sx={{ flex: 6.5 }}>
             <Box sx={{ display: { xs: "none", md: "block" } }}>
               <Box
@@ -343,13 +354,13 @@ export default function Header({ headerHeight }: { headerHeight: string }) {
               >
                 <Search />
                 <Tooltip title="Favorites">
-                  <Link href="/favorite" underline="none">
+                  <Link to="/favorite" style={{ textDecoration: "none" }}>
                     <IconButton>
                       <FavoriteBorderOutlinedIcon fontSize="large" />
                     </IconButton>
                   </Link>
                 </Tooltip>
-                <Link href="/cart">
+                <Link to="/cart">
                   <Tooltip title="Bag Items">
                     <IconButton>
                       <ShoppingBagOutlinedIcon fontSize="large" />
