@@ -100,6 +100,7 @@ export default function LoginEmail() {
       //   }
       const res = await Login({ email: email, password: password });
       setStorageItem("jwt", res.jwt);
+      setStorageItem("role", res.role);
       setLoading(false);
       navigate("/");
     } catch (error) {

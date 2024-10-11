@@ -34,6 +34,7 @@ export default function AuthContextProvider({ children }: PropsWithChildren) {
       } else {
         setIsLoggedIn(false);
         localStorage?.removeItem("jwt");
+        localStorage?.removeItem("role");
       }
       setStatus("SUCCESS");
     } catch (e) {
@@ -49,12 +50,14 @@ export default function AuthContextProvider({ children }: PropsWithChildren) {
     });
     if (res.success) {
       localStorage.setItem("jwt", res.jwt);
+      localStorage.setItem("role", res.role);
       setIsLoggedIn(true);
     }
   }, []);
 
   const logout = useCallback(() => {
     localStorage.removeItem("jwt");
+    localStorage.removeItem("role");
     setIsLoggedIn(false);
   }, []);
 

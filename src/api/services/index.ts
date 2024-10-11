@@ -4,6 +4,7 @@ import { deleteAPI, getAPI, postAPI } from "../fetchFunction";
 type LoginReturnType = {
   success: boolean;
   jwt: string;
+  role: string;
 };
 
 export async function Login({
