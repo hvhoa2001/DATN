@@ -41,6 +41,7 @@ declare module "@mui/material/styles/createPalette" {
 
   interface TypeText {
     tertiary: string;
+    active: string;
   }
 }
 

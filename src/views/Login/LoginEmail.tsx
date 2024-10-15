@@ -102,7 +102,14 @@ export default function LoginEmail() {
       setStorageItem("jwt", res.jwt);
       setStorageItem("role", res.role);
       setLoading(false);
-      navigate("/");
+      let role = localStorage?.getItem("role");
+      if (role) {
+        if (role === "user") {
+          navigate("/products");
+        } else if (role === "admin") {
+          navigate("/admin");
+        }
+      }
     } catch (error) {
       setLoading(false);
     }

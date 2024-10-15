@@ -41,7 +41,7 @@ export function getThemeConfig(): ThemeOptions {
       background: {
         default: "#000000",
         paper: "#181818",
-        paper2: "",
+        paper2: "#12212C",
         primary: "#0E1D27",
         secondary: "#172731",
       },
@@ -55,6 +55,7 @@ export function getThemeConfig(): ThemeOptions {
         primary: "#FFFFFF",
         secondary: "#D3D5D5",
         tertiary: "#AE212C",
+        active: "#1D3142",
       },
       success: {
         main: "#15C381",

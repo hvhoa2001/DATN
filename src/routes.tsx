@@ -1,8 +1,7 @@
 import React from "react";
-import { useRoutes } from "react-router-dom";
+import { Navigate, useRoutes } from "react-router-dom";
 import FavoritesPage from "./views/Favorites";
 import RequireRole from "./common/RequireRoleProps";
-import AdminPage from "./views/Admin";
 
 const Layout = React.lazy(() => import("./Layout/Layout"));
 const FirstPage = React.lazy(() => import("./views/home/FirstPage"));
@@ -11,6 +10,9 @@ const Login = React.lazy(() => import("./views/Login"));
 const ProductsPage = React.lazy(() => import("./views/Product"));
 const ProductDetail = React.lazy(() => import("./views/Product/Detail"));
 const MemberCheckout = React.lazy(() => import("./views/MemberCheckout/"));
+const AdminProducts = React.lazy(() => import("./Admin/views/Products"));
+const AdminLayout = React.lazy(() => import("./Admin/Layout"));
+const Dashboard = React.lazy(() => import("./Admin/views/Dashboard"));
 
 export default function RouterUrl() {
   return useRoutes([
@@ -53,9 +55,13 @@ export default function RouterUrl() {
       path: "admin",
       element: (
         <RequireRole allowedRoles={["admin"]}>
-          <AdminPage />
+          <AdminLayout />
         </RequireRole>
       ),
+      children: [
+        { path: "products", element: <AdminProducts /> },
+        { path: "dashboard", element: <Dashboard /> },
+      ],
     },
   ]);
 }

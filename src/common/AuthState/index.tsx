@@ -6,7 +6,6 @@ import {
   Link,
   MenuItem,
   Popover,
-  Tooltip,
   Typography,
 } from "@mui/material";
 import Person2OutlinedIcon from "@mui/icons-material/Person2Outlined";
@@ -42,7 +41,7 @@ export default function AuthState() {
 
   useEffect(() => {
     checkAuthState();
-  }, []);
+  }, [checkAuthState]);
 
   useEffect(() => {
     if (userId) {
