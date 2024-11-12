@@ -13,6 +13,7 @@ const MemberCheckout = React.lazy(() => import("./views/MemberCheckout/"));
 const AdminProducts = React.lazy(() => import("./Admin/views/Products"));
 const AdminLayout = React.lazy(() => import("./Admin/Layout"));
 const Dashboard = React.lazy(() => import("./Admin/views/Dashboard"));
+const GoogleCallback = React.lazy(() => import("./common/LoginGoogleButton"));
 
 export default function RouterUrl() {
   return useRoutes([
@@ -63,5 +64,6 @@ export default function RouterUrl() {
         { path: "dashboard", element: <Dashboard /> },
       ],
     },
+    { path: "/auth/google/callback", element: <GoogleCallback /> },
   ]);
 }

@@ -107,7 +107,7 @@ export default function LoginEmail() {
         if (role === "user") {
           navigate("/products");
         } else if (role === "admin") {
-          navigate("/admin");
+          navigate("/admin/dashboard");
         }
       }
     } catch (error) {

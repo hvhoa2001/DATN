@@ -1,4 +1,4 @@
-import { Login, verifyToken } from "@datn/api/services";
+import { GoogleCallback, Login, verifyToken } from "@datn/api/services";
 import { StateStatus } from "@datn/common/component";
 import {
   createContext,
@@ -14,6 +14,7 @@ export type AuthContextType = {
   status: StateStatus;
   checkAuthState: () => void;
   login: (email: string, password: string) => Promise<void>;
+  loginGoogle: () => void;
   logout: () => void;
 };
 
@@ -55,6 +56,15 @@ export default function AuthContextProvider({ children }: PropsWithChildren) {
     }
   }, []);
 
+  const loginGoogle = useCallback(async () => {
+    const res = await GoogleCallback();
+    if (res.success) {
+      localStorage.setItem("jwt", res.jwt);
+      localStorage.setItem("role", res.role);
+      setIsLoggedIn(true);
+    }
+  }, []);
+
   const logout = useCallback(() => {
     localStorage.removeItem("jwt");
     localStorage.removeItem("role");
@@ -68,8 +78,9 @@ export default function AuthContextProvider({ children }: PropsWithChildren) {
       login,
       logout,
       checkAuthState,
+      loginGoogle,
     };
-  }, [isLoggedIn, status, login, logout, checkAuthState]);
+  }, [isLoggedIn, status, login, logout, checkAuthState, loginGoogle]);
   return (
     <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
   );

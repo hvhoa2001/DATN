@@ -27,6 +27,8 @@ import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import Search from "@datn/common/Search";
 import AuthState from "@datn/common/AuthState";
 import { Link } from "react-router-dom";
+import UserWalletProfile from "@datn/common/UserWalletProfile";
+// import LoginGoogleButton from "@datn/common/LoginGoogleButton";
 
 function MobileNav() {
   const [open, setOpen] = useState(false);
@@ -236,7 +238,7 @@ export default function Header({ headerHeight }: { headerHeight: string }) {
     typeof window !== "undefined" ? window.scrollY : -1
   );
   const [isTop, setIsTop] = useState(false);
-  const theme = useTheme();
+  // const theme = useTheme();
 
   useEffect(() => {
     const scrollHandler = () => {
@@ -388,7 +390,10 @@ export default function Header({ headerHeight }: { headerHeight: string }) {
               </Stack>
             </Box>
             <Box>
-              <AuthState />
+              <UserWalletProfile />
+
+              {/* <AuthState /> */}
+              {/* <LoginGoogleButton /> */}
             </Box>
           </Box>
         </Box>

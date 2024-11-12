@@ -21,6 +21,17 @@ export async function Login({
   );
 }
 
+export async function GoogleLogin() {
+  return await getAPI("http://localhost:3003/auth/google-login", {});
+}
+
+export async function GoogleCallback() {
+  return await getAPI<LoginReturnType>(
+    "http://localhost:3003/auth/google/callback",
+    {}
+  );
+}
+
 export type TRegister = {
   email: string;
   password: string;

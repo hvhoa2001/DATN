@@ -52,7 +52,6 @@ const AdminSidebar = ({
             {configs.map((item, index: number) => {
               const base = basePath ? `/${basePath}` : "/";
               const itemPath = `${item.path}`;
-              console.log("🚀 ~ {configs.map ~ base:", basePath);
               const isActive =
                 (itemPath === base && itemPath === location.pathname) ||
                 (itemPath !== base && location.pathname.includes(itemPath));
