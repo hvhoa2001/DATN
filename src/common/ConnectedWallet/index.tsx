@@ -12,17 +12,18 @@ import { useAccount, useDisconnect } from "wagmi";
 import LogoutIcon from "@mui/icons-material/Logout";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { toast } from "react-toastify";
-// import SignatureRequire from "./SignatureRequire";
-// import {
-//   deleteAPIJwt,
-//   getAPIJwtWithKey,
-//   removeAPPStorage,
-// } from "@centic-scoring/utils/storage/authStorage";
+
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import useDialogState from "@datn/hooks/useDialogState";
 import { CopyIcon, WalletIcon } from "../icons";
 import { formatAddress } from "@datn/utils/format";
+import SignatureRequire from "./SignatureRequire";
+import {
+  deleteAPIJwt,
+  getAPIJwt,
+  removeAPPStorage,
+} from "@datn/utils/storage/authStorage";
 
 export default function ConnectedWallet() {
   const { address } = useAccount();
@@ -46,11 +47,11 @@ export default function ConnectedWallet() {
 
   return (
     <Box sx={{ position: "relative" }}>
-      {/* <SignatureRequire
+      <SignatureRequire
         handleClose={closeRequireSig}
         handleOpen={openRequireSig}
         open={requireSig}
-      /> */}
+      />
       <Button variant="outlined" onClick={handleOpen}>
         <WalletIcon sx={{ mr: 1 }} /> {formatAddress(String(address))}
       </Button>
@@ -99,24 +100,24 @@ export default function ConnectedWallet() {
 const Content = ({ onLoginClick }: { onLoginClick: () => void }) => {
   const { address, connector } = useAccount();
   const { disconnect } = useDisconnect();
-  //   const checkVerifiedWallet = useCallback(() => {
-  //     try {
-  //       const portfolioJwt = getAPIJwtWithKey("portfolio", String(address));
-  //       if (portfolioJwt) {
-  //         return true;
-  //       }
-  //       return false;
-  //     } catch (error) {
-  //       return false;
-  //     }
-  //   }, [address]);
+  const checkVerifiedWallet = useCallback(() => {
+    try {
+      const portfolioJwt = getAPIJwt("portfolio");
+      if (portfolioJwt) {
+        return true;
+      }
+      return false;
+    } catch (error) {
+      return false;
+    }
+  }, [address]);
 
-  //   const verified = checkVerifiedWallet();
+  const verified = checkVerifiedWallet();
 
   const handleDisConnect = () => {
     disconnect();
-    //   deleteAPIJwt(`portfolio`);
-    //   removeAPPStorage("skipWalletVerification");
+    deleteAPIJwt(`portfolio`);
+    removeAPPStorage("skipWalletVerification");
     localStorage.removeItem(`wagmi.${connector?.id}.shimDisconnect`);
   };
   return (

@@ -21,6 +21,24 @@ export async function Login({
   );
 }
 
+type LoginParams = {
+  address: string;
+  nonce: number;
+  signature: string;
+};
+
+export async function LoginWallet({
+  address,
+  nonce,
+  signature,
+}: LoginParams): Promise<LoginReturnType> {
+  return await postAPI<LoginReturnType>(
+    "http://localhost:3003/auth/login-wallet",
+    { address: address, nonce: nonce, signature: signature },
+    {}
+  );
+}
+
 export async function GoogleLogin() {
   return await getAPI("http://localhost:3003/auth/google-login", {});
 }
