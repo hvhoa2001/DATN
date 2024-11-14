@@ -137,7 +137,7 @@ const Content = ({ onLoginClick }: { onLoginClick: () => void }) => {
           <CopyIcon fontSize="small" />
         </IconButton>
       </Box>
-      {/* {verified && (
+      {verified && (
         <Typography
           variant="body2"
           color={"text.success"}
@@ -257,15 +257,15 @@ const Content = ({ onLoginClick }: { onLoginClick: () => void }) => {
             Disconnect
           </Button>
         </Box>
-      )} */}
-      <Button
+      )}
+      {/* <Button
         size="small"
         variant="outlined"
         fullWidth
         onClick={handleDisConnect}
       >
         Disconnect
-      </Button>
+      </Button> */}
     </Paper>
   );
 };
