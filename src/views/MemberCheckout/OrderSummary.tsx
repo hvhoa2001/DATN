@@ -9,7 +9,7 @@ export default function OrderSummary() {
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(getCheckout());
-  });
+  }, [dispatch]);
 
   return (
     <Box>

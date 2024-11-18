@@ -17,7 +17,6 @@ import {
 import BootstrapDialogTitle from "../primitives/Dialog";
 import {
   deleteAPIJwt,
-  setAPIJwtWithKey,
   setAPIJwt,
   getAPIJwt,
   getAPPStorage,
@@ -46,6 +45,7 @@ export default function SignatureRequire({
   const getWalletJwt = useCallback(async () => {
     try {
       deleteAPIJwt("portfolio");
+      localStorage.removeItem("role");
       setStatus("PROCESSING");
       const provider: any = await connector?.getProvider();
       const nonce = Math.round(Math.random() * 1e6);
@@ -69,7 +69,7 @@ export default function SignatureRequire({
         });
         if (res.jwt) {
           setAPIJwt("portfolio", res.jwt);
-
+          localStorage.setItem("role", res.role);
           dispatch(updateAuthState(true));
           handleClose();
         }

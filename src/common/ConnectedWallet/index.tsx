@@ -3,14 +3,14 @@ import {
   Box,
   Button,
   IconButton,
+  MenuItem,
   Paper,
   Popover,
   Typography,
 } from "@mui/material";
-import { MouseEvent, useCallback, useState } from "react";
+import { MouseEvent, useCallback, useEffect, useState } from "react";
 import { useAccount, useDisconnect } from "wagmi";
 import LogoutIcon from "@mui/icons-material/Logout";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { toast } from "react-toastify";
 
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
@@ -24,17 +24,21 @@ import {
   getAPIJwt,
   removeAPPStorage,
 } from "@datn/utils/storage/authStorage";
+import useUserId from "@datn/hooks/useUserId";
+import { useAppDispatch } from "@datn/redux/hook";
+import { getUserProfile } from "@datn/redux/slices/common/fetchFunction";
 
 export default function ConnectedWallet() {
   const { address } = useAccount();
   const [openUserProfile, setOpenUserProfile] = useState<boolean>(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const userId = useUserId();
+  const dispatch = useAppDispatch();
   const {
     handleClose: closeRequireSig,
     handleOpen: openRequireSig,
     open: requireSig,
   } = useDialogState();
-  console.log("🚀 ~ ConnectedWallet ~ requireSig:", requireSig);
 
   const handleOpen = (event: MouseEvent<HTMLButtonElement>) => {
     setOpenUserProfile(true);
@@ -44,6 +48,12 @@ export default function ConnectedWallet() {
   const handleCloseProfile = () => {
     setOpenUserProfile(false);
   };
+
+  useEffect(() => {
+    if (userId) {
+      dispatch(getUserProfile(userId));
+    }
+  }, [userId, dispatch]);
 
   return (
     <Box sx={{ position: "relative" }}>
@@ -119,6 +129,7 @@ const Content = ({ onLoginClick }: { onLoginClick: () => void }) => {
     deleteAPIJwt(`portfolio`);
     removeAPPStorage("skipWalletVerification");
     localStorage.removeItem(`wagmi.${connector?.id}.shimDisconnect`);
+    localStorage.removeItem("role");
   };
   return (
     <Paper sx={{ p: 3 }}>
@@ -170,10 +181,7 @@ const Content = ({ onLoginClick }: { onLoginClick: () => void }) => {
         <>
           <Box
             sx={{
-              display: "flex",
-              justifyContent: "center",
               "& .item": {
-                backgroundColor: "background.paper2",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
@@ -182,12 +190,12 @@ const Content = ({ onLoginClick }: { onLoginClick: () => void }) => {
                 mt: 1,
                 textDecoration: "none",
                 mr: 1,
-                minWidth: "150px",
+                width: "100%",
                 color: "text.active",
               },
             }}
           >
-            <Box
+            <MenuItem
               component={"a"}
               target="_blank"
               href="/portfolio"
@@ -196,19 +204,17 @@ const Content = ({ onLoginClick }: { onLoginClick: () => void }) => {
               <Typography variant="body2" fontWeight={500} color="text.primary">
                 My Portfolio
               </Typography>
-              <ArrowForwardIosIcon sx={{ fontSize: "1rem" }} />
-            </Box>
-            <Box
+            </MenuItem>
+            <MenuItem
               component={"a"}
-              href="/portfolio/profile"
-              target="_blank"
+              href="/profile"
+              target="_self"
               className="item"
             >
               <Typography variant="body2" fontWeight={500} color="text.primary">
                 My Profile
               </Typography>
-              <ArrowForwardIosIcon sx={{ fontSize: "1rem" }} />
-            </Box>
+            </MenuItem>
           </Box>
           <Box
             sx={{
@@ -258,14 +264,6 @@ const Content = ({ onLoginClick }: { onLoginClick: () => void }) => {
           </Button>
         </Box>
       )}
-      {/* <Button
-        size="small"
-        variant="outlined"
-        fullWidth
-        onClick={handleDisConnect}
-      >
-        Disconnect
-      </Button> */}
     </Paper>
   );
 };

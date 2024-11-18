@@ -14,6 +14,9 @@ const AdminProducts = React.lazy(() => import("./Admin/views/Products"));
 const AdminLayout = React.lazy(() => import("./Admin/Layout"));
 const Dashboard = React.lazy(() => import("./Admin/views/Dashboard"));
 const GoogleCallback = React.lazy(() => import("./common/LoginGoogleButton"));
+const MarketplaceLayout = React.lazy(
+  () => import("./Marketplace/Layout/Layout")
+);
 
 export default function RouterUrl() {
   return useRoutes([
@@ -65,5 +68,13 @@ export default function RouterUrl() {
       ],
     },
     { path: "/auth/google/callback", element: <GoogleCallback /> },
+    {
+      path: "marketplace",
+      element: (
+        <RequireRole allowedRoles={["user"]}>
+          <MarketplaceLayout />
+        </RequireRole>
+      ),
+    },
   ]);
 }

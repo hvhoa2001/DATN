@@ -21,7 +21,7 @@ export default function WalletItem({ wallet }: { wallet: WalletConfig }) {
         style={{ borderRadius: "5px" }}
         alt={wallet.id}
       />
-      <Typography variant="small" mt={1} color={"secondary"}>
+      <Typography variant="body2" fontWeight={500} mt={1} color="text.primary">
         {wallet.title}
       </Typography>
     </Box>

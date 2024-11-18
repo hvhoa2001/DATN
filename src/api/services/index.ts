@@ -85,6 +85,9 @@ export type RTUserProfile = {
   email: string;
   firstName: string;
   lastName: string;
+  address: string;
+  avatar?: string;
+  cover?: string;
 };
 
 export async function fetchUserProfile(userId: string) {

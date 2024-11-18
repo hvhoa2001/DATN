@@ -70,7 +70,8 @@ const Content = ({ handleClose }: { handleClose: () => void }) => {
             {walletsConfig().map((wallet) => {
               return (
                 <Grid2
-                  size={{ xs: 4 }}
+                  sx={{ width: "100%" }}
+                  size={{ xs: 12 }}
                   key={wallet.id}
                   onClick={() => {
                     setSlectedWallet(wallet);
