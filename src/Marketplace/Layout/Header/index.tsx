@@ -1,6 +1,8 @@
 import { useCommonDataSelector } from "@datn/redux/hook";
-import { formatAddress } from "@datn/utils/format";
-import { Avatar, Box, Container, Typography } from "@mui/material";
+import { Box, Container, Theme } from "@mui/material";
+import { Link } from "react-router-dom";
+import LogoImg from "/images/nike-logo.png";
+import UserWalletProfile from "@datn/common/UserWalletProfile";
 
 export default function Header({ headerHeight }: { headerHeight: string }) {
   const { userProfile } = useCommonDataSelector();
@@ -12,23 +14,43 @@ export default function Header({ headerHeight }: { headerHeight: string }) {
       }}
     >
       <Container
+        maxWidth={false}
         sx={{
-          minHeight: "100vh",
-          py: 10,
+          height: "100%",
+          display: "flex",
+          alignItems: "center",
+          maxWidth: "1560px",
         }}
       >
-        <Box sx={{ display: "flex", gap: 4 }}>
-          <Avatar
-            src={userProfile.data?.avatar}
-            sx={{ width: "168px", height: "168px" }}
-          />
-          <Box sx={{ display: "flex", flexDirection: "column" }}>
-            <Typography variant="h4" mb={1}>
-              {userProfile.data?.userName}
-            </Typography>
-            <Typography>
-              {formatAddress(userProfile.data?.address || "")}
-            </Typography>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            width: "100%",
+          }}
+        >
+          <Box
+            sx={(theme: Theme) => ({
+              img: {
+                width: 124,
+                height: "auto",
+                [theme.breakpoints.down("md")]: {
+                  width: 107,
+                },
+              },
+              flex: 2,
+            })}
+          >
+            <Link to={"/"}>
+              <img
+                src={LogoImg}
+                alt="nike-logo"
+                style={{ width: 58, height: "auto" }}
+              />
+            </Link>
+          </Box>
+          <Box>
+            <UserWalletProfile />
           </Box>
         </Box>
       </Container>

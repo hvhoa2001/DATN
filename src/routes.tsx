@@ -17,6 +17,7 @@ const GoogleCallback = React.lazy(() => import("./common/LoginGoogleButton"));
 const MarketplaceLayout = React.lazy(
   () => import("./Marketplace/Layout/Layout")
 );
+const Auction = React.lazy(() => import("./Marketplace/views/Auction"));
 
 export default function RouterUrl() {
   return useRoutes([
@@ -75,6 +76,10 @@ export default function RouterUrl() {
           <MarketplaceLayout />
         </RequireRole>
       ),
+      children: [
+        { path: "auction", element: <Auction /> },
+        { path: "", element: <Navigate to="/marketplace/auction" /> },
+      ],
     },
   ]);
 }

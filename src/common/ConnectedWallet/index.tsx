@@ -1,4 +1,3 @@
-// import { CopyIcon, WalletIcon } from "@centic-scoring/icons";
 import {
   Box,
   Button,
@@ -62,8 +61,9 @@ export default function ConnectedWallet() {
         handleOpen={openRequireSig}
         open={requireSig}
       />
-      <Button variant="outlined" onClick={handleOpen}>
-        <WalletIcon sx={{ mr: 1 }} /> {formatAddress(String(address))}
+      <Button variant="contained" onClick={handleOpen}>
+        <WalletIcon fontSize="large" sx={{ mr: 1 }} />{" "}
+        {formatAddress(String(address))}
       </Button>
       {address && (
         <div
@@ -134,7 +134,7 @@ const Content = ({ onLoginClick }: { onLoginClick: () => void }) => {
   return (
     <Paper sx={{ p: 3 }}>
       <Box sx={{ display: "flex", alignItems: "center" }}>
-        <WalletIcon sx={{ mr: 1 }} />
+        <WalletIcon fontSize="large" sx={{ mr: 1 }} />
         <Typography variant="body1" fontWeight={600}>
           {formatAddress(String(address))}
         </Typography>
@@ -148,26 +148,7 @@ const Content = ({ onLoginClick }: { onLoginClick: () => void }) => {
           <CopyIcon fontSize="small" />
         </IconButton>
       </Box>
-      {verified && (
-        <Typography
-          variant="body2"
-          color={"text.success"}
-          sx={{ display: "flex", alignItems: "center" }}
-        >
-          <CheckCircleOutlineIcon fontSize="small" sx={{ mb: 0.2, mr: 1 }} />{" "}
-          Wallet Verified
-        </Typography>
-      )}
-      {!verified && (
-        <Typography
-          variant="body2"
-          color={"text.error"}
-          sx={{ display: "flex", alignItems: "center" }}
-        >
-          <CancelOutlinedIcon fontSize="small" sx={{ mb: 0.2, mr: 1 }} /> Wallet
-          Not Verified
-        </Typography>
-      )}
+
       <Box
         sx={{
           width: "100%",
@@ -215,25 +196,22 @@ const Content = ({ onLoginClick }: { onLoginClick: () => void }) => {
                 My Profile
               </Typography>
             </MenuItem>
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              mt: 3,
-              cursor: "pointer",
-            }}
-            onClick={handleDisConnect}
-          >
-            <Typography
-              variant="small"
-              color={"text.secondary"}
-              mr={1}
-              sx={{ "&:hover": { color: "text.active", fontWeight: 500 } }}
+            <MenuItem
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                mt: 3,
+                cursor: "pointer",
+              }}
+              onClick={handleDisConnect}
+              className="item"
             >
-              Disconnect
-            </Typography>
-            <LogoutIcon sx={{ color: "text.active", fontSize: "1rem" }} />
+              <Typography variant="body2" color="text.primary" fontWeight={500}>
+                Disconnect
+              </Typography>
+              <LogoutIcon sx={{ color: "text.primary", fontSize: "1rem" }} />
+            </MenuItem>
           </Box>
         </>
       )}
