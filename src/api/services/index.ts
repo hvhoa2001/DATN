@@ -409,3 +409,27 @@ export async function createOrder({
     {}
   );
 }
+
+export type RTImageUpload = {
+  cid: string;
+};
+
+export async function uploadImage({
+  file,
+}: {
+  file: File | undefined;
+}): Promise<RTImageUpload> {
+  const formData = new FormData();
+  if (file) {
+    formData.append("file", file);
+  }
+  return await postAPI<RTImageUpload>(
+    "http://localhost:3003/pinata/upload",
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
+}

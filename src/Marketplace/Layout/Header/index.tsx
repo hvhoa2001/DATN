@@ -1,7 +1,7 @@
 import { useCommonDataSelector } from "@datn/redux/hook";
 import { Box, Container, Theme } from "@mui/material";
 import { Link } from "react-router-dom";
-import LogoImg from "/images/nike-logo.png";
+import LogoImg from "/images/logo.png";
 import UserWalletProfile from "@datn/common/UserWalletProfile";
 
 export default function Header({ headerHeight }: { headerHeight: string }) {
@@ -45,7 +45,7 @@ export default function Header({ headerHeight }: { headerHeight: string }) {
               <img
                 src={LogoImg}
                 alt="nike-logo"
-                style={{ width: 58, height: "auto" }}
+                style={{ width: 44, height: "auto" }}
               />
             </Link>
           </Box>

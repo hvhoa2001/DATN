@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
-import LogoImg from "/images/nike-logo.png";
+import LogoImg from "/images/logo.png";
 import { NavConfigItem, navConfigs } from "@datn/common/navConfig";
 import { StyledSub } from "@datn/common/StyleSub";
 import { MenuIcon } from "@datn/common/icons";
@@ -25,10 +25,8 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import Search from "@datn/common/Search";
-import AuthState from "@datn/common/AuthState";
 import { Link } from "react-router-dom";
 import UserWalletProfile from "@datn/common/UserWalletProfile";
-// import LoginGoogleButton from "@datn/common/LoginGoogleButton";
 
 function MobileNav() {
   const [open, setOpen] = useState(false);
@@ -323,7 +321,7 @@ export default function Header({ headerHeight }: { headerHeight: string }) {
               <img
                 src={LogoImg}
                 alt="nike-logo"
-                style={{ width: 58, height: "auto" }}
+                style={{ width: 44, height: "auto" }}
               />
             </Link>
           </Box>

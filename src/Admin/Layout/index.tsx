@@ -9,7 +9,7 @@ export default function AdminLayout() {
   return (
     <Box sx={{ position: "relative" }}>
       <AdminSidebar configs={forAdminSidebar} basePath="admin" />
-      <Box sx={{ position: "relative", zIndex: 1, ml: "230px" }}>
+      <Box sx={{ position: "relative", zIndex: 1, ml: "230px", px: 3 }}>
         <AdminHeader />
         <Content headerHeight="60px" />
       </Box>
