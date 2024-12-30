@@ -3,6 +3,7 @@ import {
   featProducts,
   featVariantDetail,
 } from "@datn/api/services/product-api";
+
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const getProducts = createAsyncThunk(

@@ -1,8 +1,8 @@
 import useNFTsContract from "@datn/web3/hooks/useNFTsContract";
 import useNFTsShopContract from "@datn/web3/hooks/useNFTsShopContract";
-import { Box } from "@mui/material";
 import BigNumber from "bignumber.js";
 import { useEffect, useState } from "react";
+
 export type Size = {
   nftContract: string;
   tokenId: number;
@@ -40,12 +40,16 @@ export type Product = {
   sizes: { size: number; quantity: number; active: boolean }[];
 };
 
-export default function Dashboard() {
+export type ListProductNFT = {
+  data: Product[];
+};
+
+export default function useNFTData() {
   const [nfts, setNFTs] = useState<NFTs[]>([]);
   const [listings, setListings] = useState<Size[]>([]);
   const [products, setProducts] = useState<ProductData[]>([]);
   const [groupedProduct, setGroupedProduct] = useState<Product | null>(null);
-  console.log("🚀 ~ Dashboard ~ products:", groupedProduct);
+  const [listProduct, setListProduct] = useState<ListProductNFT | null>(null);
   const { getNFTs, tokenURI } = useNFTsContract({
     contractAddress: "0x46Af3f262dE8d835EeC5aAFFD9D3408B7035f7E8",
   });
@@ -173,20 +177,13 @@ export default function Dashboard() {
     }
   }, [products]);
 
-  return (
-    <Box sx={{ display: "flex" }}>
-      {products.map((product) => {
-        return (
-          <Box key={product.sizes.id}>
-            <Box>{product.name}</Box>
-            <Box>{product.description}</Box>
-            <img src={product.image} alt="" style={{ width: "100px" }} />
-            <Box>{product.sizes.size}</Box>
-            <Box>{product.price}</Box>
-            <Box>{product.sizes.active}</Box>
-          </Box>
-        );
-      })}
-    </Box>
-  );
+  useEffect(() => {
+    if (groupedProduct) {
+      setListProduct({
+        data: [groupedProduct],
+      });
+    }
+  }, [groupedProduct]);
+
+  return { groupedProduct, listProduct };
 }

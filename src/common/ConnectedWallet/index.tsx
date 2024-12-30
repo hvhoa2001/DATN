@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import { MouseEvent, useCallback, useEffect, useState } from "react";
-import { useAccount, useBalance, useDisconnect } from "wagmi";
+import { useAccount, useDisconnect } from "wagmi";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { toast } from "react-toastify";
 
@@ -26,15 +26,10 @@ import {
 import useUserId from "@datn/hooks/useUserId";
 import { useAppDispatch } from "@datn/redux/hook";
 import { getUserProfile } from "@datn/redux/slices/common/fetchFunction";
-import BigNumber from "bignumber.js";
 
 export default function ConnectedWallet() {
   const { address } = useAccount();
-  const balance = useBalance({ address });
-  console.log(
-    "🚀 ~ ConnectedWallet ~ balance:",
-    new BigNumber(Number(balance.data?.value)).toNumber()
-  );
+
   const [openUserProfile, setOpenUserProfile] = useState<boolean>(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const userId = useUserId();

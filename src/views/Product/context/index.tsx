@@ -3,6 +3,10 @@ import {
   RTProducts,
   RTVariantDetail,
 } from "@datn/api/services/product-api";
+import useNFTData, {
+  ListProductNFT,
+  Product,
+} from "@datn/hooks/useNFTData/useNFTData";
 import { useProductSelector } from "@datn/redux/hook";
 import {
   createContext,
@@ -24,6 +28,8 @@ export type ProductContextType = {
   selectedVariant: RTVariantDetail | undefined;
   productData: RTProductDetail | undefined;
   commonData: RTProducts | undefined;
+  NFTData: Product | null;
+  listNFTData: ListProductNFT | null;
 };
 
 export const ProductContext = createContext<ProductContextType>(
@@ -41,6 +47,13 @@ export default function ProductContextProvider({
   const productData = productDetail.data;
   const commonData = product.data;
 
+  const { groupedProduct, listProduct } = useNFTData();
+  console.log("🚀 ~ listProduct:", listProduct);
+
+  const NFTData = groupedProduct;
+
+  const listNFTData = listProduct;
+
   const contextValue: ProductContextType = useMemo(() => {
     return {
       sizeId,
@@ -52,11 +65,15 @@ export default function ProductContextProvider({
       selectedSize,
       setSelectedSize,
       selectedVariant,
+      NFTData,
+      listNFTData,
     };
   }, [
     commonData,
     productData,
+    NFTData,
     sizeId,
+    listNFTData,
     selectedSize,
     selectedVariantIndex,
     selectedVariant,

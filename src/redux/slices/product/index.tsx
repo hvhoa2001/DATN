@@ -5,6 +5,8 @@ import {
 } from "@datn/api/services/product-api";
 import { DataWithStatus } from "../global";
 import { createSlice } from "@reduxjs/toolkit";
+
+import { Product } from "@datn/Admin/views/Dashboard";
 import {
   getProductDetail,
   getProducts,

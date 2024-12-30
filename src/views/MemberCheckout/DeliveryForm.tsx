@@ -1,11 +1,21 @@
-import { useUserEmail } from "@datn/hooks/useUserId";
+import useUserId, { useUserEmail } from "@datn/hooks/useUserId";
 import { useCommonDataSelector } from "@datn/redux/hook";
 import { Box, Divider, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import SelectAddress from "./Address";
+import { LoadingButton } from "@mui/lab";
+import useUSDTContract from "@datn/web3/hooks/useUSDTContract";
+import BigNumber from "bignumber.js";
+import { toast } from "react-toastify";
+import { useBalanceUSDT } from "@datn/hooks/useBalance/useBalance";
+import { formatNumber } from "@datn/utils/format";
 
 export default function DeliveryForm() {
+  const { faucetUSDT } = useUSDTContract({
+    contractAddress: "0xc1A67f2ad36b502dA1bf6Fe6B1eA7a83e73BBc4A",
+  });
   const userEmail = useUserEmail();
+  const userAddress = useUserId();
   const [email, setEmail] = useState<string>(userEmail || "");
   const [loading, setLoading] = useState<boolean>(false);
   const [firstName, setFirstName] = useState<string>("");
@@ -15,6 +25,24 @@ export default function DeliveryForm() {
   const { data } = useCommonDataSelector().price;
   const [country, setCountry] = useState<string>("Vietnam");
   const [states, setStates] = useState<string>("Hà Nội");
+  const balance = useBalanceUSDT({ address: userAddress as `0x${string}` });
+
+  const handleFaucet = async () => {
+    setLoading(true);
+    try {
+      if (userAddress) {
+        await faucetUSDT(
+          userAddress,
+          new BigNumber(1000000).times(new BigNumber(Math.pow(10, 6)))
+        );
+      }
+      toast.success("Success");
+      setLoading(false);
+    } catch (error) {
+      toast.error((error as Error).message);
+      setLoading(false);
+    }
+  };
 
   return (
     <Box>
@@ -120,6 +148,19 @@ export default function DeliveryForm() {
             This is an international shipment requiring customs clearance
           </Typography>
         </Box>
+        <LoadingButton
+          onClick={handleFaucet}
+          loading={loading}
+          variant="contained"
+          sx={{ mt: 4, width: "128px" }}
+        >
+          Faucet
+        </LoadingButton>
+        <Typography>
+          {formatNumber(
+            new BigNumber(Number(balance.data?.value)).div(1e6).toNumber()
+          )}
+        </Typography>
       </form>
     </Box>
   );

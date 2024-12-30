@@ -11,10 +11,10 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import React, { useEffect, useMemo, useState } from "react";
 import { useAppDispatch, useProductSelector } from "@datn/redux/hook";
-import { getProducts } from "@datn/redux/slices/product/fetchFunction";
 import useDebounce from "@datn/hooks/useDebounce";
 import ProductItem from "@datn/views/Product/ProductItem";
 import { Link } from "react-router-dom";
+import { getProducts } from "@datn/redux/slices/product/fetchFunction";
 
 export default function Search() {
   const [name, setName] = useState<string>("");
