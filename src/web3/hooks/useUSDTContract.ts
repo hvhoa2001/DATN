@@ -14,7 +14,7 @@ export default function useUSDTContract({
   const faucetUSDT = useCallback(
     async (address: string, amount: BigNumber) => {
       return await writeContract(wagmiConfig, {
-        chainId: 23295,
+        chainId: 11155111,
         address: contractAddress as `0x${string}`,
         abi: getUSDTABI,
         functionName: "mint",
@@ -23,5 +23,29 @@ export default function useUSDTContract({
     },
     [wagmiConfig, contractAddress]
   );
-  return { faucetUSDT };
+  const approve = useCallback(
+    async (spender: string, value: BigNumber) => {
+      return await writeContract(wagmiConfig, {
+        chainId: 11155111,
+        address: contractAddress as `0x${string}`,
+        abi: getUSDTABI,
+        functionName: "approve",
+        args: [spender, value.toNumber()],
+      });
+    },
+    [wagmiConfig, contractAddress]
+  );
+  const getAllowance = useCallback(
+    async (owner: string, spender: string) => {
+      return (await readContract(wagmiConfig, {
+        chainId: 11155111,
+        address: contractAddress as `0x${string}`,
+        abi: getUSDTABI,
+        functionName: "allowance",
+        args: [owner, spender],
+      })) as BigNumber;
+    },
+    [wagmiConfig, contractAddress]
+  );
+  return { faucetUSDT, approve, getAllowance };
 }

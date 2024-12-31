@@ -26,7 +26,6 @@ export default function ProductsPage() {
 
 function ProductComponent() {
   const { commonData, listNFTData } = useProductContext();
-  console.log("🚀 ~ ProductComponent ~ NFTData:", listNFTData);
 
   const detailData = useMemo(() => {
     return commonData?.map((item) => ({

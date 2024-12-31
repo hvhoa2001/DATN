@@ -2,7 +2,6 @@ import { useCallback } from "react";
 import { readContract, writeContract } from "@wagmi/core";
 import { wagmiConfig } from "@datn/wagmi/config";
 import NFT from "@datn/web3/ABI/NFT.json";
-import BigNumber from "bignumber.js";
 
 const getNFTsABI = [...NFT.abi] as const;
 
@@ -13,7 +12,7 @@ export default function useNFTsContract({
 }) {
   const getNFTs = useCallback(async () => {
     return (await readContract(wagmiConfig, {
-      chainId: 23295,
+      chainId: 11155111,
       address: contractAddress as `0x${string}`,
       abi: getNFTsABI,
       functionName: "getTokenIdCounter",
@@ -23,7 +22,7 @@ export default function useNFTsContract({
   const ownerOf = useCallback(
     async (tokenId: number) => {
       return (await readContract(wagmiConfig, {
-        chainId: 23295,
+        chainId: 11155111,
         address: contractAddress as `0x${string}`,
         abi: getNFTsABI,
         functionName: "ownerOf",
@@ -36,12 +35,12 @@ export default function useNFTsContract({
   const tokenURI = useCallback(
     async (tokenId: number) => {
       return (await readContract(wagmiConfig, {
-        chainId: 23295,
+        chainId: 11155111,
         address: contractAddress as `0x${string}`,
         abi: getNFTsABI,
         functionName: "tokenURI",
         args: [tokenId],
-      })) as string;
+      })) as any;
     },
     [wagmiConfig, contractAddress]
   );

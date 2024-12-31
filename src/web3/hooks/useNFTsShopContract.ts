@@ -13,22 +13,38 @@ export default function useNFTsShopContract({
 }) {
   const getListingCounter = useCallback(async () => {
     return (await readContract(wagmiConfig, {
-      chainId: 23295,
+      chainId: 11155111,
       address: contractAddress as `0x${string}`,
       abi: shopNFTsABI,
       functionName: "listingCounter",
     })) as number;
   }, [wagmiConfig, contractAddress]);
 
-  const getListings = useCallback(async (tokenId: number) => {
-    return (await readContract(wagmiConfig, {
-      chainId: 23295,
-      address: contractAddress as `0x${string}`,
-      abi: shopNFTsABI,
-      functionName: "listings",
-      args: [tokenId],
-    })) as [string, BigNumber, string, BigNumber, boolean];
-  }, []);
+  const getListings = useCallback(
+    async (tokenId: number) => {
+      return (await readContract(wagmiConfig, {
+        chainId: 11155111,
+        address: contractAddress as `0x${string}`,
+        abi: shopNFTsABI,
+        functionName: "listings",
+        args: [tokenId],
+      })) as [string, BigNumber, string, BigNumber, boolean];
+    },
+    [wagmiConfig, contractAddress]
+  );
 
-  return { getListingCounter, getListings };
+  const buyNFT = useCallback(
+    async (listingId: number) => {
+      return await writeContract(wagmiConfig, {
+        chainId: 11155111,
+        address: contractAddress as `0x${string}`,
+        abi: shopNFTsABI,
+        functionName: "buyNFT",
+        args: [listingId],
+      });
+    },
+    [wagmiConfig, contractAddress]
+  );
+
+  return { getListingCounter, getListings, buyNFT };
 }

@@ -48,7 +48,6 @@ export default function ProductContextProvider({
   const commonData = product.data;
 
   const { groupedProduct, listProduct } = useNFTData();
-  console.log("🚀 ~ listProduct:", listProduct);
 
   const NFTData = groupedProduct;
 

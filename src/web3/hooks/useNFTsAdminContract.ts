@@ -21,7 +21,7 @@ export default function useNFTsAdminContract({
       amount: number[]
     ) => {
       return await writeContract(wagmiConfig, {
-        chainId: 23295,
+        chainId: 11155111,
         address: contractAddress as `0x${string}`,
         abi: listingABI,
         functionName: "createNFTAndListShop",

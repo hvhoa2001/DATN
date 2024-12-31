@@ -1,4 +1,4 @@
-import useUserId, { useUserEmail } from "@datn/hooks/useUserId";
+import { useUserEmail } from "@datn/hooks/useUserId";
 import { useCommonDataSelector } from "@datn/redux/hook";
 import { Box, Divider, TextField, Typography } from "@mui/material";
 import { useState } from "react";
@@ -9,13 +9,21 @@ import BigNumber from "bignumber.js";
 import { toast } from "react-toastify";
 import { useBalanceUSDT } from "@datn/hooks/useBalance/useBalance";
 import { formatNumber } from "@datn/utils/format";
+import useNFTsShopContract from "@datn/web3/hooks/useNFTsShopContract";
+import { useAccount } from "wagmi";
 
 export default function DeliveryForm() {
-  const { faucetUSDT } = useUSDTContract({
-    contractAddress: "0xc1A67f2ad36b502dA1bf6Fe6B1eA7a83e73BBc4A",
+  const { faucetUSDT, approve, getAllowance } = useUSDTContract({
+    contractAddress: "0x2A3fbEEc03B99A60f357165EaAbF836bDADADD3f",
+  });
+
+  const { buyNFT } = useNFTsShopContract({
+    contractAddress: "0x16B79CB03D976767477383c5062835e89d65c55b",
   });
   const userEmail = useUserEmail();
-  const userAddress = useUserId();
+  // const userAddress = useUserId();
+  const { address: userAddress } = useAccount();
+
   const [email, setEmail] = useState<string>(userEmail || "");
   const [loading, setLoading] = useState<boolean>(false);
   const [firstName, setFirstName] = useState<string>("");
@@ -41,6 +49,24 @@ export default function DeliveryForm() {
     } catch (error) {
       toast.error((error as Error).message);
       setLoading(false);
+      throw error;
+    }
+  };
+
+  const handleBuyNFT = async () => {
+    setLoading(true);
+    try {
+      await approve(
+        "0x16B79CB03D976767477383c5062835e89d65c55b",
+        new BigNumber(1000).times(new BigNumber(Math.pow(10, 6)))
+      );
+      await buyNFT(1);
+      toast.success("Success");
+      setLoading(false);
+    } catch (error) {
+      toast.error((error as Error).message);
+      setLoading(false);
+      throw error;
     }
   };
 
@@ -149,12 +175,12 @@ export default function DeliveryForm() {
           </Typography>
         </Box>
         <LoadingButton
-          onClick={handleFaucet}
+          onClick={handleBuyNFT}
           loading={loading}
           variant="contained"
           sx={{ mt: 4, width: "128px" }}
         >
-          Faucet
+          Buy NFT
         </LoadingButton>
         <Typography>
           {formatNumber(

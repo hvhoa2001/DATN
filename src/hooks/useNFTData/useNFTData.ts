@@ -51,11 +51,11 @@ export default function useNFTData() {
   const [groupedProduct, setGroupedProduct] = useState<Product | null>(null);
   const [listProduct, setListProduct] = useState<ListProductNFT | null>(null);
   const { getNFTs, tokenURI } = useNFTsContract({
-    contractAddress: "0x46Af3f262dE8d835EeC5aAFFD9D3408B7035f7E8",
+    contractAddress: "0xA5416449768E6f1D2dA8dcE97f66c5FcAEF49B67",
   });
 
   const { getListingCounter, getListings } = useNFTsShopContract({
-    contractAddress: "0x23A0895694a13d5934c7b69D63eD2aaa5a15a754",
+    contractAddress: "0x16B79CB03D976767477383c5062835e89d65c55b",
   });
 
   const crawlNFTs = async () => {
@@ -65,7 +65,9 @@ export default function useNFTData() {
     );
     const promise = indexArray.map(async (i) => {
       const tURI = await tokenURI(i);
-      const metadata = JSON.parse(tURI);
+      const metadata = JSON.parse(
+        tURI.replace(/[\u0000-\u001F\u007F-\u009F]/g, "")
+      );
       if (metadata.size !== undefined) {
         return {
           name: metadata.name,
@@ -78,6 +80,7 @@ export default function useNFTData() {
     });
 
     const result = await Promise.all(promise);
+    console.log("🚀 ~ crawlNFTs ~ result:", result);
     setNFTs((prevNFTs) => [
       ...prevNFTs,
       ...result.filter((nft) => nft !== undefined),
@@ -174,6 +177,7 @@ export default function useNFTData() {
       );
 
       setGroupedProduct(grouped);
+      console.log(1);
     }
   }, [products]);
 
@@ -183,6 +187,7 @@ export default function useNFTData() {
         data: [groupedProduct],
       });
     }
+    console.log(3);
   }, [groupedProduct]);
 
   return { groupedProduct, listProduct };

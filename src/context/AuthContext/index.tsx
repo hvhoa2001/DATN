@@ -1,6 +1,5 @@
 import { GoogleCallback, Login, verifyToken } from "@datn/api/services";
 import { StateStatus } from "@datn/common/component";
-import useNFTData from "@datn/hooks/useNFTData/useNFTData";
 import {
   createContext,
   PropsWithChildren,

@@ -10,7 +10,7 @@ import useNFTsAdminContract from "@datn/web3/hooks/useNFTsAdminContract";
 
 export default function AdminProducts() {
   const { mintNFT } = useNFTsAdminContract({
-    contractAddress: "0x2cd74ECE68F874478a78488aeC2a53f17cB40546",
+    contractAddress: "0xd0C38f901fa13088ca4B363C43E00B30Cf5F13F4",
   });
   const [loading, setLoading] = useState<boolean>(false);
   const [cid, setCid] = useState<string>("");
