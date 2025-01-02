@@ -50,7 +50,6 @@ export default function SignatureRequire({
       const provider: any = await connector?.getProvider();
       const nonce = Math.round(Math.random() * 1e6);
       const msg = `I am signing my one-time nonce: ${nonce}.`;
-
       let signature = "";
       try {
         signature = await provider.request({
@@ -60,7 +59,6 @@ export default function SignatureRequire({
       } catch (error) {
         console.log("🚀 ~ getWalletJwt ~ error:", error);
       }
-
       if (signature) {
         const res = await LoginWallet({
           address: String(address),
@@ -115,7 +113,7 @@ export default function SignatureRequire({
       <DialogContent>
         <Box sx={{ display: "flex", justifyContent: "center" }}></Box>
         <Typography variant="h4" align="center" mt={3}>
-          Welcome to Centic
+          Welcome to NikeChain
         </Typography>
 
         <Typography variant="body2" mt={3} align="center">

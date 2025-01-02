@@ -6,6 +6,7 @@ import { createCartItem, createFavorite } from "@datn/api/services";
 import useProductId from "@datn/hooks/useProductId";
 import Select from "./select";
 import { useProductContext } from "../context";
+import { formatNumber } from "@datn/utils/format";
 
 export default function Info() {
   const productId = useProductId();
@@ -53,7 +54,7 @@ export default function Info() {
         {productData?.name}
       </Typography>
       <Typography variant="body1" fontWeight={600} py={4}>
-        {selectedVariant?.currentPrice}$
+        {formatNumber(1000)} USDT
       </Typography>
       <Select />
       <Box sx={{ mb: 4 }}>

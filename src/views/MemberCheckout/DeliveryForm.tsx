@@ -35,6 +35,8 @@ export default function DeliveryForm() {
   const [states, setStates] = useState<string>("Hà Nội");
   const balance = useBalanceUSDT({ address: userAddress as `0x${string}` });
 
+  const tokenId = 1;
+
   const handleFaucet = async () => {
     setLoading(true);
     try {
@@ -60,8 +62,8 @@ export default function DeliveryForm() {
         "0x16B79CB03D976767477383c5062835e89d65c55b",
         new BigNumber(1000).times(new BigNumber(Math.pow(10, 6)))
       );
-      await buyNFT(1);
-      toast.success("Success");
+      await buyNFT(tokenId);
+      toast.success("Payment success! Your NFT is on the way!");
       setLoading(false);
     } catch (error) {
       toast.error((error as Error).message);
@@ -170,23 +172,52 @@ export default function DeliveryForm() {
           <Typography variant="body1" color="text.secondary">
             Arrives Fri, Oct 4 - Thu, Oct 10
           </Typography>
-          <Typography variant="body1" color="text.secondary" mt={3}>
+          <Typography variant="body1" color="text.secondary" my={3}>
             This is an international shipment requiring customs clearance
           </Typography>
+          <Divider />
         </Box>
-        <LoadingButton
-          onClick={handleBuyNFT}
-          loading={loading}
-          variant="contained"
-          sx={{ mt: 4, width: "128px" }}
-        >
-          Buy NFT
-        </LoadingButton>
-        <Typography>
-          {formatNumber(
-            new BigNumber(Number(balance.data?.value)).div(1e6).toNumber()
-          )}
-        </Typography>
+
+        <Box mt={2}>
+          <Typography variant="h2" mb={8}>
+            Payment
+          </Typography>
+          <TextField
+            value={1000}
+            type="text"
+            required
+            variant="outlined"
+            fullWidth
+            onChange={(e) => setPhone(e.target.value)}
+            sx={{ mb: 1 }}
+            disabled
+            // error={helperText.firstName ? true : false}
+            // helperText={helperText.firstName || " "}
+          />
+          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+            <Typography variant="body2" color="text.secondary">
+              Balance
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              {formatNumber(
+                new BigNumber(Number(balance.data?.value)).div(1e6).toNumber(),
+                { suffix: "USDT" }
+              )}
+            </Typography>
+          </Box>
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <LoadingButton
+              onClick={handleBuyNFT}
+              loading={loading}
+              variant="contained"
+              sx={{ mt: 4, width: "288px", height: "48px" }}
+            >
+              <Typography variant="h4" fontWeight={700}>
+                Place Order
+              </Typography>
+            </LoadingButton>
+          </Box>
+        </Box>
       </form>
     </Box>
   );

@@ -17,6 +17,7 @@ import CartItem from "./CartItem";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import { Link } from "react-router-dom";
 import { checkQuantity } from "@datn/api/services";
+import { formatNumber } from "@datn/utils/format";
 
 export default function Cart() {
   const { cart, price } = useCommonDataSelector();
@@ -126,7 +127,7 @@ export default function Cart() {
                   </Tooltip>
                 </Box>
                 <Typography variant="body1" fontWeight={600}>
-                  {price.data?.subTotal}$
+                  {formatNumber(1000)} USDT
                 </Typography>
               </Box>
               <Box
@@ -141,7 +142,8 @@ export default function Cart() {
                   Estimated Delivery & Handling
                 </Typography>
                 <Typography variant="body1" fontWeight={600}>
-                  {`${price.data?.fee == 0 ? "Free" : `${price.data?.fee}$`}`}
+                  {/* {`${price.data?.fee == 0 ? "Free" : `${price.data?.fee}$`}`} */}
+                  Free
                 </Typography>
               </Box>
               <Divider />
@@ -155,7 +157,7 @@ export default function Cart() {
               >
                 <Typography variant="body1">Total</Typography>
                 <Typography variant="body1" fontWeight={600}>
-                  {price.data?.total}$
+                  {formatNumber(1000)} USDT
                 </Typography>
               </Box>
               <Divider />

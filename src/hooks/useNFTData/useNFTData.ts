@@ -50,6 +50,8 @@ export default function useNFTData() {
   const [products, setProducts] = useState<ProductData[]>([]);
   const [groupedProduct, setGroupedProduct] = useState<Product | null>(null);
   const [listProduct, setListProduct] = useState<ListProductNFT | null>(null);
+  console.log("🚀 ~ useNFTData ~ listProduct:", listProduct?.data);
+
   const { getNFTs, tokenURI } = useNFTsContract({
     contractAddress: "0xA5416449768E6f1D2dA8dcE97f66c5FcAEF49B67",
   });

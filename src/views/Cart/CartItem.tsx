@@ -4,6 +4,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { useAppDispatch } from "@datn/redux/hook";
 import { deleteCartItem } from "@datn/api/services";
 import { getCartItems } from "@datn/redux/slices/common/fetchFunction";
+import { formatNumber } from "@datn/utils/format";
 
 type Props = {
   productId: string;
@@ -92,7 +93,7 @@ export default function CartItem({
           </Box>
         </Box>
         <Typography variant="body1" fontWeight={600}>
-          {price}$
+          {formatNumber(1000)} USDT
         </Typography>
       </Box>
       <Divider sx={{ my: 8 }} />

@@ -3,6 +3,7 @@ import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import { useAppDispatch, useCommonDataSelector } from "@datn/redux/hook";
 import { useEffect } from "react";
 import { getCheckout } from "@datn/redux/slices/common/fetchFunction";
+import { formatNumber } from "@datn/utils/format";
 
 export default function OrderSummary() {
   const { checkout, price } = useCommonDataSelector();
@@ -36,7 +37,7 @@ export default function OrderSummary() {
           </Tooltip>
         </Box>
         <Typography variant="body1" fontWeight={600}>
-          {price.data?.subTotal}$
+          {formatNumber(1000)} USDT
         </Typography>
       </Box>
       <Box
@@ -49,7 +50,8 @@ export default function OrderSummary() {
       >
         <Typography variant="body1">Estimated Delivery & Handling</Typography>
         <Typography variant="body1" fontWeight={600}>
-          {`${price.data?.fee == 0 ? "Free" : `${price.data?.fee}$`}`}
+          {/* {`${price.data?.fee == 0 ? "Free" : `${price.data?.fee}$`}`} */}
+          Free
         </Typography>
       </Box>
       <Divider />
@@ -63,7 +65,7 @@ export default function OrderSummary() {
       >
         <Typography variant="body1">Total</Typography>
         <Typography variant="body1" fontWeight={600}>
-          {price.data?.total}$
+          {formatNumber(1000)} USDT
         </Typography>
       </Box>
       <Divider />
