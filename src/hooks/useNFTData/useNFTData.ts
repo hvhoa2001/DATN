@@ -2,6 +2,7 @@ import useNFTsContract from "@datn/web3/hooks/useNFTsContract";
 import useNFTsShopContract from "@datn/web3/hooks/useNFTsShopContract";
 import BigNumber from "bignumber.js";
 import { useEffect, useState } from "react";
+import { useAccount } from "wagmi";
 
 export type Size = {
   nftContract: string;
@@ -17,6 +18,7 @@ export type NFTs = {
   image: string;
   size: number;
   id: number;
+  owner: string;
 };
 export type ProductData = {
   name: string;
@@ -48,11 +50,13 @@ export default function useNFTData() {
   const [nfts, setNFTs] = useState<NFTs[]>([]);
   const [listings, setListings] = useState<Size[]>([]);
   const [products, setProducts] = useState<ProductData[]>([]);
+  const [ownedNFTs, setOwnedNFTs] = useState<NFTs[]>([]);
+  console.log("🚀 ~ useNFTData ~ ownedNFTs:", ownedNFTs);
   const [groupedProduct, setGroupedProduct] = useState<Product | null>(null);
   const [listProduct, setListProduct] = useState<ListProductNFT | null>(null);
-  console.log("🚀 ~ useNFTData ~ listProduct:", listProduct?.data);
+  const { address } = useAccount();
 
-  const { getNFTs, tokenURI } = useNFTsContract({
+  const { getNFTs, tokenURI, ownerOf } = useNFTsContract({
     contractAddress: "0xA5416449768E6f1D2dA8dcE97f66c5FcAEF49B67",
   });
 
@@ -65,27 +69,48 @@ export default function useNFTData() {
     const indexArray = Array.from(
       Array(new BigNumber(countNFTs).toNumber()).keys()
     );
-    const promise = indexArray.map(async (i) => {
-      const tURI = await tokenURI(i);
-      const metadata = JSON.parse(
-        tURI.replace(/[\u0000-\u001F\u007F-\u009F]/g, "")
-      );
-      if (metadata.size !== undefined) {
-        return {
-          name: metadata.name,
-          description: metadata.description,
-          image: metadata.image,
-          size: metadata.size,
-          id: metadata.id,
-        };
-      }
-    });
 
-    const result = await Promise.all(promise);
-    console.log("🚀 ~ crawlNFTs ~ result:", result);
+    const fetchedNFTs = await Promise.all(
+      indexArray.map(async (i) => {
+        const tURI = await tokenURI(i);
+        const owner = await ownerOf(i);
+
+        const metadata = JSON.parse(
+          tURI.replace(/[\u0000-\u001F\u007F-\u009F]/g, "")
+        );
+
+        if (metadata.size !== undefined) {
+          return {
+            name: metadata.name,
+            description: metadata.description,
+            image: metadata.image,
+            size: metadata.size,
+            id: metadata.id - 1,
+            owner,
+          };
+        }
+        return null;
+      })
+    );
+
+    const validNFTs = fetchedNFTs.filter((nft): nft is NFTs => nft !== null);
+
+    // Lưu tất cả các NFT
     setNFTs((prevNFTs) => [
       ...prevNFTs,
-      ...result.filter((nft) => nft !== undefined),
+      ...validNFTs.filter(
+        (nft) => !prevNFTs.some((existingNFT) => existingNFT.id === nft.id)
+      ),
+    ]);
+
+    // Lưu các NFT thuộc sở hữu của người dùng
+    setOwnedNFTs((prevOwnedNFTs) => [
+      ...prevOwnedNFTs,
+      ...validNFTs.filter(
+        (nft) =>
+          nft.owner === address &&
+          !prevOwnedNFTs.some((existingNFT) => existingNFT.id === nft.id)
+      ),
     ]);
   };
 
@@ -138,7 +163,7 @@ export default function useNFTData() {
             image: nft.image,
             description: nft.description,
             sizes: {
-              id: sizeId,
+              id: size.tokenId.toString(),
               size: nft.size,
               quantity: 1,
               active: size.active,
@@ -192,5 +217,5 @@ export default function useNFTData() {
     console.log(3);
   }, [groupedProduct]);
 
-  return { groupedProduct, listProduct };
+  return { groupedProduct, listProduct, ownedNFTs };
 }

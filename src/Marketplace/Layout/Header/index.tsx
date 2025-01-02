@@ -1,8 +1,14 @@
 import { useCommonDataSelector } from "@datn/redux/hook";
-import { Box, Container, Theme } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Box, Container, Theme, Typography } from "@mui/material";
 import LogoImg from "/images/logo.png";
 import UserWalletProfile from "@datn/common/UserWalletProfile";
+import { Link } from "react-router-dom";
+
+export const navConfig = [
+  { title: "Colleted", href: "/marketplace/collected" },
+  { title: "My Listing", href: "/marketplace/my-listing" },
+  { title: "Marketplace", href: "/marketplace" },
+];
 
 export default function Header({ headerHeight }: { headerHeight: string }) {
   const { userProfile } = useCommonDataSelector();
@@ -49,6 +55,19 @@ export default function Header({ headerHeight }: { headerHeight: string }) {
               />
             </Link>
           </Box>
+          {navConfig.map((item, index) => (
+            <Box key={index} sx={{ flex: 1 }}>
+              <Link to={item.href} style={{ textDecoration: "none" }}>
+                <Typography
+                  variant="body1"
+                  color="text.primary"
+                  fontWeight={600}
+                >
+                  {item.title}
+                </Typography>
+              </Link>
+            </Box>
+          ))}
           <Box>
             <UserWalletProfile />
           </Box>

@@ -5,15 +5,19 @@ import {
 } from "@datn/api/services/product-api";
 import useNFTData, {
   ListProductNFT,
+  NFTs,
   Product,
 } from "@datn/hooks/useNFTData/useNFTData";
+import { useTokenId } from "@datn/hooks/useProductId";
 import { useProductSelector } from "@datn/redux/hook";
+import { N } from "ethers";
 import {
   createContext,
   Dispatch,
   PropsWithChildren,
   SetStateAction,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from "react";
@@ -30,6 +34,8 @@ export type ProductContextType = {
   commonData: RTProducts | undefined;
   NFTData: Product | null;
   listNFTData: ListProductNFT | null;
+  ownedNFTsData: NFTs[] | null;
+  NFTsDataDetail: NFTs | null;
 };
 
 export const ProductContext = createContext<ProductContextType>(
@@ -42,16 +48,28 @@ export default function ProductContextProvider({
   const { product, variantDetail, productDetail } = useProductSelector();
   const [selectedVariantIndex, setSelectedVariantIndex] = useState<number>(0);
   const [selectedSize, setSelectedSize] = useState<number | null>(null);
+  const [NFTsDataDetail, setNFTsDataDetail] = useState<NFTs | null>(null);
   const [sizeId, setSizeId] = useState<string>("");
   const selectedVariant = variantDetail.data;
   const productData = productDetail.data;
   const commonData = product.data;
+  const tokenId = useTokenId();
 
-  const { groupedProduct, listProduct } = useNFTData();
+  const { groupedProduct, listProduct, ownedNFTs } = useNFTData();
 
   const NFTData = groupedProduct;
 
   const listNFTData = listProduct;
+
+  const ownedNFTsData = ownedNFTs;
+
+  useEffect(() => {
+    if (ownedNFTsData && tokenId) {
+      const nftDetail =
+        ownedNFTsData.find((nft) => nft.id === Number(tokenId)) || null;
+      setNFTsDataDetail(nftDetail);
+    }
+  }, [ownedNFTsData, tokenId]);
 
   const contextValue: ProductContextType = useMemo(() => {
     return {
@@ -66,6 +84,8 @@ export default function ProductContextProvider({
       selectedVariant,
       NFTData,
       listNFTData,
+      ownedNFTsData,
+      NFTsDataDetail,
     };
   }, [
     commonData,
@@ -73,9 +93,11 @@ export default function ProductContextProvider({
     NFTData,
     sizeId,
     listNFTData,
+    ownedNFTsData,
     selectedSize,
     selectedVariantIndex,
     selectedVariant,
+    NFTsDataDetail,
     setSelectedSize,
     setSizeId,
     setSelectedVariantIndex,

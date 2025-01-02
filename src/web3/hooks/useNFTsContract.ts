@@ -45,5 +45,18 @@ export default function useNFTsContract({
     [wagmiConfig, contractAddress]
   );
 
-  return { getNFTs, ownerOf, tokenURI };
+  const approve = useCallback(
+    async (address: string, tokenId: number) => {
+      return await writeContract(wagmiConfig, {
+        chainId: 11155111,
+        address: contractAddress as `0x${string}`,
+        abi: getNFTsABI,
+        functionName: "approve",
+        args: [address, tokenId],
+      });
+    },
+    [wagmiConfig, contractAddress]
+  );
+
+  return { getNFTs, ownerOf, tokenURI, approve };
 }
