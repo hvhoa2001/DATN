@@ -51,7 +51,6 @@ export default function useNFTData() {
   const [listings, setListings] = useState<Size[]>([]);
   const [products, setProducts] = useState<ProductData[]>([]);
   const [ownedNFTs, setOwnedNFTs] = useState<NFTs[]>([]);
-  console.log("🚀 ~ useNFTData ~ ownedNFTs:", ownedNFTs);
   const [groupedProduct, setGroupedProduct] = useState<Product | null>(null);
   const [listProduct, setListProduct] = useState<ListProductNFT | null>(null);
   const { address } = useAccount();
@@ -217,5 +216,5 @@ export default function useNFTData() {
     console.log(3);
   }, [groupedProduct]);
 
-  return { groupedProduct, listProduct, ownedNFTs };
+  return { groupedProduct, listProduct, ownedNFTs, nfts };
 }

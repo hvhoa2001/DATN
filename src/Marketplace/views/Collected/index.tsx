@@ -1,11 +1,32 @@
 import { useProductContext } from "@datn/views/Product/context";
+import useNFTsAuctionContract from "@datn/web3/hooks/useNFTsAuctionContract";
+import { LoadingButton } from "@mui/lab";
 import { Box, Button, Container, Grid2, Typography } from "@mui/material";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function Collected() {
   const { ownedNFTsData } = useProductContext();
+  const [loading, setLoading] = useState<boolean>(false);
   const [hover, setHover] = useState<boolean>(false);
+
+  const { claimNFT } = useNFTsAuctionContract({
+    contractAddress: "0xad650614Ee4967324e3A95E4223d40ce52BD2B6C",
+  });
+
+  const handleClaim = async () => {
+    setLoading(true);
+    try {
+      setLoading(false);
+      await claimNFT(0);
+      toast.success("Claim success!");
+    } catch (error) {
+      toast.error((error as Error).message);
+      setLoading(false);
+      throw error;
+    }
+  };
 
   return (
     <Box component={"section"}>
@@ -64,6 +85,13 @@ export default function Collected() {
               );
             })}
         </Grid2>
+        <LoadingButton
+          onClick={handleClaim}
+          loading={loading}
+          variant="contained"
+        >
+          Claim
+        </LoadingButton>
       </Container>
     </Box>
   );

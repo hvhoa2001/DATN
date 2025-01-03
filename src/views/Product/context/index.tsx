@@ -3,6 +3,9 @@ import {
   RTProducts,
   RTVariantDetail,
 } from "@datn/api/services/product-api";
+import useAuctionData, {
+  AuctionDetail,
+} from "@datn/hooks/useAuctionData/useAuctionData";
 import useNFTData, {
   ListProductNFT,
   NFTs,
@@ -10,7 +13,6 @@ import useNFTData, {
 } from "@datn/hooks/useNFTData/useNFTData";
 import { useTokenId } from "@datn/hooks/useProductId";
 import { useProductSelector } from "@datn/redux/hook";
-import { N } from "ethers";
 import {
   createContext,
   Dispatch,
@@ -34,6 +36,8 @@ export type ProductContextType = {
   commonData: RTProducts | undefined;
   NFTData: Product | null;
   listNFTData: ListProductNFT | null;
+  auctionList: AuctionDetail[] | null;
+  auctionDetail: AuctionDetail | null;
   ownedNFTsData: NFTs[] | null;
   NFTsDataDetail: NFTs | null;
 };
@@ -49,6 +53,9 @@ export default function ProductContextProvider({
   const [selectedVariantIndex, setSelectedVariantIndex] = useState<number>(0);
   const [selectedSize, setSelectedSize] = useState<number | null>(null);
   const [NFTsDataDetail, setNFTsDataDetail] = useState<NFTs | null>(null);
+  const [auctionDetail, setAuctionDetail] = useState<AuctionDetail | null>(
+    null
+  );
   const [sizeId, setSizeId] = useState<string>("");
   const selectedVariant = variantDetail.data;
   const productData = productDetail.data;
@@ -56,13 +63,20 @@ export default function ProductContextProvider({
   const tokenId = useTokenId();
 
   const { groupedProduct, listProduct, ownedNFTs } = useNFTData();
-
   const NFTData = groupedProduct;
-
   const listNFTData = listProduct;
-
   const ownedNFTsData = ownedNFTs;
 
+  const { auctions } = useAuctionData();
+  const auctionList = auctions;
+
+  useEffect(() => {
+    if (auctionList && tokenId) {
+      const auctionDetailData =
+        auctionList.find((nft) => nft.tokenId === Number(tokenId)) || null;
+      setAuctionDetail(auctionDetailData);
+    }
+  }, [auctionList, tokenId]);
   useEffect(() => {
     if (ownedNFTsData && tokenId) {
       const nftDetail =
@@ -73,6 +87,8 @@ export default function ProductContextProvider({
 
   const contextValue: ProductContextType = useMemo(() => {
     return {
+      auctionDetail,
+      auctionList,
       sizeId,
       setSizeId,
       commonData,
@@ -88,6 +104,8 @@ export default function ProductContextProvider({
       NFTsDataDetail,
     };
   }, [
+    auctionDetail,
+    auctionList,
     commonData,
     productData,
     NFTData,

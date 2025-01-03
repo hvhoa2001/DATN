@@ -18,6 +18,9 @@ const MarketplaceLayout = React.lazy(
   () => import("./Marketplace/Layout/Layout")
 );
 const Auction = React.lazy(() => import("./Marketplace/views/Auction"));
+const AuctionDetail = React.lazy(
+  () => import("./Marketplace/views/Auction/AuctionDetail")
+);
 const Collected = React.lazy(() => import("./Marketplace/views/Collected"));
 const CollectedDetail = React.lazy(
   () => import("./Marketplace/views/Collected/CollectedDetail")
@@ -82,6 +85,7 @@ export default function RouterUrl() {
       ),
       children: [
         { path: "auction", element: <Auction /> },
+        { path: "auction/:tokenId", element: <AuctionDetail /> },
         { path: "", element: <Navigate to="/marketplace/auction" /> },
         { path: "collected", element: <Collected /> },
         { path: "collected/:tokenId", element: <CollectedDetail /> },
