@@ -19,7 +19,7 @@ export default function Collected() {
     setLoading(true);
     try {
       setLoading(false);
-      await claimNFT(0);
+      await claimNFT(1);
       toast.success("Claim success!");
     } catch (error) {
       toast.error((error as Error).message);

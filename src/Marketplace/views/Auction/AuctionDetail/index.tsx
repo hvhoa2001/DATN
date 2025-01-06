@@ -1,19 +1,26 @@
+import useDialogState from "@datn/hooks/useDialogState";
+import MakeOffer from "@datn/Marketplace/components/MakeOffer";
 import { formatAddress, formatNumber, formatTime } from "@datn/utils/format";
 import { useProductContext } from "@datn/views/Product/context";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import { LoadingButton } from "@mui/lab";
 import {
   Box,
   Button,
   Container,
+  Dialog,
   Grid2,
   Paper,
   Tooltip,
   Typography,
 } from "@mui/material";
+import AuctionDescription from "./AuctionDescription";
+import OfferTable from "./OfferTable";
+import PriceHistory from "./PriceHistory";
 
 export default function AuctionDetail() {
   const { auctionDetail } = useProductContext();
+  const { handleOpen, open, handleClose } = useDialogState();
+
   return (
     <Box component={"section"}>
       <Container
@@ -31,6 +38,10 @@ export default function AuctionDetail() {
               src={auctionDetail?.image}
               alt=""
               style={{ width: "100%", height: "auto", borderRadius: "8px" }}
+            />
+            <AuctionDescription
+              description={auctionDetail?.description || ""}
+              addressContract={auctionDetail?.nftContract || ""}
             />
           </Grid2>
           <Grid2 size={{ xs: 7 }}>
@@ -63,7 +74,7 @@ export default function AuctionDetail() {
                   alignItems: "center",
                   gap: 2,
                   borderBottom: "1px solid #ffffff1f",
-                  p: 3,
+                  py: 2,
                 }}
               >
                 <AccessTimeIcon />
@@ -98,15 +109,32 @@ export default function AuctionDetail() {
                     Buy now
                   </Typography>
                 </Button>
-                <Button variant="outlined" fullWidth sx={{ height: "56px" }}>
+                <Button
+                  variant="outlined"
+                  fullWidth
+                  sx={{ height: "56px" }}
+                  onClick={handleOpen}
+                >
                   <Typography variant="h4" fontWeight={600}>
                     Make offer
                   </Typography>
                 </Button>
               </Box>
             </Paper>
+            <PriceHistory />
+            <OfferTable />
           </Grid2>
         </Grid2>
+        <Box>
+          <Dialog open={open} onClose={handleClose}>
+            <MakeOffer
+              image={auctionDetail?.image || ""}
+              name={auctionDetail?.name || ""}
+              floorPrice={0}
+              bestOffer={auctionDetail?.highestBid || 0}
+            />
+          </Dialog>
+        </Box>
       </Container>
     </Box>
   );

@@ -73,10 +73,12 @@ export default function useNFTData() {
       indexArray.map(async (i) => {
         const tURI = await tokenURI(i);
         const owner = await ownerOf(i);
+        console.log("🚀 ~ indexArray.map ~ owner:", owner);
 
         const metadata = JSON.parse(
           tURI.replace(/[\u0000-\u001F\u007F-\u009F]/g, "")
         );
+        console.log("🚀 ~ indexArray.map ~ metadata:", metadata);
 
         if (metadata.size !== undefined) {
           return {
@@ -102,7 +104,6 @@ export default function useNFTData() {
       ),
     ]);
 
-    // Lưu các NFT thuộc sở hữu của người dùng
     setOwnedNFTs((prevOwnedNFTs) => [
       ...prevOwnedNFTs,
       ...validNFTs.filter(

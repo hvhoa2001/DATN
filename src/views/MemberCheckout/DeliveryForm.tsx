@@ -62,7 +62,7 @@ export default function DeliveryForm() {
         "0x16B79CB03D976767477383c5062835e89d65c55b",
         new BigNumber(1000).times(new BigNumber(Math.pow(10, 6)))
       );
-      await buyNFT(tokenId);
+      await buyNFT(0);
       toast.success("Payment success! Your NFT is on the way!");
       setLoading(false);
     } catch (error) {
