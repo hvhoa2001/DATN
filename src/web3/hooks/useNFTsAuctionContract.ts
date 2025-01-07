@@ -88,5 +88,18 @@ export default function useNFTsAuctionContract({
     [wagmiConfig, contractAddress]
   );
 
-  return { auctionCount, createAuction, claimNFT, getAuction };
+  const placeBid = useCallback(
+    async (auctionId: number, amount: BigNumber) => {
+      return await writeContract(wagmiConfig, {
+        chainId: 11155111,
+        address: contractAddress as `0x${string}`,
+        abi: auctionABI,
+        functionName: "placeBid",
+        args: [auctionId, amount.toNumber()],
+      });
+    },
+    [wagmiConfig, contractAddress]
+  );
+
+  return { auctionCount, createAuction, claimNFT, getAuction, placeBid };
 }

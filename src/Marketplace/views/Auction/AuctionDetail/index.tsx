@@ -75,6 +75,7 @@ export default function AuctionDetail() {
                   gap: 2,
                   borderBottom: "1px solid #ffffff1f",
                   py: 2,
+                  px: 3,
                 }}
               >
                 <AccessTimeIcon />
@@ -95,27 +96,25 @@ export default function AuctionDetail() {
                   Current price
                 </Typography>
                 <Typography variant="h2" color="text.primary" fontWeight={600}>
-                  {auctionDetail?.highestBid == 0
-                    ? "No bids yet"
-                    : `${formatNumber(auctionDetail?.highestBid || 0, {
-                        fractionDigits: 2,
-                        suffix: "USDT",
-                      })}`}
+                  {formatNumber(auctionDetail?.maxPrice || 0, {
+                    fractionDigits: 2,
+                    suffix: "USDT",
+                  })}
                 </Typography>
               </Box>
               <Box sx={{ px: 3, mb: 3, display: "flex", gap: 2 }}>
-                <Button variant="contained" fullWidth sx={{ height: "56px" }}>
-                  <Typography variant="h4" fontWeight={600}>
+                <Button variant="contained" fullWidth sx={{ height: "44px" }}>
+                  <Typography variant="subtitle1" fontWeight={600}>
                     Buy now
                   </Typography>
                 </Button>
                 <Button
                   variant="outlined"
                   fullWidth
-                  sx={{ height: "56px" }}
+                  sx={{ height: "44px" }}
                   onClick={handleOpen}
                 >
-                  <Typography variant="h4" fontWeight={600}>
+                  <Typography variant="subtitle1" fontWeight={600}>
                     Make offer
                   </Typography>
                 </Button>

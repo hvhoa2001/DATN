@@ -29,6 +29,7 @@ export default function useAuctionData() {
   const crawlAuction = async () => {
     try {
       const auctionC = await auctionCount();
+
       const totalAuctions = new BigNumber(auctionC).toNumber();
 
       if (totalAuctions <= 0) {
@@ -42,9 +43,8 @@ export default function useAuctionData() {
         indexArray.map(async (i) => {
           try {
             const auction = await getAuction(i);
-            if (auction[10] === true) {
-              console.log("Fetched auction:", auction);
-              return {
+            if (auction[10] === false) {
+              const auctionDetail = {
                 seller: auction[0],
                 nftContract: auction[1],
                 tokenId: new BigNumber(auction[2]).toNumber(),
@@ -65,6 +65,10 @@ export default function useAuctionData() {
                 size: 0,
                 name: "",
               };
+
+              if (auctionDetail.endTime > Date.now() / 1000) {
+                return auctionDetail;
+              }
             }
             return null;
           } catch (error) {
@@ -102,6 +106,7 @@ export default function useAuctionData() {
       ]);
     } catch (error) {
       console.error("Failed to crawl auctions:", error);
+      throw error;
     }
   };
 

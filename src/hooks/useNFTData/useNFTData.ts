@@ -73,12 +73,10 @@ export default function useNFTData() {
       indexArray.map(async (i) => {
         const tURI = await tokenURI(i);
         const owner = await ownerOf(i);
-        console.log("🚀 ~ indexArray.map ~ owner:", owner);
 
         const metadata = JSON.parse(
           tURI.replace(/[\u0000-\u001F\u007F-\u009F]/g, "")
         );
-        console.log("🚀 ~ indexArray.map ~ metadata:", metadata);
 
         if (metadata.size !== undefined) {
           return {
@@ -204,7 +202,6 @@ export default function useNFTData() {
       );
 
       setGroupedProduct(grouped);
-      console.log(1);
     }
   }, [products]);
 
@@ -214,7 +211,6 @@ export default function useNFTData() {
         data: [groupedProduct],
       });
     }
-    console.log(3);
   }, [groupedProduct]);
 
   return { groupedProduct, listProduct, ownedNFTs, nfts };

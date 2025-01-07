@@ -20,7 +20,7 @@ export default function AuctionDescription({
         <Typography variant="body1">Description</Typography>
       </Box>
       <Box p={3}>
-        <Typography variant="body1" sx={{ mt: 2 }}>
+        <Typography variant="body1" sx={{ mb: 2 }}>
           Contract Address: {formatAddress(addressContract)}
         </Typography>
         <Typography variant="body2">{description}</Typography>

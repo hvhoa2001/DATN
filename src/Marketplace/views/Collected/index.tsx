@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 
 export default function Collected() {
   const { ownedNFTsData } = useProductContext();
+  console.log("🚀 ~ Collected ~ ownedNFTsData:", ownedNFTsData);
   const [loading, setLoading] = useState<boolean>(false);
   const [hover, setHover] = useState<boolean>(false);
 
@@ -19,7 +20,7 @@ export default function Collected() {
     setLoading(true);
     try {
       setLoading(false);
-      await claimNFT(1);
+      await claimNFT(2);
       toast.success("Claim success!");
     } catch (error) {
       toast.error((error as Error).message);

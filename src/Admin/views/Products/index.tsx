@@ -38,10 +38,8 @@ export default function AdminProducts() {
         [5, 5]
       );
       setLoading(false);
-      console.log("🚀 ~ handleMintNFT ~ res:", res);
     } catch (error) {
       toast.error((error as Error).message);
-      console.log("🚀 ~ handleMintNFT ~ error:", error);
       setLoading(false);
     }
   };
