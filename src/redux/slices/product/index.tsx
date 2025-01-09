@@ -1,15 +1,16 @@
 import {
   RTProductDetail,
+  RTProductNFT,
   RTProducts,
   RTVariantDetail,
 } from "@datn/api/services/product-api";
 import { DataWithStatus } from "../global";
 import { createSlice } from "@reduxjs/toolkit";
 
-import { Product } from "@datn/Admin/views/Dashboard";
 import {
   getProductDetail,
   getProducts,
+  getProductsNFT,
   getVariantDetail,
 } from "./fetchFunction";
 
@@ -17,6 +18,7 @@ export type TProductData = {
   product: DataWithStatus<RTProducts>;
   productDetail: DataWithStatus<RTProductDetail>;
   variantDetail: DataWithStatus<RTVariantDetail>;
+  productNFT: DataWithStatus<RTProductNFT>;
 };
 
 const initState: TProductData = {
@@ -31,6 +33,10 @@ const initState: TProductData = {
   variantDetail: {
     status: "IDLE",
     data: {} as RTVariantDetail,
+  },
+  productNFT: {
+    status: "IDLE",
+    data: [],
   },
 };
 
@@ -69,6 +75,16 @@ export const productSlice = createSlice({
       })
       .addCase(getVariantDetail.rejected, (state) => {
         state.variantDetail.status = "FAILED";
+      })
+      .addCase(getProductsNFT.pending, (state) => {
+        state.productNFT.status = "PROCESSING";
+      })
+      .addCase(getProductsNFT.fulfilled, (state, action) => {
+        state.productNFT.status = "SUCCESS";
+        state.productNFT.data = action.payload;
+      })
+      .addCase(getProductsNFT.rejected, (state) => {
+        state.productNFT.status = "FAILED";
       });
   },
 });

@@ -97,3 +97,16 @@ export async function featVariantDetail({
     {}
   );
 }
+
+export type RTProductNFT = {
+  productId: string;
+  name: string;
+  description: string;
+  price: number;
+  image: string;
+  sizes: Array<number>;
+}[];
+
+export async function featProductNFT() {
+  return await getAPI<RTProductNFT>(`http://localhost:3003/nft/get-nft`, {});
+}

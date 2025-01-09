@@ -11,38 +11,10 @@ import ImageDetail from "./image";
 import ProductContextProvider, { useProductContext } from "../context";
 
 export default function ProductDetail() {
-  return (
-    <ProductContextProvider>
-      <ProductDetailComponent />
-    </ProductContextProvider>
-  );
+  return <ProductDetailComponent />;
 }
 
 function ProductDetailComponent() {
-  const productId = useProductId();
-  const dispatch = useAppDispatch();
-  const { selectedVariantIndex, productData } = useProductContext();
-
-  useEffect(() => {
-    if (productId) {
-      dispatch(getProductDetail(productId));
-    }
-  }, [productId, dispatch]);
-
-  useEffect(() => {
-    if (productData?.variants && selectedVariantIndex >= 0) {
-      const selectedVariant = productData.variants[selectedVariantIndex];
-      if (selectedVariant) {
-        dispatch(
-          getVariantDetail({
-            productId: productId || "",
-            variantId: selectedVariant._id || "",
-          })
-        );
-      }
-    }
-  }, [productData, selectedVariantIndex, dispatch, productId]);
-
   return (
     <Box component={"section"}>
       <Container

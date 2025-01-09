@@ -1,5 +1,6 @@
 import {
   featProductDetail,
+  featProductNFT,
   featProducts,
   featVariantDetail,
 } from "@datn/api/services/product-api";
@@ -10,6 +11,14 @@ export const getProducts = createAsyncThunk(
   "products/products",
   async ({ name, category }: { name?: string; category?: string }) => {
     const res = await featProducts({ name, category });
+    return res;
+  }
+);
+
+export const getProductsNFT = createAsyncThunk(
+  "products/products-nft",
+  async () => {
+    const res = await featProductNFT();
     return res;
   }
 );

@@ -1,42 +1,35 @@
 import { Box, Grid2, Typography } from "@mui/material";
-import { useProductContext } from "../context";
+import { useProductSelector } from "@datn/redux/hook";
+import { useState } from "react";
 
 export default function Select() {
-  const {
-    selectedSize,
-    selectedVariant,
-    selectedVariantIndex,
-    setSelectedSize,
-    setSizeId,
-    setSelectedVariantIndex,
-    productData,
-  } = useProductContext();
+  const { data } = useProductSelector().productNFT;
+
+  const [selectedSize, setSelectedSize] = useState<number | null>(null);
+
+  const handleSizeClick = (size: number) => {
+    setSelectedSize(size);
+  };
 
   return (
     <Box>
       <Grid2 container sx={{ mb: 4 }} spacing={2}>
-        {productData?.variants?.map((variant, index) => (
-          <Grid2 key={index} size={{ xs: 12 / 5 }}>
-            <img
-              src={variant.preview}
-              alt={`Variant ${index}`}
-              style={{
-                height: "70px",
-                width: "70px",
-                borderRadius: "4px",
-                border:
-                  selectedVariantIndex === index
-                    ? "1px solid #FFFFFF"
-                    : "1px solid #7E7E7E",
-                cursor: "pointer",
-              }}
-              onClick={() => {
-                setSelectedVariantIndex(index);
-                setSelectedSize(null);
-              }}
-            />
-          </Grid2>
-        ))}
+        {data &&
+          data.map((variant) => (
+            <Grid2 key={variant.productId} size={12 / 5}>
+              <img
+                src={variant.image}
+                alt={`Variant`}
+                style={{
+                  height: "70px",
+                  width: "70px",
+                  borderRadius: "4px",
+                  border: "1px solid #FFFFFF",
+                  cursor: "pointer",
+                }}
+              />
+            </Grid2>
+          ))}
       </Grid2>
 
       <Box
@@ -59,40 +52,30 @@ export default function Select() {
         </Typography>
       </Box>
 
-      {selectedVariant ? (
-        <Grid2 container spacing={1} sx={{ my: 3 }}>
-          {selectedVariant.sizes?.map((sizeObj, sizeIndex) => (
-            <Grid2 key={sizeIndex} size={{ xs: 12 / 5 }}>
+      <Grid2 container spacing={1} sx={{ my: 3 }}>
+        {data?.map((sizeObj, sizeIndex) =>
+          sizeObj.sizes.map((size) => (
+            <Grid2 key={`${sizeIndex}-${size}`} size={12 / 5}>
               <Box
+                onClick={() => handleSizeClick(size)}
                 sx={{
                   py: 2,
                   border:
-                    selectedSize === sizeObj.size
+                    selectedSize === size
                       ? "1px solid #FFFFFF"
                       : "1px solid #7E7E7E",
                   borderRadius: "4px",
                   display: "flex",
                   justifyContent: "center",
-                  cursor: sizeObj.stockQuantity > 0 ? "pointer" : "not-allowed",
-                  opacity: sizeObj.stockQuantity > 0 ? 1 : 0.5,
-                }}
-                onClick={() => {
-                  if (sizeObj.stockQuantity > 0) {
-                    setSelectedSize(sizeObj.size);
-                    setSizeId(sizeObj._id);
-                  }
+                  cursor: "pointer",
                 }}
               >
-                <Typography variant="body1">EU {sizeObj.size}</Typography>
+                <Typography variant="body1">EU {size}</Typography>
               </Box>
             </Grid2>
-          ))}
-        </Grid2>
-      ) : (
-        <Typography variant="body2" color="text.secondary">
-          Please select a color first.
-        </Typography>
-      )}
+          ))
+        )}
+      </Grid2>
     </Box>
   );
 }

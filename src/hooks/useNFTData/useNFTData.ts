@@ -50,6 +50,7 @@ export default function useNFTData() {
   const [nfts, setNFTs] = useState<NFTs[]>([]);
   const [listings, setListings] = useState<Size[]>([]);
   const [products, setProducts] = useState<ProductData[]>([]);
+  console.log("🚀 ~ useNFTData ~ products:", products);
   const [ownedNFTs, setOwnedNFTs] = useState<NFTs[]>([]);
   const [groupedProduct, setGroupedProduct] = useState<Product | null>(null);
   const [listProduct, setListProduct] = useState<ListProductNFT | null>(null);

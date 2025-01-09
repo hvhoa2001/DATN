@@ -12,8 +12,6 @@ import { useAccount, useDisconnect } from "wagmi";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { toast } from "react-toastify";
 
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import useDialogState from "@datn/hooks/useDialogState";
 import { CopyIcon, WalletIcon } from "../icons";
 import { formatAddress } from "@datn/utils/format";

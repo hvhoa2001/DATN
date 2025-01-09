@@ -86,7 +86,7 @@ export default function ProductItem({
                 fontWeight={500}
                 mr={1}
               >
-                {currentPrice}$
+                {currentPrice}USDT
               </Typography>
               <Typography
                 variant="body1"
@@ -96,7 +96,7 @@ export default function ProductItem({
                   textDecoration: "line-through",
                 }}
               >
-                {price}$
+                {price}USDT
               </Typography>
             </Box>
           ) : (
