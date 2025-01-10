@@ -1,4 +1,5 @@
 import {
+  RTDetailNFT,
   RTProductDetail,
   RTProductNFT,
   RTProducts,
@@ -8,6 +9,7 @@ import { DataWithStatus } from "../global";
 import { createSlice } from "@reduxjs/toolkit";
 
 import {
+  getNFTDetail,
   getProductDetail,
   getProducts,
   getProductsNFT,
@@ -19,6 +21,8 @@ export type TProductData = {
   productDetail: DataWithStatus<RTProductDetail>;
   variantDetail: DataWithStatus<RTVariantDetail>;
   productNFT: DataWithStatus<RTProductNFT>;
+  NFTDetail: DataWithStatus<RTDetailNFT>;
+  size: number;
 };
 
 const initState: TProductData = {
@@ -38,12 +42,21 @@ const initState: TProductData = {
     status: "IDLE",
     data: [],
   },
+  NFTDetail: {
+    status: "IDLE",
+    data: {} as RTDetailNFT,
+  },
+  size: 0,
 };
 
 export const productSlice = createSlice({
   name: "product",
   initialState: initState,
-  reducers: {},
+  reducers: {
+    selectSize(state, action) {
+      state.size = action.payload;
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(getProducts.pending, (state) => {
@@ -85,8 +98,19 @@ export const productSlice = createSlice({
       })
       .addCase(getProductsNFT.rejected, (state) => {
         state.productNFT.status = "FAILED";
+      })
+      .addCase(getNFTDetail.pending, (state) => {
+        state.NFTDetail.status = "PROCESSING";
+      })
+      .addCase(getNFTDetail.fulfilled, (state, action) => {
+        state.NFTDetail.status = "SUCCESS";
+        state.NFTDetail.data = action.payload;
+      })
+      .addCase(getNFTDetail.rejected, (state) => {
+        state.NFTDetail.status = "FAILED";
       });
   },
 });
 
 export default productSlice.reducer;
+export const { selectSize } = productSlice.actions;

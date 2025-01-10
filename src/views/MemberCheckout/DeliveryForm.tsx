@@ -1,5 +1,4 @@
 import { useUserEmail } from "@datn/hooks/useUserId";
-import { useCommonDataSelector } from "@datn/redux/hook";
 import { Box, Divider, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import SelectAddress from "./Address";
@@ -11,8 +10,11 @@ import { useBalanceUSDT } from "@datn/hooks/useBalance/useBalance";
 import { formatNumber } from "@datn/utils/format";
 import useNFTsShopContract from "@datn/web3/hooks/useNFTsShopContract";
 import { useAccount } from "wagmi";
+import { useCommonDataSelector } from "@datn/redux/hook";
 
 export default function DeliveryForm() {
+  const { checkout } = useCommonDataSelector();
+
   const { faucetUSDT, approve, getAllowance } = useUSDTContract({
     contractAddress: "0x2A3fbEEc03B99A60f357165EaAbF836bDADADD3f",
   });
@@ -30,7 +32,7 @@ export default function DeliveryForm() {
   const [lastName, setLastName] = useState<string>("");
   const [address, setAddress] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
-  const { data } = useCommonDataSelector().price;
+  // const { data } = useCommonDataSelector().price;
   const [country, setCountry] = useState<string>("Vietnam");
   const [states, setStates] = useState<string>("Hà Nội");
   const balance = useBalanceUSDT({ address: userAddress as `0x${string}` });
@@ -58,13 +60,17 @@ export default function DeliveryForm() {
   const handleBuyNFT = async () => {
     setLoading(true);
     try {
-      await approve(
-        "0x16B79CB03D976767477383c5062835e89d65c55b",
-        new BigNumber(1000).times(new BigNumber(Math.pow(10, 6)))
-      );
-      await buyNFT(0);
-      toast.success("Payment success! Your NFT is on the way!");
-      setLoading(false);
+      if (checkout.data) {
+        await approve(
+          "0x16B79CB03D976767477383c5062835e89d65c55b",
+          new BigNumber(checkout.data.price).times(
+            new BigNumber(Math.pow(10, 6))
+          )
+        );
+        await buyNFT(checkout.data.tokenId);
+        toast.success("Payment success! Your NFT is on the way!");
+        setLoading(false);
+      }
     } catch (error) {
       toast.error((error as Error).message);
       setLoading(false);
@@ -163,9 +169,9 @@ export default function DeliveryForm() {
           <Typography variant="h2" mb={8}>
             Shipping
           </Typography>
-          <Typography variant="body1" color="text.secondary" mb={3}>{`${
-            data?.fee == 0 ? "Free Shipping" : "10$ Shipping"
-          }`}</Typography>
+          <Typography variant="body1" color="text.secondary" mb={3}>
+            Free
+          </Typography>
           <Typography variant="body1" color="text.secondary" mb={1}>
             Shipment One
           </Typography>

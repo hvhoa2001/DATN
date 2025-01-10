@@ -1,20 +1,22 @@
-import useProductId from "@datn/hooks/useProductId";
-import { useAppDispatch } from "@datn/redux/hook";
-import {
-  getProductDetail,
-  getVariantDetail,
-} from "@datn/redux/slices/product/fetchFunction";
 import { Box, Container, Grid2 } from "@mui/material";
 import { useEffect } from "react";
 import Info from "./Info";
 import ImageDetail from "./image";
 import ProductContextProvider, { useProductContext } from "../context";
+import useProductId from "@datn/hooks/useProductId";
+import { getNFTDetail } from "@datn/redux/slices/product/fetchFunction";
+import { useAppDispatch } from "@datn/redux/hook";
 
 export default function ProductDetail() {
-  return <ProductDetailComponent />;
-}
+  const productId = useProductId();
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    if (productId) {
+      const decodedProductId = decodeURIComponent(productId);
+      dispatch(getNFTDetail(decodedProductId));
+    }
+  }, [productId, dispatch]);
 
-function ProductDetailComponent() {
   return (
     <Box component={"section"}>
       <Container

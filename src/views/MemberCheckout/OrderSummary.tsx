@@ -1,17 +1,10 @@
 import { Box, Divider, Tooltip, Typography } from "@mui/material";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
-import { useAppDispatch, useCommonDataSelector } from "@datn/redux/hook";
-import { useEffect } from "react";
-import { getCheckout } from "@datn/redux/slices/common/fetchFunction";
+import { useCommonDataSelector } from "@datn/redux/hook";
 import { formatNumber } from "@datn/utils/format";
 
 export default function OrderSummary() {
-  const { checkout, price } = useCommonDataSelector();
-  const dispatch = useAppDispatch();
-  useEffect(() => {
-    dispatch(getCheckout());
-  }, [dispatch]);
-
+  const { checkout } = useCommonDataSelector();
   return (
     <Box>
       <Typography variant="h3" mb={4}>
@@ -37,7 +30,7 @@ export default function OrderSummary() {
           </Tooltip>
         </Box>
         <Typography variant="body1" fontWeight={600}>
-          {formatNumber(1000)} USDT
+          {formatNumber(checkout.data?.price)} USDT
         </Typography>
       </Box>
       <Box
@@ -65,28 +58,23 @@ export default function OrderSummary() {
       >
         <Typography variant="body1">Total</Typography>
         <Typography variant="body1" fontWeight={600}>
-          {formatNumber(1000)} USDT
+          {formatNumber(checkout.data?.price)} USDT
         </Typography>
       </Box>
       <Divider />
 
-      <Typography variant="body1" mt={4}>
+      <Typography variant="body1" mt={4} mb={2}>
         Arrives Fri, Oct 4 - Thu, Oct 10
       </Typography>
-      {checkout.data?.map((item, index) => {
-        return (
-          <Box key={index} mt={2}>
-            <OrderItem
-              name={item.name}
-              gender={"Men"}
-              quantity={item.quantity}
-              size={item.size}
-              price={item.price}
-              image={item.image}
-            />
-          </Box>
-        );
-      })}
+
+      <OrderItem
+        name={checkout.data?.name || ""}
+        gender={"Men"}
+        quantity={1}
+        size={checkout.data?.sizes || 0}
+        price={checkout.data?.price || 0}
+        image={checkout.data?.image || ""}
+      />
     </Box>
   );
 }
@@ -125,7 +113,7 @@ function OrderItem({ name, gender, quantity, price, size, image }: Props) {
           Size EU {size}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          {price}$
+          {price} USDT
         </Typography>
       </Box>
     </Box>

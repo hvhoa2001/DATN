@@ -1,5 +1,6 @@
 import {
   featProductDetail,
+  featProductDetailNFT,
   featProductNFT,
   featProducts,
   featVariantDetail,
@@ -41,6 +42,14 @@ export const getVariantDetail = createAsyncThunk(
     productId: string;
   }) => {
     const res = await featVariantDetail({ variantId, productId });
+    return res;
+  }
+);
+
+export const getNFTDetail = createAsyncThunk(
+  "products/nft-detail",
+  async (name: string) => {
+    const res = await featProductDetailNFT(name);
     return res;
   }
 );

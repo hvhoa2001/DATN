@@ -1,6 +1,6 @@
 import {
   RTCartItems,
-  RTCartPrice,
+  RTCheckoutNFT,
   RTFavorites,
   RTReviewList,
   RTUserName,
@@ -14,7 +14,6 @@ import {
   getUserFavorite,
   getReviewList,
   getCartItems,
-  getCartPrice,
   getCheckout,
 } from "./fetchFunction";
 
@@ -25,8 +24,9 @@ export type TCommonData = {
   reviews: DataWithStatus<RTReviewList>;
   cart: DataWithStatus<RTCartItems>;
   exportMode: boolean;
-  price: DataWithStatus<RTCartPrice>;
-  checkout: DataWithStatus<RTCartItems>;
+  checkout: DataWithStatus<RTCheckoutNFT>;
+  checkoutSize: number;
+  checkoutName: string;
 };
 
 const initState: TCommonData = {
@@ -50,21 +50,27 @@ const initState: TCommonData = {
     status: "IDLE",
     data: [],
   },
-  price: {
-    status: "IDLE",
-    data: {} as RTCartPrice,
-  },
+
   checkout: {
     status: "IDLE",
-    data: [],
+    data: {} as RTCheckoutNFT,
   },
   exportMode: false,
+  checkoutSize: 0,
+  checkoutName: "",
 };
 
 export const commonSlice = createSlice({
   name: "common",
   initialState: initState,
-  reducers: {},
+  reducers: {
+    setCheckoutSize: (state, action) => {
+      state.checkoutSize = action.payload;
+    },
+    setCheckoutName: (state, action) => {
+      state.checkoutName = action.payload;
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(getUserProfile.pending, (state) => {
@@ -117,16 +123,7 @@ export const commonSlice = createSlice({
       .addCase(getCartItems.rejected, (state) => {
         state.cart.status = "FAILED";
       })
-      .addCase(getCartPrice.pending, (state) => {
-        state.price.status = "PROCESSING";
-      })
-      .addCase(getCartPrice.fulfilled, (state, action) => {
-        state.price.status = "SUCCESS";
-        state.price.data = action.payload;
-      })
-      .addCase(getCartPrice.rejected, (state) => {
-        state.price.status = "FAILED";
-      })
+
       .addCase(getCheckout.pending, (state) => {
         state.checkout.status = "PROCESSING";
       })
@@ -141,3 +138,4 @@ export const commonSlice = createSlice({
 });
 
 export default commonSlice.reducer;
+export const { setCheckoutSize, setCheckoutName } = commonSlice.actions;

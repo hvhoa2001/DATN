@@ -1,9 +1,9 @@
 import {
-  getProducts,
   getProductsNFT,
+  getNFTDetail,
 } from "@datn/redux/slices/product/fetchFunction";
 import { Box, Container, Grid2 } from "@mui/material";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import ProductItem from "./ProductItem";
 import { Link } from "react-router-dom";
 import ProductContextProvider from "./context";
@@ -17,10 +17,6 @@ export default function ProductsPage() {
     dispatch(getProductsNFT());
   }, [dispatch]);
 
-  return <ProductComponent />;
-}
-
-function ProductComponent() {
   const { data } = useProductSelector().productNFT;
 
   return (
@@ -40,7 +36,7 @@ function ProductComponent() {
               return (
                 <Grid2 size={{ xs: 12, sm: 6, md: 4 }} key={item.productId}>
                   <Link
-                    to={`/products/d/${item.productId}`}
+                    to={`/products/d/${item.name}`}
                     style={{ textDecoration: "none" }}
                   >
                     <ProductItem

@@ -68,14 +68,11 @@ export default function FavoritesPage() {
                       try {
                         await createCartItem({
                           productId: item.productId,
-                          variantId: item.variantId,
-                          sizeId: item.sizeId,
                           name: item.name,
                           price: item.price,
                           quantity: 1,
-                          color: item.color,
                           image: item.image,
-                          size: item.size,
+                          size: 0,
                         });
                       } catch (error) {
                         throw error;

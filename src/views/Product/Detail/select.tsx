@@ -1,9 +1,11 @@
 import { Box, Grid2, Typography } from "@mui/material";
-import { useProductSelector } from "@datn/redux/hook";
+import { useAppDispatch, useProductSelector } from "@datn/redux/hook";
 import { useState } from "react";
+import { selectSize } from "@datn/redux/slices/product";
 
 export default function Select() {
-  const { data } = useProductSelector().productNFT;
+  const { data } = useProductSelector().NFTDetail;
+  const dispatch = useAppDispatch();
 
   const [selectedSize, setSelectedSize] = useState<number | null>(null);
 
@@ -14,22 +16,19 @@ export default function Select() {
   return (
     <Box>
       <Grid2 container sx={{ mb: 4 }} spacing={2}>
-        {data &&
-          data.map((variant) => (
-            <Grid2 key={variant.productId} size={12 / 5}>
-              <img
-                src={variant.image}
-                alt={`Variant`}
-                style={{
-                  height: "70px",
-                  width: "70px",
-                  borderRadius: "4px",
-                  border: "1px solid #FFFFFF",
-                  cursor: "pointer",
-                }}
-              />
-            </Grid2>
-          ))}
+        <Grid2 size={12 / 5}>
+          <img
+            src={data?.image}
+            alt={`Variant`}
+            style={{
+              height: "70px",
+              width: "70px",
+              borderRadius: "4px",
+              border: "1px solid #FFFFFF",
+              cursor: "pointer",
+            }}
+          />
+        </Grid2>
       </Grid2>
 
       <Box
@@ -53,28 +52,29 @@ export default function Select() {
       </Box>
 
       <Grid2 container spacing={1} sx={{ my: 3 }}>
-        {data?.map((sizeObj, sizeIndex) =>
-          sizeObj.sizes.map((size) => (
-            <Grid2 key={`${sizeIndex}-${size}`} size={12 / 5}>
-              <Box
-                onClick={() => handleSizeClick(size)}
-                sx={{
-                  py: 2,
-                  border:
-                    selectedSize === size
-                      ? "1px solid #FFFFFF"
-                      : "1px solid #7E7E7E",
-                  borderRadius: "4px",
-                  display: "flex",
-                  justifyContent: "center",
-                  cursor: "pointer",
-                }}
-              >
-                <Typography variant="body1">EU {size}</Typography>
-              </Box>
-            </Grid2>
-          ))
-        )}
+        {data?.sizes?.map((size, index) => (
+          <Grid2 key={`${index}-${size}`} size={12 / 5}>
+            <Box
+              onClick={() => {
+                handleSizeClick(size);
+                dispatch(selectSize(size));
+              }}
+              sx={{
+                py: 2,
+                border:
+                  selectedSize === size
+                    ? "1px solid #FFFFFF"
+                    : "1px solid #7E7E7E",
+                borderRadius: "4px",
+                display: "flex",
+                justifyContent: "center",
+                cursor: "pointer",
+              }}
+            >
+              <Typography variant="body1">EU {size}</Typography>
+            </Box>
+          </Grid2>
+        ))}
       </Grid2>
     </Box>
   );

@@ -1,8 +1,19 @@
 import { Box, Container, Grid2 } from "@mui/material";
 import OrderSummary from "./OrderSummary";
 import DeliveryForm from "./DeliveryForm";
+import { useAppDispatch, useCommonDataSelector } from "@datn/redux/hook";
+import { useEffect } from "react";
+import { getCheckout } from "@datn/redux/slices/common/fetchFunction";
 
 export default function MemberCheckout() {
+  const { checkoutSize, checkoutName } = useCommonDataSelector();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (checkoutName && checkoutSize) {
+      dispatch(getCheckout({ size: checkoutSize, name: checkoutName }));
+    }
+  }, [dispatch, checkoutName, checkoutSize]);
   return (
     <Box component="section">
       <Container

@@ -20,13 +20,12 @@ import { checkQuantity } from "@datn/api/services";
 import { formatNumber } from "@datn/utils/format";
 
 export default function Cart() {
-  const { cart, price } = useCommonDataSelector();
+  const { cart } = useCommonDataSelector();
   const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({});
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(getCartItems());
-    dispatch(getCartPrice());
   }, [dispatch]);
 
   const handleCheckQuantity = async (variantId: string, sizeId: string) => {
@@ -142,7 +141,6 @@ export default function Cart() {
                   Estimated Delivery & Handling
                 </Typography>
                 <Typography variant="body1" fontWeight={600}>
-                  {/* {`${price.data?.fee == 0 ? "Free" : `${price.data?.fee}$`}`} */}
                   Free
                 </Typography>
               </Box>

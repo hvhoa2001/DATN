@@ -1,10 +1,12 @@
-import { Box, Divider, IconButton, Typography } from "@mui/material";
+import { Box, Button, Divider, IconButton, Typography } from "@mui/material";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { useAppDispatch } from "@datn/redux/hook";
 import { deleteCartItem } from "@datn/api/services";
 import { getCartItems } from "@datn/redux/slices/common/fetchFunction";
 import { formatNumber } from "@datn/utils/format";
+import { Link } from "react-router-dom";
+import { setCheckoutName, setCheckoutSize } from "@datn/redux/slices/common";
 
 type Props = {
   productId: string;
@@ -78,22 +80,41 @@ export default function CartItem({
                 </Typography>
               </Box>
             </Box>
-            <Box sx={{ display: "flex" }}>
-              <IconButton>
-                <FavoriteBorderIcon fontSize="large" />
-              </IconButton>
-              <IconButton
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <Box sx={{ display: "flex" }}>
+                <IconButton>
+                  <FavoriteBorderIcon fontSize="large" />
+                </IconButton>
+                <IconButton
+                  onClick={() => {
+                    handleDelete(productId);
+                  }}
+                >
+                  <DeleteOutlinedIcon fontSize="large" />
+                </IconButton>
+              </Box>
+              <Link
+                to={"/member-checkout"}
                 onClick={() => {
-                  handleDelete(productId);
+                  dispatch(setCheckoutSize(size));
+                  dispatch(setCheckoutName(name));
                 }}
               >
-                <DeleteOutlinedIcon fontSize="large" />
-              </IconButton>
+                <Button variant="outlined" sx={{ borderRadius: "30px" }}>
+                  Member Checkout
+                </Button>
+              </Link>
             </Box>
           </Box>
         </Box>
         <Typography variant="body1" fontWeight={600}>
-          {formatNumber(1000)} USDT
+          {formatNumber(price)} USDT
         </Typography>
       </Box>
       <Divider sx={{ my: 8 }} />

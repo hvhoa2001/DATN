@@ -1,3 +1,4 @@
+import { formatNumber } from "@datn/utils/format";
 import { Box, Typography } from "@mui/material";
 
 type Props = {
@@ -31,7 +32,7 @@ export default function FavoriteItem({ name, image, price }: Props) {
           {name}
         </Typography>
         <Typography variant="body1" color="text.primary">
-          {price}$
+          {formatNumber(price, { fractionDigits: 2, suffix: "USDT" })}
         </Typography>
       </Box>
     </Box>

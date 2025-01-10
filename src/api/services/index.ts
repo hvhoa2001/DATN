@@ -133,13 +133,10 @@ export async function checkEmail({ email }: { email: string }) {
 
 export type RTFavorites = {
   productId: string;
-  variantId: string;
-  sizeId: string;
   name: string;
   price: number;
   image: string;
   size: number;
-  color: string;
 }[];
 
 export async function featFavorites() {
@@ -151,45 +148,34 @@ export async function featFavorites() {
 
 export type TNewFavorite = {
   productId: string;
-  variantId: string;
-  sizeId?: string;
   name: string;
   price: number;
   image: string;
-  color?: string;
   size?: number;
 };
 
 export type RTNewFavorite = {
   favoriteId: string;
   productId: string;
-  variantId: string;
   name: string;
   price: number;
-  color?: string;
   size?: number;
 };
 
 export async function createFavorite({
-  sizeId,
-  variantId,
   productId,
   name,
   price,
   image,
-  color,
   size,
 }: TNewFavorite): Promise<RTNewFavorite> {
   return await postAPI<RTNewFavorite>(
     "http://localhost:3003/favorite/new-favorite",
     {
       productId: productId,
-      variantId: variantId,
-      sizeId: sizeId,
       name: name,
       price: price,
       image: image,
-      color: color,
       size: size,
     },
     {}
@@ -266,12 +252,9 @@ export async function createReview({
 // Cart ************************************************
 export type TCartItem = {
   productId: string;
-  variantId: string;
-  sizeId: string;
   name: string;
   price: number;
   quantity: number;
-  color: string;
   image: string;
   size: number;
 };
@@ -281,17 +264,13 @@ export type RTCartItem = {
   name: string;
   quantity: number;
   size: number;
-  color: string;
 };
 
 export async function createCartItem({
-  variantId,
-  sizeId,
   productId,
   name,
   price,
   quantity,
-  color,
   image,
   size,
 }: TCartItem) {
@@ -299,12 +278,9 @@ export async function createCartItem({
     "http://localhost:3003/cart/new-cart-item",
     {
       productId: productId,
-      variantId: variantId,
-      sizeId: sizeId,
       name: name,
       price: price,
       quantity: quantity,
-      color: color,
       image: image,
       size: size,
     },
@@ -431,5 +407,27 @@ export async function uploadImage({
         "Content-Type": "multipart/form-data",
       },
     }
+  );
+}
+
+export type RTCheckoutNFT = {
+  tokenId: number;
+  name: string;
+  description: string;
+  price: number;
+  image: string;
+  sizes: number;
+};
+
+export async function checkoutNFT({
+  name,
+  size,
+}: {
+  name: string;
+  size: number;
+}) {
+  return await getAPI<RTCheckoutNFT>(
+    `http://localhost:3003/cart/nft-checkout?name=${name}&size=${size}`,
+    {}
   );
 }

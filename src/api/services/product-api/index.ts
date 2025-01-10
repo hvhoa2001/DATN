@@ -110,3 +110,19 @@ export type RTProductNFT = {
 export async function featProductNFT() {
   return await getAPI<RTProductNFT>(`http://localhost:3003/nft/get-nft`, {});
 }
+
+export type RTDetailNFT = {
+  productId: string;
+  name: string;
+  description: string;
+  price: number;
+  image: string;
+  sizes: Array<number>;
+};
+
+export async function featProductDetailNFT(name: string) {
+  return await getAPI<RTDetailNFT>(
+    `http://localhost:3003/nft/get-nft-detail?name=${name}`,
+    {}
+  );
+}

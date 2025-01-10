@@ -3,29 +3,26 @@ import Reviews from "@datn/common/Product/Reviews";
 import { Box, Button, Typography } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { createCartItem, createFavorite } from "@datn/api/services";
-import useProductId from "@datn/hooks/useProductId";
 import Select from "./select";
-import { useProductContext } from "../context";
 import { formatNumber } from "@datn/utils/format";
+import { useProductSelector } from "@datn/redux/hook";
+import { toast } from "react-toastify";
 
 export default function Info() {
-  const productId = useProductId();
-  const { selectedSize, selectedVariant, productData, sizeId } =
-    useProductContext();
+  const { NFTDetail, size } = useProductSelector();
 
   const handleFavorite = async () => {
     try {
       await createFavorite({
-        productId: productId || "",
-        variantId: selectedVariant?.variantId || "",
-        name: productData?.name || "",
-        price: selectedVariant?.currentPrice || 0,
-        image: selectedVariant?.preview || "",
-        color: selectedVariant?.color || "",
-        size: selectedSize || undefined,
-        sizeId: sizeId,
+        productId: NFTDetail.data?.productId || "",
+        name: NFTDetail.data?.name || "",
+        price: NFTDetail.data?.price || 0,
+        image: NFTDetail.data?.image || "",
+        // size: 0,
       });
+      toast.success("Add favorite success!");
     } catch (error) {
+      toast.error((error as Error).message);
       throw error;
     }
   };
@@ -33,17 +30,16 @@ export default function Info() {
   const handleAddCart = async () => {
     try {
       await createCartItem({
-        productId: productId || "",
-        name: productData?.name || "",
-        price: selectedVariant?.currentPrice || 0,
+        productId: NFTDetail.data?.productId || "",
+        price: NFTDetail.data?.price || 0,
+        name: NFTDetail.data?.name || "",
         quantity: 1,
-        color: selectedVariant?.color || "",
-        image: selectedVariant?.preview || "",
-        size: selectedSize || 0,
-        sizeId: sizeId || "",
-        variantId: selectedVariant?.variantId || "",
+        image: NFTDetail.data?.image || "",
+        size: size,
       });
+      toast.success("Add cart success!");
     } catch (error) {
+      toast.error((error as Error).message);
       throw error;
     }
   };
@@ -51,7 +47,7 @@ export default function Info() {
   return (
     <Box sx={{ width: "100%", overflowX: "auto" }}>
       <Typography variant="h4" fontWeight={600}>
-        {productData?.name}
+        {NFTDetail.data?.name}
       </Typography>
       <Typography variant="body1" fontWeight={600} py={4}>
         {formatNumber(1000)} USDT
@@ -63,7 +59,7 @@ export default function Info() {
           variant="contained"
           sx={{ borderRadius: "20px", height: "56px", mb: 2 }}
           onClick={handleAddCart}
-          disabled={selectedVariant?.isSoldOut}
+          // disabled={selectedVariant?.isSoldOut}
         >
           <Typography variant="body1" fontWeight={600}>
             Add to Bag
@@ -81,18 +77,16 @@ export default function Info() {
           </Typography>
         </Button>
       </Box>
-      <Typography variant="body1">{productData?.description}</Typography>
+      <Typography variant="body1">{NFTDetail.data?.description}</Typography>
       <ul>
         <li style={{ paddingBottom: "8px" }}>
-          <Typography>Color Shown: {selectedVariant?.color}</Typography>
+          <Typography>Color Shown: </Typography>
         </li>
         <li style={{ paddingBottom: "8px" }}>
-          <Typography>Style: {selectedVariant?.style}</Typography>
+          <Typography>Style: </Typography>
         </li>
         <li style={{ paddingBottom: "8px" }}>
-          <Typography>
-            Country/Region of Origin: {selectedVariant?.madeIn}
-          </Typography>
+          <Typography>Country/Region of Origin: Vietnam</Typography>
         </li>
       </ul>
       <Box sx={{ mb: 2 }}>

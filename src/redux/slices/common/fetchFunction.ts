@@ -1,4 +1,5 @@
 import {
+  checkoutNFT,
   featFavorites,
   fetchCartItems,
   fetchCartPrice,
@@ -48,7 +49,13 @@ export const getCartPrice = createAsyncThunk("common/cart-price", async () => {
   return res;
 });
 
-export const getCheckout = createAsyncThunk("common/checkout", async () => {
-  const res = await fetchCheckoutItems();
-  return res;
-});
+export const getCheckout = createAsyncThunk(
+  "common/checkout",
+  async ({ name, size }: { name: string; size: number }) => {
+    const res = await checkoutNFT({
+      name,
+      size,
+    });
+    return res;
+  }
+);
