@@ -1,11 +1,16 @@
 import {
   checkoutNFT,
   featFavorites,
+  fetchAuctionDetail,
+  fetchAuctionList,
   fetchCartItems,
   fetchCartPrice,
   fetchCheckoutItems,
+  fetchNFTDetail,
   fetchReviewList,
+  fetchUserListing,
   fetchUserName,
+  fetchUserNFT,
   fetchUserProfile,
 } from "@datn/api/services";
 import { createAsyncThunk } from "@reduxjs/toolkit";
@@ -56,6 +61,43 @@ export const getCheckout = createAsyncThunk(
       name,
       size,
     });
+    return res;
+  }
+);
+
+export const getUserNFT = createAsyncThunk("common/user-nft", async () => {
+  const res = await fetchUserNFT();
+  return res;
+});
+
+export const getUserNFTDetail = createAsyncThunk(
+  "common/user-nft-detail",
+  async (tokenId: number) => {
+    const res = await fetchNFTDetail(tokenId);
+    return res;
+  }
+);
+
+export const getAuctionList = createAsyncThunk(
+  "common/auction-list",
+  async () => {
+    const res = await fetchAuctionList();
+    return res;
+  }
+);
+
+export const getAuctionDetail = createAsyncThunk(
+  "common/auction-list-detail",
+  async (auctionId: number) => {
+    const res = await fetchAuctionDetail(auctionId);
+    return res;
+  }
+);
+
+export const getUserListing = createAsyncThunk(
+  "common/user-listing",
+  async () => {
+    const res = await fetchUserListing();
     return res;
   }
 );

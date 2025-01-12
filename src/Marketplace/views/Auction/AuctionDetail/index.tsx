@@ -16,10 +16,22 @@ import {
 import AuctionDescription from "./AuctionDescription";
 import OfferTable from "./OfferTable";
 import PriceHistory from "./PriceHistory";
+import { useAppDispatch, useCommonDataSelector } from "@datn/redux/hook";
+import { useEffect } from "react";
+import { useAuctionId } from "@datn/hooks/useProductId";
+import { getAuctionDetail } from "@datn/redux/slices/common/fetchFunction";
 
 export default function AuctionDetail() {
-  const { auctionDetail } = useProductContext();
+  const { data } = useCommonDataSelector().auctionDetail;
   const { handleOpen, open, handleClose } = useDialogState();
+  const auctionId = useAuctionId();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (auctionId) {
+      dispatch(getAuctionDetail(Number(auctionId)));
+    }
+  }, [dispatch, auctionId]);
 
   return (
     <Box component={"section"}>
@@ -35,20 +47,20 @@ export default function AuctionDetail() {
         <Grid2 container spacing={4}>
           <Grid2 size={{ xs: 5 }}>
             <img
-              src={auctionDetail?.image}
+              src={data?.image}
               alt=""
               style={{ width: "100%", height: "auto", borderRadius: "8px" }}
             />
             <AuctionDescription
-              description={auctionDetail?.description || ""}
-              addressContract={auctionDetail?.nftContract || ""}
+              description={data?.description || ""}
+              addressContract={data?.nftContract || ""}
             />
           </Grid2>
           <Grid2 size={{ xs: 7 }}>
             <Typography variant="h2" color="text.primary">
-              {auctionDetail?.name}
+              {data?.name}
             </Typography>
-            <Tooltip title={auctionDetail?.seller} placement="bottom-start">
+            <Tooltip title={data?.seller} placement="bottom-start">
               <Typography
                 variant="body1"
                 color="text.secondary"
@@ -63,7 +75,7 @@ export default function AuctionDetail() {
                   component="span"
                   sx={{ cursor: "pointer" }}
                 >
-                  {formatAddress(auctionDetail?.seller || "")}
+                  {formatAddress(data?.seller || "")}
                 </Typography>
               </Typography>
             </Tooltip>
@@ -85,7 +97,7 @@ export default function AuctionDetail() {
                   fontWeight={600}
                 >
                   Sale ends{" "}
-                  {formatTime(auctionDetail?.endTime || 0, {
+                  {formatTime(data?.endTime || 0, {
                     date: true,
                     time: true,
                   })}
@@ -96,7 +108,7 @@ export default function AuctionDetail() {
                   Current price
                 </Typography>
                 <Typography variant="h2" color="text.primary" fontWeight={600}>
-                  {formatNumber(auctionDetail?.maxPrice || 0, {
+                  {formatNumber(data?.maxPrice || 0, {
                     fractionDigits: 2,
                     suffix: "USDT",
                   })}
@@ -127,10 +139,10 @@ export default function AuctionDetail() {
         <Box>
           <Dialog open={open} onClose={handleClose}>
             <MakeOffer
-              image={auctionDetail?.image || ""}
-              name={auctionDetail?.name || ""}
+              image={data?.image || ""}
+              name={data?.name || ""}
               floorPrice={0}
-              bestOffer={auctionDetail?.highestBid || 0}
+              bestOffer={data?.highestBid || 0}
             />
           </Dialog>
         </Box>

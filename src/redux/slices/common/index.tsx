@@ -1,7 +1,9 @@
 import {
+  RTAuctionData,
   RTCartItems,
   RTCheckoutNFT,
   RTFavorites,
+  RTNFTData,
   RTReviewList,
   RTUserName,
   RTUserProfile,
@@ -15,6 +17,11 @@ import {
   getReviewList,
   getCartItems,
   getCheckout,
+  getUserNFT,
+  getUserNFTDetail,
+  getAuctionList,
+  getAuctionDetail,
+  getUserListing,
 } from "./fetchFunction";
 
 export type TCommonData = {
@@ -25,6 +32,11 @@ export type TCommonData = {
   cart: DataWithStatus<RTCartItems>;
   exportMode: boolean;
   checkout: DataWithStatus<RTCheckoutNFT>;
+  userNFT: DataWithStatus<RTNFTData[]>;
+  userNFTDetail: DataWithStatus<RTNFTData>;
+  auctionList: DataWithStatus<RTAuctionData[]>;
+  auctionDetail: DataWithStatus<RTAuctionData>;
+  userListing: DataWithStatus<RTAuctionData[]>;
   checkoutSize: number;
   checkoutName: string;
 };
@@ -54,6 +66,26 @@ const initState: TCommonData = {
   checkout: {
     status: "IDLE",
     data: {} as RTCheckoutNFT,
+  },
+  userNFT: {
+    status: "IDLE",
+    data: [],
+  },
+  userNFTDetail: {
+    status: "IDLE",
+    data: {} as RTNFTData,
+  },
+  auctionList: {
+    status: "IDLE",
+    data: [],
+  },
+  auctionDetail: {
+    status: "IDLE",
+    data: {} as RTAuctionData,
+  },
+  userListing: {
+    status: "IDLE",
+    data: [],
   },
   exportMode: false,
   checkoutSize: 0,
@@ -133,6 +165,56 @@ export const commonSlice = createSlice({
       })
       .addCase(getCheckout.rejected, (state) => {
         state.checkout.status = "FAILED";
+      })
+      .addCase(getUserNFT.pending, (state) => {
+        state.userNFT.status = "PROCESSING";
+      })
+      .addCase(getUserNFT.fulfilled, (state, action) => {
+        state.userNFT.status = "SUCCESS";
+        state.userNFT.data = action.payload;
+      })
+      .addCase(getUserNFT.rejected, (state) => {
+        state.userNFT.status = "FAILED";
+      })
+      .addCase(getUserNFTDetail.pending, (state) => {
+        state.userNFTDetail.status = "PROCESSING";
+      })
+      .addCase(getUserNFTDetail.fulfilled, (state, action) => {
+        state.userNFTDetail.status = "SUCCESS";
+        state.userNFTDetail.data = action.payload;
+      })
+      .addCase(getUserNFTDetail.rejected, (state) => {
+        state.userNFTDetail.status = "FAILED";
+      })
+      .addCase(getAuctionList.pending, (state) => {
+        state.auctionList.status = "PROCESSING";
+      })
+      .addCase(getAuctionList.fulfilled, (state, action) => {
+        state.auctionList.status = "SUCCESS";
+        state.auctionList.data = action.payload;
+      })
+      .addCase(getAuctionList.rejected, (state) => {
+        state.auctionList.status = "FAILED";
+      })
+      .addCase(getAuctionDetail.pending, (state) => {
+        state.auctionDetail.status = "PROCESSING";
+      })
+      .addCase(getAuctionDetail.fulfilled, (state, action) => {
+        state.auctionDetail.status = "SUCCESS";
+        state.auctionDetail.data = action.payload;
+      })
+      .addCase(getAuctionDetail.rejected, (state) => {
+        state.auctionDetail.status = "FAILED";
+      })
+      .addCase(getUserListing.pending, (state) => {
+        state.userListing.status = "PROCESSING";
+      })
+      .addCase(getUserListing.fulfilled, (state, action) => {
+        state.userListing.status = "SUCCESS";
+        state.userListing.data = action.payload;
+      })
+      .addCase(getUserListing.rejected, (state) => {
+        state.userListing.status = "FAILED";
       });
   },
 });

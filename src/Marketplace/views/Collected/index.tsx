@@ -1,16 +1,21 @@
-import { useProductContext } from "@datn/views/Product/context";
+import { useAppDispatch, useCommonDataSelector } from "@datn/redux/hook";
+import { getUserNFT } from "@datn/redux/slices/common/fetchFunction";
 import useNFTsAuctionContract from "@datn/web3/hooks/useNFTsAuctionContract";
 import { LoadingButton } from "@mui/lab";
 import { Box, Button, Container, Grid2, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export default function Collected() {
-  const { ownedNFTsData } = useProductContext();
-  console.log("🚀 ~ Collected ~ ownedNFTsData:", ownedNFTsData);
+  const { userNFT } = useCommonDataSelector();
   const [loading, setLoading] = useState<boolean>(false);
   const [hover, setHover] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(getUserNFT());
+  }, [dispatch]);
 
   const { claimNFT } = useNFTsAuctionContract({
     contractAddress: "0xad650614Ee4967324e3A95E4223d40ce52BD2B6C",
@@ -41,12 +46,12 @@ export default function Collected() {
         }}
       >
         <Grid2 container spacing={2} sx={{ width: "100%" }}>
-          {ownedNFTsData &&
-            ownedNFTsData.map((item) => {
+          {userNFT &&
+            userNFT.data?.map((item) => {
               return (
                 <Grid2
                   size={{ xs: 4 }}
-                  key={item.id}
+                  key={item.tokenId}
                   sx={{
                     display: "flex",
                     flexDirection: "column",
@@ -55,7 +60,7 @@ export default function Collected() {
                   onMouseLeave={() => setHover(false)}
                 >
                   <Link
-                    to={`/marketplace/collected/${item.id}`}
+                    to={`/marketplace/collected/${item.tokenId}`}
                     style={{ textDecoration: "none" }}
                   >
                     <img

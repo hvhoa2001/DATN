@@ -3,9 +3,9 @@ import {
   RTProducts,
   RTVariantDetail,
 } from "@datn/api/services/product-api";
-import useAuctionData, {
-  AuctionDetail,
-} from "@datn/hooks/useAuctionData/useAuctionData";
+// import useAuctionData, {
+//   AuctionDetail,
+// } from "@datn/hooks/useAuctionData/useAuctionData";
 import useNFTData, {
   ListProductNFT,
   NFTs,
@@ -36,10 +36,10 @@ export type ProductContextType = {
   commonData: RTProducts | undefined;
   NFTData: Product | null;
   listNFTData: ListProductNFT | null;
-  auctionList: AuctionDetail[] | null;
-  auctionDetail: AuctionDetail | null;
+  // auctionList: AuctionDetail[] | null;
+  // auctionDetail: AuctionDetail | null;
   ownedNFTsData: NFTs[] | null;
-  NFTsDataDetail: NFTs | null;
+  // NFTsDataDetail: NFTs | null;
 };
 
 export const ProductContext = createContext<ProductContextType>(
@@ -52,10 +52,10 @@ export default function ProductContextProvider({
   const { product, variantDetail, productDetail } = useProductSelector();
   const [selectedVariantIndex, setSelectedVariantIndex] = useState<number>(0);
   const [selectedSize, setSelectedSize] = useState<number | null>(null);
-  const [NFTsDataDetail, setNFTsDataDetail] = useState<NFTs | null>(null);
-  const [auctionDetail, setAuctionDetail] = useState<AuctionDetail | null>(
-    null
-  );
+  // const [NFTsDataDetail, setNFTsDataDetail] = useState<NFTs | null>(null);
+  // const [auctionDetail, setAuctionDetail] = useState<AuctionDetail | null>(
+  //   null
+  // );
   const [sizeId, setSizeId] = useState<string>("");
   const selectedVariant = variantDetail.data;
   const productData = productDetail.data;
@@ -67,28 +67,28 @@ export default function ProductContextProvider({
   const listNFTData = listProduct;
   const ownedNFTsData = ownedNFTs;
 
-  const { auctions } = useAuctionData();
-  const auctionList = auctions;
+  // const { auctions } = useAuctionData();
+  // const auctionList = auctions;
 
-  useEffect(() => {
-    if (auctionList && tokenId) {
-      const auctionDetailData =
-        auctionList.find((nft) => nft.tokenId === Number(tokenId)) || null;
-      setAuctionDetail(auctionDetailData);
-    }
-  }, [auctionList, tokenId]);
-  useEffect(() => {
-    if (ownedNFTsData && tokenId) {
-      const nftDetail =
-        ownedNFTsData.find((nft) => nft.id === Number(tokenId)) || null;
-      setNFTsDataDetail(nftDetail);
-    }
-  }, [ownedNFTsData, tokenId]);
+  // useEffect(() => {
+  //   if (auctionList && tokenId) {
+  //     const auctionDetailData =
+  //       auctionList.find((nft) => nft.tokenId === Number(tokenId)) || null;
+  //     setAuctionDetail(auctionDetailData);
+  //   }
+  // }, [auctionList, tokenId]);
+  // useEffect(() => {
+  //   if (ownedNFTsData && tokenId) {
+  //     const nftDetail =
+  //       ownedNFTsData.find((nft) => nft.id === Number(tokenId)) || null;
+  //     setNFTsDataDetail(nftDetail);
+  //   }
+  // }, [ownedNFTsData, tokenId]);
 
   const contextValue: ProductContextType = useMemo(() => {
     return {
-      auctionDetail,
-      auctionList,
+      // auctionDetail,
+      // auctionList,
       sizeId,
       setSizeId,
       commonData,
@@ -101,11 +101,11 @@ export default function ProductContextProvider({
       NFTData,
       listNFTData,
       ownedNFTsData,
-      NFTsDataDetail,
+      // NFTsDataDetail,
     };
   }, [
-    auctionDetail,
-    auctionList,
+    // auctionDetail,
+    // auctionList,
     commonData,
     productData,
     NFTData,
@@ -115,7 +115,7 @@ export default function ProductContextProvider({
     selectedSize,
     selectedVariantIndex,
     selectedVariant,
-    NFTsDataDetail,
+    // NFTsDataDetail,
     setSelectedSize,
     setSizeId,
     setSelectedVariantIndex,

@@ -1,9 +1,15 @@
-import { useProductContext } from "@datn/views/Product/context";
+import { useAppDispatch, useCommonDataSelector } from "@datn/redux/hook";
+import { getAuctionList } from "@datn/redux/slices/common/fetchFunction";
 import { Box, Container, Grid2, Typography } from "@mui/material";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 export default function Auction() {
-  const { auctionList } = useProductContext();
+  const { data } = useCommonDataSelector().auctionList;
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(getAuctionList());
+  }, [dispatch]);
   return (
     <Box component={"section"}>
       <Container
@@ -16,10 +22,10 @@ export default function Auction() {
         }}
       >
         <Grid2 container spacing={2}>
-          {auctionList?.map((item, index) => (
+          {data?.map((item, index) => (
             <Grid2 size={{ xs: 4 }} key={index}>
               <Link
-                to={`/marketplace/auction/${item.tokenId}`}
+                to={`/marketplace/auction/${item.auctionId}`}
                 style={{ textDecoration: "none" }}
               >
                 <img

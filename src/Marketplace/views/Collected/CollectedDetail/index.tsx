@@ -1,5 +1,6 @@
 import { useTokenId } from "@datn/hooks/useProductId";
-import { useProductContext } from "@datn/views/Product/context";
+import { useAppDispatch, useCommonDataSelector } from "@datn/redux/hook";
+import { getUserNFTDetail } from "@datn/redux/slices/common/fetchFunction";
 import useNFTsAuctionContract from "@datn/web3/hooks/useNFTsAuctionContract";
 import useNFTsContract from "@datn/web3/hooks/useNFTsContract";
 import { LoadingButton } from "@mui/lab";
@@ -7,7 +8,7 @@ import { Box, Container, Paper, TextField, Typography } from "@mui/material";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import BigNumber from "bignumber.js";
 import dayjs, { Dayjs } from "dayjs";
-import { useCallback, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 type HelperText = {
@@ -18,7 +19,8 @@ type HelperText = {
 };
 
 export default function CollectedDetail() {
-  const { NFTsDataDetail } = useProductContext();
+  const { data } = useCommonDataSelector().userNFTDetail;
+  const dispatch = useAppDispatch();
   const [loading, setLoading] = useState<boolean>(false);
   const [minPrice, setMinPrice] = useState<number>(1);
   const [maxPrice, setMaxPrice] = useState<number>(2);
@@ -34,7 +36,7 @@ export default function CollectedDetail() {
   });
 
   const handleListing = async () => {
-    if (NFTsDataDetail && tokenId) {
+    if (data && tokenId) {
       setLoading(true);
       try {
         setLoading(false);
@@ -61,6 +63,12 @@ export default function CollectedDetail() {
     }
   };
 
+  useEffect(() => {
+    if (tokenId) {
+      dispatch(getUserNFTDetail(Number(tokenId)));
+    }
+  }, [tokenId, dispatch]);
+
   return (
     <Box component={"section"}>
       <Container
@@ -74,17 +82,17 @@ export default function CollectedDetail() {
       >
         <Box sx={{ display: "flex", gap: 8 }}>
           <img
-            src={NFTsDataDetail?.image}
-            alt={`${NFTsDataDetail?.name}`}
+            src={data?.image}
+            alt={`${data?.name}`}
             style={{ width: "350px", height: "auto" }}
           />
           <Box>
             <Paper sx={{ p: 3 }}>
               <Typography variant="h3" color="text.primary" mb={2}>
-                {NFTsDataDetail?.name}
+                {data?.name}
               </Typography>
               <Typography variant="body1" color="text.primary">
-                {NFTsDataDetail?.description}
+                {data?.description}
               </Typography>
               <Box sx={{ display: "flex", gap: 2, mt: 2 }}>
                 <TextField

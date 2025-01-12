@@ -9,3 +9,8 @@ export function useTokenId() {
   const { tokenId } = useParams<{ tokenId: string }>();
   return tokenId;
 }
+
+export function useAuctionId() {
+  const { auctionId } = useParams<{ auctionId: string }>();
+  return auctionId;
+}

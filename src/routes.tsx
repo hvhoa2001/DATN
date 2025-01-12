@@ -26,6 +26,8 @@ const CollectedDetail = React.lazy(
   () => import("./Marketplace/views/Collected/CollectedDetail")
 );
 
+const ListingPage = React.lazy(() => import("./Marketplace/views/Listing"));
+
 export default function RouterUrl() {
   return useRoutes([
     {
@@ -85,11 +87,14 @@ export default function RouterUrl() {
       ),
       children: [
         { path: "auction", element: <Auction /> },
-        { path: "auction/:tokenId", element: <AuctionDetail /> },
+        { path: "auction/:auctionId", element: <AuctionDetail /> },
         { path: "", element: <Navigate to="/marketplace/auction" /> },
         { path: "collected", element: <Collected /> },
         { path: "collected/:tokenId", element: <CollectedDetail /> },
+        { path: "my-listing", element: <ListingPage /> },
       ],
     },
   ]);
 }
+
+//IPZZ-003

@@ -431,3 +431,62 @@ export async function checkoutNFT({
     {}
   );
 }
+
+export type RTNFTData = {
+  tokenId: number;
+  name: string;
+  description: string;
+  size: number;
+  owner: string;
+  image: string;
+};
+
+export async function fetchUserNFT() {
+  return await getAPI<RTNFTData[]>("http://localhost:3003/nft/user-nft", {});
+}
+
+export async function fetchNFTDetail(tokenId: number) {
+  return await getAPI<RTNFTData>(
+    `http://localhost:3003/nft/user-nft-detail?tokenId=${tokenId}`,
+    {}
+  );
+}
+
+export type RTAuctionData = {
+  auctionId: number;
+  seller: string;
+  minPrice: number;
+  maxPrice: number;
+  startTime: number;
+  endTime: number;
+  tokenId: number;
+  nftContract: string;
+  highBidder: string;
+  highestBid: number;
+  claimed: boolean;
+  image: string;
+  description: string;
+  size: number;
+  name: string;
+};
+
+export async function fetchAuctionList() {
+  return await getAPI<RTAuctionData[]>(
+    "http://localhost:3003/auction/get-auction",
+    {}
+  );
+}
+
+export async function fetchAuctionDetail(auctionId: number) {
+  return await getAPI<RTAuctionData>(
+    `http://localhost:3003/auction/get-auction-detail?auctionId=${auctionId}`,
+    {}
+  );
+}
+
+export async function fetchUserListing() {
+  return await getAPI<RTAuctionData[]>(
+    "http://localhost:3003/auction/get-listing",
+    {}
+  );
+}
