@@ -1,4 +1,4 @@
-import { getAPI } from "@datn/api/fetchFunction";
+import { getAPI, postAPI } from "@datn/api/fetchFunction";
 
 export type RTProducts = {
   productId: string;
@@ -123,6 +123,16 @@ export type RTDetailNFT = {
 export async function featProductDetailNFT(name: string) {
   return await getAPI<RTDetailNFT>(
     `http://localhost:3003/nft/get-nft-detail?name=${name}`,
+    {}
+  );
+}
+
+export async function updateProduct(tokenId: number) {
+  return await postAPI<RTProductNFT>(
+    `http://localhost:3003/nft/update-nft?tokenId=${tokenId}`,
+    {
+      tokenId: tokenId,
+    },
     {}
   );
 }

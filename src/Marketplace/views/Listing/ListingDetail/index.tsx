@@ -1,43 +1,55 @@
-import useDialogState from "@datn/hooks/useDialogState";
-import MakeOffer from "@datn/Marketplace/components/MakeOffer";
+import { useAuctionId } from "@datn/hooks/useProductId";
+import { useAppDispatch, useCommonDataSelector } from "@datn/redux/hook";
+import { getUserListingDetail } from "@datn/redux/slices/common/fetchFunction";
 import { formatAddress, formatNumber, formatTime } from "@datn/utils/format";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import {
   Box,
-  Button,
   Container,
-  Dialog,
   Grid2,
   Paper,
   Tooltip,
   Typography,
 } from "@mui/material";
-import AuctionDescription from "./AuctionDescription";
-import OfferTable from "./OfferTable";
-import PriceHistory from "./PriceHistory";
-import { useAppDispatch, useCommonDataSelector } from "@datn/redux/hook";
 import { useEffect, useMemo, useState } from "react";
-import { useAuctionId } from "@datn/hooks/useProductId";
-import { getAuctionDetail } from "@datn/redux/slices/common/fetchFunction";
-import { useAccount } from "wagmi";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import useNFTsAuctionContract from "@datn/web3/hooks/useNFTsAuctionContract";
+import { toast } from "react-toastify";
+import { LoadingButton } from "@mui/lab";
 
-export default function AuctionDetail() {
-  const { data } = useCommonDataSelector().auctionDetail;
-  const { handleOpen, open, handleClose } = useDialogState();
+export default function ListingDetail() {
+  const { data } = useCommonDataSelector().userListingDetail;
+  const [loading, setLoading] = useState<boolean>(false);
   const [disabled, setDisabled] = useState(false);
-  const { address: userAddress } = useAccount();
-  const auctionId = useAuctionId();
+
   const dispatch = useAppDispatch();
+  const auctionId = useAuctionId();
+
+  const { claimNFT } = useNFTsAuctionContract({
+    contractAddress: "0xad650614Ee4967324e3A95E4223d40ce52BD2B6C",
+  });
 
   useMemo(() => {
-    if (data?.highestBid && data?.highestBidder === userAddress) {
+    if (data?.endTime && data?.endTime > Math.floor(Date.now() / 1000)) {
       setDisabled(true);
     }
-  }, [data, userAddress]);
+  }, [data]);
+
+  const handleClaim = async () => {
+    setLoading(true);
+    try {
+      setLoading(false);
+      await claimNFT(2);
+      toast.success("Claim success!");
+    } catch (error) {
+      toast.error((error as Error).message);
+      setLoading(false);
+      throw error;
+    }
+  };
 
   useEffect(() => {
     if (auctionId) {
-      dispatch(getAuctionDetail(Number(auctionId)));
+      dispatch(getUserListingDetail(Number(auctionId)));
     }
   }, [dispatch, auctionId]);
 
@@ -58,10 +70,6 @@ export default function AuctionDetail() {
               src={data?.image}
               alt=""
               style={{ width: "100%", height: "auto", borderRadius: "8px" }}
-            />
-            <AuctionDescription
-              description={data?.description || ""}
-              addressContract={data?.nftContract || ""}
             />
           </Grid2>
           <Grid2 size={{ xs: 7 }}>
@@ -134,7 +142,7 @@ export default function AuctionDetail() {
                   </Typography>
                 )}
               </Box>
-              <Box sx={{ px: 3, mb: 3, display: "flex", gap: 2 }}>
+              {/* <Box sx={{ px: 3, mb: 3, display: "flex", gap: 2 }}>
                 <Button
                   variant="contained"
                   fullWidth
@@ -156,24 +164,23 @@ export default function AuctionDetail() {
                     Make offer
                   </Typography>
                 </Button>
-              </Box>
+              </Box> */}
             </Paper>
-            <PriceHistory />
-            <OfferTable />
+            {/* <PriceHistory />
+            <OfferTable /> */}
+            <LoadingButton
+              onClick={handleClaim}
+              loading={loading}
+              variant="contained"
+              sx={{ mt: 3, width: "288px", height: "56px" }}
+              disabled={disabled}
+            >
+              <Typography variant="h4" fontWeight={600}>
+                Claim
+              </Typography>
+            </LoadingButton>
           </Grid2>
         </Grid2>
-        <Box>
-          <Dialog open={open} onClose={handleClose}>
-            <MakeOffer
-              image={data?.image || ""}
-              name={data?.name || ""}
-              floorPrice={0}
-              bestOffer={data?.highestBid || 0}
-              maxValue={data?.maxPrice || 0}
-              minValue={data?.minPrice || 0}
-            />
-          </Dialog>
-        </Box>
       </Container>
     </Box>
   );

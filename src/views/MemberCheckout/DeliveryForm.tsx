@@ -37,8 +37,6 @@ export default function DeliveryForm() {
   const [states, setStates] = useState<string>("Hà Nội");
   const balance = useBalanceUSDT({ address: userAddress as `0x${string}` });
 
-  const tokenId = 1;
-
   const handleFaucet = async () => {
     setLoading(true);
     try {

@@ -1,3 +1,4 @@
+import NoData from "@datn/common/Nodata";
 import { useAppDispatch, useCommonDataSelector } from "@datn/redux/hook";
 import { getUserListing } from "@datn/redux/slices/common/fetchFunction";
 import { formatTime } from "@datn/utils/format";
@@ -6,7 +7,7 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 export default function ListingPage() {
-  const { data } = useCommonDataSelector().userListing;
+  const { data, status } = useCommonDataSelector().userListing;
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -24,45 +25,50 @@ export default function ListingPage() {
           py: 10,
         }}
       >
-        <Grid2 container spacing={2}>
-          {data &&
-            data.map((item) => {
-              return (
-                <Grid2 size={{ xs: 4 }} key={item.tokenId}>
-                  <img
-                    src={item.image}
-                    alt=""
-                    style={{
-                      width: "100%",
-                      height: "auto",
-                      borderRadius: "8px",
-                    }}
-                  />
-                  <Link
-                    to={`/marketplace/my-listing/${item.auctionId}`}
-                    style={{ textDecoration: "none" }}
-                  >
-                    <Typography
-                      variant="body1"
-                      color="text.primary"
-                      mt={1}
-                      fontWeight={600}
+        {status === "SUCCESS" && (data?.length || 0) > 0 && (
+          <Grid2 container spacing={2}>
+            {data &&
+              data.map((item) => {
+                return (
+                  <Grid2 size={{ xs: 4 }} key={item.tokenId}>
+                    <Link
+                      to={`/marketplace/my-listing/${item.auctionId}`}
+                      style={{ textDecoration: "none" }}
                     >
-                      {item.name}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary" mt={1}>
-                      Starts at:{" "}
-                      {formatTime(item.startTime, { date: true, time: true })}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary" mt={1}>
-                      Ends at:{" "}
-                      {formatTime(item.endTime, { date: true, time: true })}
-                    </Typography>
-                  </Link>
-                </Grid2>
-              );
-            })}
-        </Grid2>
+                      <img
+                        src={item.image}
+                        alt=""
+                        style={{
+                          width: "100%",
+                          height: "auto",
+                          borderRadius: "8px",
+                        }}
+                      />
+                      <Typography
+                        variant="body1"
+                        color="text.primary"
+                        mt={1}
+                        fontWeight={600}
+                      >
+                        {item.name}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary" mt={1}>
+                        Starts at:{" "}
+                        {formatTime(item.startTime, { date: true, time: true })}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary" mt={1}>
+                        Ends at:{" "}
+                        {formatTime(item.endTime, { date: true, time: true })}
+                      </Typography>
+                    </Link>
+                  </Grid2>
+                );
+              })}
+          </Grid2>
+        )}
+        {status === "SUCCESS" && (data?.length || 0) === 0 && (
+          <NoData text="No NFTs listing yet" />
+        )}
       </Container>
     </Box>
   );

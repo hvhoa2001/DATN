@@ -27,6 +27,9 @@ const CollectedDetail = React.lazy(
 );
 
 const ListingPage = React.lazy(() => import("./Marketplace/views/Listing"));
+const ListingDetail = React.lazy(
+  () => import("./Marketplace/views/Listing/ListingDetail")
+);
 
 export default function RouterUrl() {
   return useRoutes([
@@ -38,7 +41,7 @@ export default function RouterUrl() {
         {
           path: "cart",
           element: (
-            <RequireRole allowedRoles={["user"]}>
+            <RequireRole allowedRoles={["user", "admin"]}>
               <Cart />
             </RequireRole>
           ),
@@ -49,7 +52,7 @@ export default function RouterUrl() {
         {
           path: "/favorite",
           element: (
-            <RequireRole allowedRoles={["user"]}>
+            <RequireRole allowedRoles={["user", "admin"]}>
               <FavoritesPage />
             </RequireRole>
           ),
@@ -57,7 +60,7 @@ export default function RouterUrl() {
         {
           path: "/member-checkout",
           element: (
-            <RequireRole allowedRoles={["user"]}>
+            <RequireRole allowedRoles={["user", "admin"]}>
               <MemberCheckout />
             </RequireRole>
           ),
@@ -92,6 +95,7 @@ export default function RouterUrl() {
         { path: "collected", element: <Collected /> },
         { path: "collected/:tokenId", element: <CollectedDetail /> },
         { path: "my-listing", element: <ListingPage /> },
+        { path: "my-listing/:auctionId", element: <ListingDetail /> },
       ],
     },
   ]);

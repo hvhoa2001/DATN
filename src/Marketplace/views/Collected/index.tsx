@@ -1,3 +1,4 @@
+import NoData from "@datn/common/Nodata";
 import { useAppDispatch, useCommonDataSelector } from "@datn/redux/hook";
 import { getUserNFT } from "@datn/redux/slices/common/fetchFunction";
 import useNFTsAuctionContract from "@datn/web3/hooks/useNFTsAuctionContract";
@@ -9,30 +10,12 @@ import { toast } from "react-toastify";
 
 export default function Collected() {
   const { userNFT } = useCommonDataSelector();
-  const [loading, setLoading] = useState<boolean>(false);
   const [hover, setHover] = useState<boolean>(false);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(getUserNFT());
   }, [dispatch]);
-
-  const { claimNFT } = useNFTsAuctionContract({
-    contractAddress: "0xad650614Ee4967324e3A95E4223d40ce52BD2B6C",
-  });
-
-  const handleClaim = async () => {
-    setLoading(true);
-    try {
-      setLoading(false);
-      await claimNFT(2);
-      toast.success("Claim success!");
-    } catch (error) {
-      toast.error((error as Error).message);
-      setLoading(false);
-      throw error;
-    }
-  };
 
   return (
     <Box component={"section"}>
@@ -45,59 +28,57 @@ export default function Collected() {
           py: 10,
         }}
       >
-        <Grid2 container spacing={2} sx={{ width: "100%" }}>
-          {userNFT &&
-            userNFT.data?.map((item) => {
-              return (
-                <Grid2
-                  size={{ xs: 4 }}
-                  key={item.tokenId}
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                  }}
-                  onMouseEnter={() => setHover(true)}
-                  onMouseLeave={() => setHover(false)}
-                >
-                  <Link
-                    to={`/marketplace/collected/${item.tokenId}`}
-                    style={{ textDecoration: "none" }}
+        {userNFT.status === "SUCCESS" && (userNFT?.data?.length || 0) > 0 && (
+          <Grid2 container spacing={2} sx={{ width: "100%" }}>
+            {userNFT &&
+              userNFT.data?.map((item) => {
+                return (
+                  <Grid2
+                    size={{ xs: 4 }}
+                    key={item.tokenId}
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                    }}
+                    onMouseEnter={() => setHover(true)}
+                    onMouseLeave={() => setHover(false)}
                   >
-                    <img
-                      src={item.image}
-                      style={{
-                        width: "100%",
-                        height: "auto",
-                        borderRadius: "8px",
-                        marginBottom: "16px",
-                      }}
-                    />
-                    {!hover && (
-                      <Typography variant="body1" color="text.primary">
-                        {item.name}
-                      </Typography>
-                    )}
-                    {hover && (
-                      <Button
-                        variant="contained"
-                        sx={{ height: "56px" }}
-                        fullWidth
-                      >
-                        Listing for sale
-                      </Button>
-                    )}
-                  </Link>
-                </Grid2>
-              );
-            })}
-        </Grid2>
-        <LoadingButton
-          onClick={handleClaim}
-          loading={loading}
-          variant="contained"
-        >
-          Claim
-        </LoadingButton>
+                    <Link
+                      to={`/marketplace/collected/${item.tokenId}`}
+                      style={{ textDecoration: "none" }}
+                    >
+                      <img
+                        src={item.image}
+                        style={{
+                          width: "100%",
+                          height: "auto",
+                          borderRadius: "8px",
+                          marginBottom: "16px",
+                        }}
+                      />
+                      {!hover && (
+                        <Typography variant="body1" color="text.primary">
+                          {item.name}
+                        </Typography>
+                      )}
+                      {hover && (
+                        <Button
+                          variant="contained"
+                          sx={{ height: "56px" }}
+                          fullWidth
+                        >
+                          Listing for sale
+                        </Button>
+                      )}
+                    </Link>
+                  </Grid2>
+                );
+              })}
+          </Grid2>
+        )}
+        {userNFT.status === "SUCCESS" && userNFT.data?.length === 0 && (
+          <NoData text="No NFTs collected yet" />
+        )}
       </Container>
     </Box>
   );

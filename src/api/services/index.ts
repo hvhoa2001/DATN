@@ -461,7 +461,7 @@ export type RTAuctionData = {
   endTime: number;
   tokenId: number;
   nftContract: string;
-  highBidder: string;
+  highestBidder: string;
   highestBid: number;
   claimed: boolean;
   image: string;
@@ -487,6 +487,21 @@ export async function fetchAuctionDetail(auctionId: number) {
 export async function fetchUserListing() {
   return await getAPI<RTAuctionData[]>(
     "http://localhost:3003/auction/get-listing",
+    {}
+  );
+}
+
+export async function fetchUserListingDetail(auctionId: number) {
+  return await getAPI<RTAuctionData>(
+    `http://localhost:3003/auction/listing-detail?auctionId=${auctionId}`,
+    {}
+  );
+}
+
+export async function postAuctionData(auctionId: number) {
+  return await postAPI<RTAuctionData[]>(
+    `http://localhost:3003/auction/place-bid?auctionId=${auctionId}`,
+    { auctionId: auctionId },
     {}
   );
 }

@@ -22,6 +22,7 @@ import {
   getAuctionList,
   getAuctionDetail,
   getUserListing,
+  getUserListingDetail,
 } from "./fetchFunction";
 
 export type TCommonData = {
@@ -37,6 +38,7 @@ export type TCommonData = {
   auctionList: DataWithStatus<RTAuctionData[]>;
   auctionDetail: DataWithStatus<RTAuctionData>;
   userListing: DataWithStatus<RTAuctionData[]>;
+  userListingDetail: DataWithStatus<RTAuctionData>;
   checkoutSize: number;
   checkoutName: string;
 };
@@ -86,6 +88,10 @@ const initState: TCommonData = {
   userListing: {
     status: "IDLE",
     data: [],
+  },
+  userListingDetail: {
+    status: "IDLE",
+    data: {} as RTAuctionData,
   },
   exportMode: false,
   checkoutSize: 0,
@@ -215,6 +221,16 @@ export const commonSlice = createSlice({
       })
       .addCase(getUserListing.rejected, (state) => {
         state.userListing.status = "FAILED";
+      })
+      .addCase(getUserListingDetail.pending, (state) => {
+        state.userListingDetail.status = "PROCESSING";
+      })
+      .addCase(getUserListingDetail.fulfilled, (state, action) => {
+        state.userListingDetail.status = "SUCCESS";
+        state.userListingDetail.data = action.payload;
+      })
+      .addCase(getUserListingDetail.rejected, (state) => {
+        state.userListingDetail.status = "FAILED";
       });
   },
 });

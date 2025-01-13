@@ -9,6 +9,7 @@ import {
   fetchNFTDetail,
   fetchReviewList,
   fetchUserListing,
+  fetchUserListingDetail,
   fetchUserName,
   fetchUserNFT,
   fetchUserProfile,
@@ -98,6 +99,14 @@ export const getUserListing = createAsyncThunk(
   "common/user-listing",
   async () => {
     const res = await fetchUserListing();
+    return res;
+  }
+);
+
+export const getUserListingDetail = createAsyncThunk(
+  "common/user-listing-detail",
+  async (tokenId: number) => {
+    const res = await fetchUserListingDetail(tokenId);
     return res;
   }
 );
