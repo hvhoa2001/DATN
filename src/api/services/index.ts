@@ -500,8 +500,30 @@ export async function fetchUserListingDetail(auctionId: number) {
 
 export async function postAuctionData(auctionId: number) {
   return await postAPI<RTAuctionData[]>(
-    `http://localhost:3003/auction/place-bid?auctionId=${auctionId}`,
+    `http://localhost:3003/auction/place-bid`,
     { auctionId: auctionId },
+    {}
+  );
+}
+
+export async function fetchMyOffer() {
+  return await getAPI<RTAuctionData[]>(
+    "http://localhost:3003/auction/get-make-offer",
+    {}
+  );
+}
+
+export async function fetchMyOfferDetail(auctionId: number) {
+  return await getAPI<RTAuctionData>(
+    `http://localhost:3003/auction/get-make-offer-detail?auctionId=${auctionId}`,
+    {}
+  );
+}
+
+export async function claimedNFT(tokenId: number) {
+  return await postAPI<RTNFTData>(
+    `http://localhost:3003/nft/claim-nft`,
+    { tokenId: tokenId },
     {}
   );
 }

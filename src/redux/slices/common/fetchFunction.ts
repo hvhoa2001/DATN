@@ -6,6 +6,8 @@ import {
   fetchCartItems,
   fetchCartPrice,
   fetchCheckoutItems,
+  fetchMyOffer,
+  fetchMyOfferDetail,
   fetchNFTDetail,
   fetchReviewList,
   fetchUserListing,
@@ -107,6 +109,19 @@ export const getUserListingDetail = createAsyncThunk(
   "common/user-listing-detail",
   async (tokenId: number) => {
     const res = await fetchUserListingDetail(tokenId);
+    return res;
+  }
+);
+
+export const getMyOffer = createAsyncThunk("common/my-offer", async () => {
+  const res = await fetchMyOffer();
+  return res;
+});
+
+export const getMyOfferDetail = createAsyncThunk(
+  "common/my-offer-detail",
+  async (auctionId: number) => {
+    const res = await fetchMyOfferDetail(auctionId);
     return res;
   }
 );

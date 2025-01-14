@@ -23,6 +23,8 @@ import {
   getAuctionDetail,
   getUserListing,
   getUserListingDetail,
+  getMyOffer,
+  getMyOfferDetail,
 } from "./fetchFunction";
 
 export type TCommonData = {
@@ -39,6 +41,8 @@ export type TCommonData = {
   auctionDetail: DataWithStatus<RTAuctionData>;
   userListing: DataWithStatus<RTAuctionData[]>;
   userListingDetail: DataWithStatus<RTAuctionData>;
+  myOffer: DataWithStatus<RTAuctionData[]>;
+  myOfferDetail: DataWithStatus<RTAuctionData>;
   checkoutSize: number;
   checkoutName: string;
 };
@@ -90,6 +94,14 @@ const initState: TCommonData = {
     data: [],
   },
   userListingDetail: {
+    status: "IDLE",
+    data: {} as RTAuctionData,
+  },
+  myOffer: {
+    status: "IDLE",
+    data: [],
+  },
+  myOfferDetail: {
     status: "IDLE",
     data: {} as RTAuctionData,
   },
@@ -231,6 +243,26 @@ export const commonSlice = createSlice({
       })
       .addCase(getUserListingDetail.rejected, (state) => {
         state.userListingDetail.status = "FAILED";
+      })
+      .addCase(getMyOffer.pending, (state) => {
+        state.myOffer.status = "PROCESSING";
+      })
+      .addCase(getMyOffer.fulfilled, (state, action) => {
+        state.myOffer.status = "SUCCESS";
+        state.myOffer.data = action.payload;
+      })
+      .addCase(getMyOffer.rejected, (state) => {
+        state.myOffer.status = "FAILED";
+      })
+      .addCase(getMyOfferDetail.pending, (state) => {
+        state.myOfferDetail.status = "PROCESSING";
+      })
+      .addCase(getMyOfferDetail.fulfilled, (state, action) => {
+        state.myOfferDetail.status = "SUCCESS";
+        state.myOfferDetail.data = action.payload;
+      })
+      .addCase(getMyOfferDetail.rejected, (state) => {
+        state.myOfferDetail.status = "FAILED";
       });
   },
 });

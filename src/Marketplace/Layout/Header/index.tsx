@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 export const navConfig = [
   { title: "Colleted", href: "/marketplace/collected" },
   { title: "My Listing", href: "/marketplace/my-listing" },
+  { title: "My Offers", href: "/marketplace/my-offers" },
   { title: "Marketplace", href: "/marketplace" },
 ];
 

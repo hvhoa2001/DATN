@@ -1,7 +1,8 @@
 import { useAuctionId } from "@datn/hooks/useProductId";
 import { useAppDispatch, useCommonDataSelector } from "@datn/redux/hook";
-import { getUserListingDetail } from "@datn/redux/slices/common/fetchFunction";
 import { formatAddress, formatNumber, formatTime } from "@datn/utils/format";
+import useNFTsAuctionContract from "@datn/web3/hooks/useNFTsAuctionContract";
+import { LoadingButton } from "@mui/lab";
 import {
   Box,
   Container,
@@ -11,14 +12,13 @@ import {
   Typography,
 } from "@mui/material";
 import { useEffect, useMemo, useState } from "react";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import useNFTsAuctionContract from "@datn/web3/hooks/useNFTsAuctionContract";
 import { toast } from "react-toastify";
-import { LoadingButton } from "@mui/lab";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import { getMyOfferDetail } from "@datn/redux/slices/common/fetchFunction";
 import { claimedNFT } from "@datn/api/services";
 
-export default function ListingDetail() {
-  const { data } = useCommonDataSelector().userListingDetail;
+export default function MyOfferDetail() {
+  const { data } = useCommonDataSelector().myOfferDetail;
   const [loading, setLoading] = useState<boolean>(false);
   const [disabled, setDisabled] = useState(false);
 
@@ -35,6 +35,12 @@ export default function ListingDetail() {
     }
   }, [data]);
 
+  useEffect(() => {
+    if (auctionId) {
+      dispatch(getMyOfferDetail(Number(auctionId)));
+    }
+  }, [auctionId, dispatch]);
+
   const handleClaim = async () => {
     setLoading(true);
     try {
@@ -50,12 +56,6 @@ export default function ListingDetail() {
       throw error;
     }
   };
-
-  useEffect(() => {
-    if (auctionId) {
-      dispatch(getUserListingDetail(Number(auctionId)));
-    }
-  }, [dispatch, auctionId]);
 
   return (
     <Box component={"section"}>
@@ -147,31 +147,31 @@ export default function ListingDetail() {
                 )}
               </Box>
               {/* <Box sx={{ px: 3, mb: 3, display: "flex", gap: 2 }}>
-                <Button
-                  variant="contained"
-                  fullWidth
-                  sx={{ height: "44px" }}
-                  disabled={disabled}
-                >
-                  <Typography variant="subtitle1" fontWeight={600}>
-                    Buy now
-                  </Typography>
-                </Button>
-                <Button
-                  variant="outlined"
-                  fullWidth
-                  sx={{ height: "44px" }}
-                  onClick={handleOpen}
-                  disabled={disabled}
-                >
-                  <Typography variant="subtitle1" fontWeight={600}>
-                    Make offer
-                  </Typography>
-                </Button>
-              </Box> */}
+              <Button
+                variant="contained"
+                fullWidth
+                sx={{ height: "44px" }}
+                disabled={disabled}
+              >
+                <Typography variant="subtitle1" fontWeight={600}>
+                  Buy now
+                </Typography>
+              </Button>
+              <Button
+                variant="outlined"
+                fullWidth
+                sx={{ height: "44px" }}
+                onClick={handleOpen}
+                disabled={disabled}
+              >
+                <Typography variant="subtitle1" fontWeight={600}>
+                  Make offer
+                </Typography>
+              </Button>
+            </Box> */}
             </Paper>
             {/* <PriceHistory />
-            <OfferTable /> */}
+          <OfferTable /> */}
             <LoadingButton
               onClick={handleClaim}
               loading={loading}

@@ -31,6 +31,11 @@ const ListingDetail = React.lazy(
   () => import("./Marketplace/views/Listing/ListingDetail")
 );
 
+const MyOffers = React.lazy(() => import("./Marketplace/views/Offers"));
+const MyOfferDetail = React.lazy(
+  () => import("./Marketplace/views/Offers/OfferDetail")
+);
+
 export default function RouterUrl() {
   return useRoutes([
     {
@@ -96,6 +101,8 @@ export default function RouterUrl() {
         { path: "collected/:tokenId", element: <CollectedDetail /> },
         { path: "my-listing", element: <ListingPage /> },
         { path: "my-listing/:auctionId", element: <ListingDetail /> },
+        { path: "my-offers", element: <MyOffers /> },
+        { path: "my-offers/:auctionId", element: <MyOfferDetail /> },
       ],
     },
   ]);
