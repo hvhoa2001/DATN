@@ -11,6 +11,8 @@ import { formatNumber } from "@datn/utils/format";
 import useNFTsShopContract from "@datn/web3/hooks/useNFTsShopContract";
 import { useAccount } from "wagmi";
 import { useCommonDataSelector } from "@datn/redux/hook";
+import { waitForTransactionReceipt } from "@wagmi/core";
+import { wagmiConfig } from "@datn/wagmi/config";
 
 export default function DeliveryForm() {
   const { checkout } = useCommonDataSelector();
@@ -59,12 +61,16 @@ export default function DeliveryForm() {
     setLoading(true);
     try {
       if (checkout.data) {
-        await approve(
+        const tsx = await approve(
           "0x16B79CB03D976767477383c5062835e89d65c55b",
           new BigNumber(checkout.data.price).times(
             new BigNumber(Math.pow(10, 6))
           )
         );
+
+        await waitForTransactionReceipt(wagmiConfig, {
+          hash: tsx,
+        });
         await buyNFT(checkout.data.tokenId);
         toast.success("Payment success! Your NFT is on the way!");
         setLoading(false);

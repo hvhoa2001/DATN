@@ -10,6 +10,8 @@ import BigNumber from "bignumber.js";
 import dayjs, { Dayjs } from "dayjs";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { waitForTransactionReceipt } from "@wagmi/core";
+import { wagmiConfig } from "@datn/wagmi/config";
 
 type HelperText = {
   minPrice?: string;
@@ -40,11 +42,13 @@ export default function CollectedDetail() {
       setLoading(true);
       try {
         setLoading(false);
-        await approve(
+        const tsx = await approve(
           "0xad650614Ee4967324e3A95E4223d40ce52BD2B6C",
           Number(tokenId)
         );
-
+        await waitForTransactionReceipt(wagmiConfig, {
+          hash: tsx,
+        });
         await createAuction(
           "0xA5416449768E6f1D2dA8dcE97f66c5FcAEF49B67",
           Number(tokenId),
