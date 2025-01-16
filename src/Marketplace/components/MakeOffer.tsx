@@ -36,7 +36,7 @@ export default function MakeOffer({
   const { placeBid } = useNFTsAuctionContract({
     contractAddress: "0xad650614Ee4967324e3A95E4223d40ce52BD2B6C",
   });
-  const { approve, getAllowance } = useUSDTContract({
+  const { approve } = useUSDTContract({
     contractAddress: "0x2A3fbEEc03B99A60f357165EaAbF836bDADADD3f",
   });
   const [loading, setLoading] = useState<boolean>(false);

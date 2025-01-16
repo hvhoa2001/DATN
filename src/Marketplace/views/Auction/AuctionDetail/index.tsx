@@ -20,6 +20,14 @@ import { useEffect, useMemo, useState } from "react";
 import { useAuctionId } from "@datn/hooks/useProductId";
 import { getAuctionDetail } from "@datn/redux/slices/common/fetchFunction";
 import { useAccount } from "wagmi";
+import useNFTsAuctionContract from "@datn/web3/hooks/useNFTsAuctionContract";
+import useUSDTContract from "@datn/web3/hooks/useUSDTContract";
+import BigNumber from "bignumber.js";
+import { waitForTransactionReceipt } from "@wagmi/core";
+import { wagmiConfig } from "@datn/wagmi/config";
+import { postAuctionData } from "@datn/api/services";
+import { toast } from "react-toastify";
+import { LoadingButton } from "@mui/lab";
 
 export default function AuctionDetail() {
   const { data } = useCommonDataSelector().auctionDetail;
@@ -28,6 +36,46 @@ export default function AuctionDetail() {
   const { address: userAddress } = useAccount();
   const auctionId = useAuctionId();
   const dispatch = useAppDispatch();
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const { placeBid } = useNFTsAuctionContract({
+    contractAddress: "0xad650614Ee4967324e3A95E4223d40ce52BD2B6C",
+  });
+  const { approve } = useUSDTContract({
+    contractAddress: "0x2A3fbEEc03B99A60f357165EaAbF836bDADADD3f",
+  });
+
+  const handleBuyNow = async () => {
+    setLoading(true);
+    try {
+      if (userAddress && data?.maxPrice) {
+        // const a = await getAllowance(
+        //   userAddress,
+        //   "0x16B79CB03D976767477383c5062835e89d65c55b"
+        // );
+        const tsx = await approve(
+          "0xad650614Ee4967324e3A95E4223d40ce52BD2B6C",
+          new BigNumber(data?.maxPrice).times(new BigNumber(Math.pow(10, 6)))
+        );
+        await waitForTransactionReceipt(wagmiConfig, {
+          hash: tsx,
+        });
+        await placeBid(
+          Number(auctionId),
+          new BigNumber(data?.maxPrice).times(new BigNumber(Math.pow(10, 6)))
+        );
+
+        const res = await postAuctionData(Number(auctionId));
+        console.log("🚀 ~ handleMakeOffer ~ res:", res);
+        toast.success("Offer success!");
+        setLoading(false);
+      }
+    } catch (error) {
+      toast.error((error as Error).message);
+      setLoading(false);
+      throw error;
+    }
+  };
 
   useMemo(() => {
     if (data?.highestBid && data?.highestBidder === userAddress) {
@@ -135,16 +183,18 @@ export default function AuctionDetail() {
                 )}
               </Box>
               <Box sx={{ px: 3, mb: 3, display: "flex", gap: 2 }}>
-                <Button
+                <LoadingButton
+                  loading={loading}
                   variant="contained"
                   fullWidth
                   sx={{ height: "44px" }}
                   disabled={disabled}
+                  onClick={handleBuyNow}
                 >
                   <Typography variant="subtitle1" fontWeight={600}>
                     Buy now
                   </Typography>
-                </Button>
+                </LoadingButton>
                 <Button
                   variant="outlined"
                   fullWidth
